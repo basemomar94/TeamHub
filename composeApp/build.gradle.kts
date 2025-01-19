@@ -36,6 +36,7 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
+            implementation(libs.koin.android)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -46,6 +47,9 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
+            implementation(libs.koin.core)
+            implementation(libs.kotlinx.coroutines.core)
+            implementation(libs.firebase.auth)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
@@ -79,11 +83,11 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-    dynamicFeatures += setOf(":data")
 }
 
 dependencies {
     implementation(libs.androidx.material3.android)
+    implementation(libs.firebase.auth.ktx)
     debugImplementation(compose.uiTooling)
 }
 
