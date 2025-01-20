@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.zayn.teamhub.feature.home.ui.HomeScreen
 import org.zayn.teamhub.feature.signIn.ui.SignInScreen
 
 @Composable
@@ -20,7 +21,10 @@ fun App() {
 fun TeamHubNavigationHost(navController: NavHostController) {
     NavHost(navController = navController, startDestination = Screen.SignIn.route) {
         composable(route = Screen.SignIn.route) {
-            SignInScreen()
+            SignInScreen(onSignIn = { navController.navigate(Screen.Home.route) })
+        }
+        composable(route = Screen.Home.route) {
+            HomeScreen()
         }
     }
 

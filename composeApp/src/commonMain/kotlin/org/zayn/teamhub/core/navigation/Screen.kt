@@ -7,6 +7,7 @@ sealed class Screen(
     val navArguments: List<NamedNavArgument> = emptyList()
 ) {
     data object SignIn : Screen("signIn")
+    data object Home : Screen("home")
 
 
 }

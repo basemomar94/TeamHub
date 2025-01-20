@@ -9,7 +9,8 @@ class AuthManager(private val auth: FirebaseAuth) : IAuthManager {
     override suspend fun signIn(mail: String, password: String) =
         flow {
             try {
-                val authResult = auth.signInWithEmailAndPassword(email = mail, password = password)
+                val authResult =
+                    auth.signInWithEmailAndPassword(email = mail.trim(), password = password.trim())
                 val isSignedIn = authResult.user != null
                 emit(NetworkResult.Success(isSignedIn))
             } catch (e: Exception) {

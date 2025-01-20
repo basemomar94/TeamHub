@@ -30,7 +30,8 @@ import org.zayn.teamhub.feature.signIn.SignInViewModel
 
 @Composable
 fun SignInScreen(
-    viewModel: SignInViewModel = koinInject()
+    onSignIn: () -> Unit,
+    viewModel: SignInViewModel = koinInject(),
 ) {
     val state by viewModel.viewState.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
@@ -56,7 +57,7 @@ fun SignInScreen(
                 }
 
                 SignInState.SignInSuccess -> {
-
+                    onSignIn()
                 }
             }
 
