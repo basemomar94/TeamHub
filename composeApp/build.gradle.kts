@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.googleGmsGoogleServices)
 }
 
 kotlin {
@@ -50,6 +51,11 @@ kotlin {
             implementation(libs.koin.core)
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.firebase.auth)
+            implementation(libs.navigation.compose)
+            implementation(libs.koin.compose)
+            implementation(libs.koin.compose.viewmodel.nav)
+            implementation(libs.koin.compose.viewmodel)
+
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
@@ -88,6 +94,7 @@ android {
 dependencies {
     implementation(libs.androidx.material3.android)
     implementation(libs.firebase.auth.ktx)
+    implementation(libs.google.firebase.auth)
     debugImplementation(compose.uiTooling)
 }
 

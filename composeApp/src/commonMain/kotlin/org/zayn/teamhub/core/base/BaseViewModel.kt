@@ -48,7 +48,7 @@ abstract class BaseViewModel<UiState : ViewState, Event : ViewEvent, Effect : Vi
      * Must be implemented in subclasses to handle specific [Event]s and update the state or trigger effects.
      * @param event The event to handle.
      */
-    abstract fun handleEvents(event: Event)
+    abstract suspend fun handleEvents(event: Event)
     private val initialState: UiState by lazy { setInitialState() }
 
     private val _viewState: MutableStateFlow<UiState> = MutableStateFlow(initialState)
