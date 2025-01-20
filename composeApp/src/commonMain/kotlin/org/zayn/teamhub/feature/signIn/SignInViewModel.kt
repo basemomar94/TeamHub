@@ -19,7 +19,8 @@ class SignInViewModel(private val logInUseCase: LogInUseCase) :
                 setState { SignInState.SignInSuccess }
             },
             resultFailure = {
-                setState { SignInState.SignInFailure(it.error) }
+                setState { SignInState.SignInFailure(it.error)
+                }
             }
         )
 
