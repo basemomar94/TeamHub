@@ -1,9 +1,14 @@
 package org.zayn.teamhub.feature.signIn
 
 import org.zayn.teamhub.core.base.BaseViewModel
+import org.zayn.teamhub.core.services.SessionManager
+import org.zayn.teamhub.core.usecases.GetUserUseCase
 import org.zayn.teamhub.core.usecases.LogInUseCase
 
-class SignInViewModel(private val logInUseCase: LogInUseCase) :
+class SignInViewModel(
+    private val logInUseCase: LogInUseCase,
+    private val getUserUseCase: GetUserUseCase,
+) :
     BaseViewModel<SignInState, SignInEvent, SignInSideEffect>() {
 
     override fun setInitialState(): SignInState {
@@ -19,7 +24,8 @@ class SignInViewModel(private val logInUseCase: LogInUseCase) :
                 setState { SignInState.SignInSuccess }
             },
             resultFailure = {
-                setState { SignInState.SignInFailure(it.error)
+                setState {
+                    SignInState.SignInFailure(it.error)
                 }
             }
         )

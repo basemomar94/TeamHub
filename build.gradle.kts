@@ -9,4 +9,7 @@ plugins {
     alias(libs.plugins.androidDynamicFeature) apply false
     alias(libs.plugins.kotlinAndroid) apply false
     alias(libs.plugins.googleGmsGoogleServices) apply false
+    alias(libs.plugins.kotlinSerialization) apply false
+
+
 }

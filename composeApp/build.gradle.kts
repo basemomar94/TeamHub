@@ -8,13 +8,15 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.googleGmsGoogleServices)
+
+
 }
 
 kotlin {
     androidTarget {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_11)
+            jvmTarget.set(JvmTarget.JVM_17)
         }
     }
     
@@ -51,10 +53,12 @@ kotlin {
             implementation(libs.koin.core)
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.firebase.auth)
+            implementation(libs.firebase.firestore)
             implementation(libs.navigation.compose)
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel.nav)
             implementation(libs.koin.compose.viewmodel)
+            implementation(libs.multiplatform.settings)
 
         }
         desktopMain.dependencies {
@@ -86,16 +90,9 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
-}
-
-dependencies {
-    implementation(libs.androidx.material3.android)
-    implementation(libs.firebase.auth.ktx)
-    implementation(libs.google.firebase.auth)
-    debugImplementation(compose.uiTooling)
 }
 
 compose.desktop {
