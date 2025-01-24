@@ -2,20 +2,36 @@ package org.zayn.teamhub.feature.home
 
 import org.zayn.teamhub.core.base.BaseViewModel
 import org.zayn.teamhub.core.services.SessionManager
+import org.zayn.teamhub.core.usecases.GetCurrentUserUseCase
+import org.zayn.teamhub.core.utils.networkresultwrapper.NetworkResult
 
-class HomeViewModel(private val sessionManager: SessionManager) :
+class HomeViewModel(
+    private val sessionManager: SessionManager,
+    private val userUseCase: GetCurrentUserUseCase
+) :
     BaseViewModel<HomeState, HomeEvent, HomeSideEffect>() {
     val userId = sessionManager.getUserId()
 
     override fun setInitialState(): HomeState {
-       return HomeState.UnIntialized
+        return HomeState.UnInitialized
     }
 
     override suspend fun handleEvents(event: HomeEvent) {
-        TODO("Not yet implemented")
+        when (event) {
+            HomeEvent.GetUserData -> getUser()
+        }
     }
 
-    private fun getUser() {
-
+    private suspend fun getUser() {
+        launchAndCollectResult(
+            tag = "getUser",
+            flow = userUseCase(),
+            onStart = { setState { HomeState.Loading } },
+            resultSuccess = {
+                if (it is NetworkResult.Success) {
+                    setState { HomeState.UserData(it.data) }
+                }
+            }
+        )
     }
 }

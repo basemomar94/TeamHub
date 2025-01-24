@@ -3,12 +3,16 @@ package org.zayn.teamhub.feature.home
 import org.zayn.teamhub.core.base.ViewEvent
 import org.zayn.teamhub.core.base.ViewSideEffect
 import org.zayn.teamhub.core.base.ViewState
+import org.zayn.teamhub.core.models.User
 
-sealed class HomeState() : ViewState {
- data object UnIntialized:HomeState()
+sealed class HomeState : ViewState {
+    data object UnInitialized : HomeState()
+    data object Loading : HomeState()
+    data class UserData(val user: User?) : HomeState()
 }
 
 sealed class HomeEvent() : ViewEvent {
+    data object GetUserData : HomeEvent()
 
 }
 

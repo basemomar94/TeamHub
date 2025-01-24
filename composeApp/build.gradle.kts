@@ -8,8 +8,7 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.googleGmsGoogleServices)
-
-
+    alias(libs.plugins.kotlinSerialization)
 }
 
 kotlin {
@@ -59,6 +58,9 @@ kotlin {
             implementation(libs.koin.compose.viewmodel.nav)
             implementation(libs.koin.compose.viewmodel)
             implementation(libs.multiplatform.settings)
+            implementation(libs.kotlinx.serialization.json)
+
+
 
         }
         desktopMain.dependencies {

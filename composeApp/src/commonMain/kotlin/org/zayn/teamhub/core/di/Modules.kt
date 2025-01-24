@@ -14,6 +14,7 @@ import org.zayn.teamhub.core.auth.IAuthManager
 import org.zayn.teamhub.core.repo.IUserRepo
 import org.zayn.teamhub.core.repo_Impl.UserRepoImp
 import org.zayn.teamhub.core.services.SessionManager
+import org.zayn.teamhub.core.usecases.GetCurrentUserUseCase
 import org.zayn.teamhub.core.usecases.GetUserUseCase
 import org.zayn.teamhub.core.usecases.LogInUseCase
 import org.zayn.teamhub.feature.home.HomeViewModel
@@ -22,7 +23,7 @@ import org.zayn.teamhub.feature.signIn.SignInViewModel
 
 private val repoModules = module {
     singleOf(::AuthManager) { bind<IAuthManager>() }
- //   single<Settings> { PlatformSettings.Factory().create("shared_prefs") }
+    //   single<Settings> { PlatformSettings.Factory().create("shared_prefs") }
 
     single<IUserRepo> { UserRepoImp(get()) }
 }
@@ -36,6 +37,7 @@ private val viewModelsModules = module {
 private val useCasesModules = module {
     factory { LogInUseCase(get()) }
     factory { GetUserUseCase(get()) }
+    factory { GetCurrentUserUseCase(get(), get()) }
 }
 
 private val firebaseModules = module {
@@ -44,7 +46,7 @@ private val firebaseModules = module {
 }
 
 private val utilsModules = module {
-  //  single { SessionManager() }
+    //  single { SessionManager() }
 
 }
 
