@@ -41,27 +41,6 @@ fun HomeCompose(user: User) {
         WelcomeHeader(user.firstName ?: "") {
 
         }
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
-        ) {
-            AttendanceButton(
-                title = "Check In",
-                attendanceTime = "11:30",
-                isEnabled = false,
-                modifier = Modifier
-            ) {
-            }
-            AttendanceButton(
-                title = "Check Out",
-                attendanceTime = "--:--",
-                isEnabled = true,
-                modifier = Modifier
-            ) {
-            }
-        }
     }
 
 }

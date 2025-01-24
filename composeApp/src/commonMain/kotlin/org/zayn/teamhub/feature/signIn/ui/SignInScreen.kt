@@ -38,33 +38,30 @@ fun SignInScreen(
     val snackbarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
 
-    Scaffold(
-        snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
-    ) { paddingValues ->
-        Column(modifier = Modifier.padding(paddingValues)) {
-            when (state) {
-                SignInState.Idle -> {}
-                SignInState.Loading -> {
-                    LoadingIndicator()
-                }
 
-                is SignInState.SignInFailure -> {
-                    val errorMessage = (state as SignInState.SignInFailure).message
-                    LaunchedEffect(errorMessage) {
-                        coroutineScope.launch {
-                            snackbarHostState.showSnackbar(errorMessage)
-                        }
+    Column(modifier = Modifier.padding(8.dp)) {
+        when (state) {
+            SignInState.Idle -> {}
+            SignInState.Loading -> {
+                LoadingIndicator()
+            }
+
+            is SignInState.SignInFailure -> {
+                val errorMessage = (state as SignInState.SignInFailure).message
+                LaunchedEffect(errorMessage) {
+                    coroutineScope.launch {
+                        snackbarHostState.showSnackbar(errorMessage)
                     }
                 }
-
-                SignInState.SignInSuccess -> {
-                    onSignIn()
-                }
             }
 
-            SignIn { mail, password ->
-                viewModel.setEvent(SignInEvent.SingIn(email = mail, password = password))
+            SignInState.SignInSuccess -> {
+                onSignIn()
             }
+        }
+
+        SignIn { mail, password ->
+            viewModel.setEvent(SignInEvent.SingIn(email = mail, password = password))
         }
     }
 }
