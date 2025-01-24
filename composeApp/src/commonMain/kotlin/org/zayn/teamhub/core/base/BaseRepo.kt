@@ -1,16 +1,14 @@
 package org.zayn.teamhub.core.base
 
-import dev.gitlive.firebase.firestore.DocumentSnapshot
 import dev.gitlive.firebase.firestore.FirebaseFirestore
 import dev.gitlive.firebase.firestore.Query
-import dev.gitlive.firebase.firestore.QuerySnapshot
 import dev.gitlive.firebase.firestore.Source
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import org.zayn.teamhub.core.utils.Logger
 import org.zayn.teamhub.core.utils.Logger.Companion.createLogger
 import org.zayn.teamhub.core.utils.networkresultwrapper.NetworkResult
@@ -52,6 +50,19 @@ open class BaseRepo {
             documentRef.id
         }
     }
+
+    protected inline fun <reified T> FirebaseFirestore.updateDocumentAsFlow(
+        collection: String,
+        documentId: String,
+        updates: Map<String, Any>,
+        operationName: String = "Updating Document"
+    ): Flow<NetworkResult<Boolean>> {
+        return runFireStoreOperationAsFlow(operationName) {
+            collection(collection).document(documentId).update(updates)
+            true
+        }
+    }
+
 
     protected inline fun <T> runFireStoreOperationAsFlow(
         operationName: String,
