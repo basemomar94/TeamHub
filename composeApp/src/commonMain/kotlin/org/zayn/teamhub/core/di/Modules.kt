@@ -1,6 +1,5 @@
 package org.zayn.teamhub.core.di
 
-import com.russhwolf.settings.Settings
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.auth.FirebaseAuth
 import dev.gitlive.firebase.auth.auth
@@ -14,12 +13,10 @@ import org.zayn.teamhub.core.auth.AuthManager
 import org.zayn.teamhub.core.auth.IAuthManager
 import org.zayn.teamhub.core.repo.IUserRepo
 import org.zayn.teamhub.core.repo_Impl.UserRepoImp
-import org.zayn.teamhub.core.services.ISessionManager
-import org.zayn.teamhub.core.services.ISharedPref
 import org.zayn.teamhub.core.services.SessionManager
-import org.zayn.teamhub.core.services.SharedPref
 import org.zayn.teamhub.core.usecases.GetUserUseCase
 import org.zayn.teamhub.core.usecases.LogInUseCase
+import org.zayn.teamhub.feature.home.HomeViewModel
 import org.zayn.teamhub.feature.signIn.SignInViewModel
 
 
@@ -27,13 +24,13 @@ private val repoModules = module {
     singleOf(::AuthManager) { bind<IAuthManager>() }
  //   single<Settings> { PlatformSettings.Factory().create("shared_prefs") }
 
-    singleOf(::SharedPref) { bind<ISharedPref>() }
     single<IUserRepo> { UserRepoImp(get()) }
 }
 
 private val viewModelsModules = module {
     viewModelOf(::SignInViewModel)
-
+    factory { SessionManager() }
+    viewModelOf(::HomeViewModel)
 }
 
 private val useCasesModules = module {
@@ -47,17 +44,16 @@ private val firebaseModules = module {
 }
 
 private val utilsModules = module {
-    single { Settings }
-    singleOf(::SessionManager) { bind<ISessionManager>() }
+  //  single { SessionManager() }
 
 }
 
 val sharedModule: Module = module {
     includes(
         repoModules,
-        viewModelsModules,
         useCasesModules,
         firebaseModules,
-        utilsModules
+        utilsModules,
+        viewModelsModules
     )
 }

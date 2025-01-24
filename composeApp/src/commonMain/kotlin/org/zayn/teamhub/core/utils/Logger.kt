@@ -30,7 +30,6 @@ class Logger(private val tag: String) {
     }
 }
 
-// Define expected functions for platform-specific logging
 expect fun logDebug(tag: String, message: String)
 expect fun logInfo(tag: String, message: String)
 expect fun logError(tag: String, message: String)

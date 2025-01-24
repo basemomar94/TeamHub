@@ -9,7 +9,6 @@ import androidx.navigation.compose.rememberNavController
 import dev.gitlive.firebase.auth.FirebaseAuth
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.koinInject
-import org.zayn.teamhub.core.auth.AuthManager
 import org.zayn.teamhub.feature.home.ui.HomeScreen
 import org.zayn.teamhub.feature.signIn.ui.SignInScreen
 
@@ -17,7 +16,8 @@ import org.zayn.teamhub.feature.signIn.ui.SignInScreen
 @Preview
 fun App(auth: FirebaseAuth = koinInject()) {
     val navController = rememberNavController()
-    val isAuthenticated = remember { auth.currentUser != null }
+    val userId = auth.currentUser?.uid
+    val isAuthenticated = remember { userId != null }
     TeamHubNavigationHost(navController, isAuthenticated)
 
 }
