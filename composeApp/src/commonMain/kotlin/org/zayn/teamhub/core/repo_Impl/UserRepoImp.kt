@@ -28,7 +28,11 @@ class UserRepoImp(private val firestore: FirebaseFirestore) : BaseRepo(), IUserR
         )
     }
 
-    override suspend fun addNewUser(user: User): Flow<NetworkResult<Boolean>> {
-        TODO("Not yet implemented")
+    override suspend fun addNewUser(user: User): Flow<NetworkResult<String>> {
+        return firestore.addDocumentAsFlow(
+            collection = FirebaseCollections.USER_COLLECTION,
+            data = user,
+            "Add new user"
+        )
     }
 }
