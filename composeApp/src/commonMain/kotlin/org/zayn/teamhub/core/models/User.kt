@@ -8,5 +8,6 @@ data class User(
     val firstName: String? = "",
     val lastName: String? = "",
     val isAdmin: Boolean? = false,
-    val companyId: String? = ""
+    val companyId: String? = "",
+    val email: String? = ""
 )

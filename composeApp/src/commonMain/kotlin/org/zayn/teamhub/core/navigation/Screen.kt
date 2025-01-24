@@ -8,6 +8,8 @@ sealed class Screen(
 ) {
     data object SignIn : Screen("signIn")
     data object Home : Screen("home")
+    data object DashBoard : Screen("Dashboard")
+    data object UsersList : Screen("users_list")
 
 
 }

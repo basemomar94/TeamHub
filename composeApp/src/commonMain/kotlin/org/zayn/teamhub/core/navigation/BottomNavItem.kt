@@ -15,10 +15,12 @@ sealed class BottomNavItem(val route: String, val label: String, val icon: Image
     data object Profile : BottomNavItem(
         "profile",
         "Profile",
-            Icons.Default.Home)
+        Icons.Default.Home
+    )
 
     data object Settings : BottomNavItem(
-        "settings",
-        "Settings",
-        Icons.Default.Settings)
+        Screen.DashBoard.route,
+        "Dashboard",
+        Icons.Default.Settings
+    )
 }

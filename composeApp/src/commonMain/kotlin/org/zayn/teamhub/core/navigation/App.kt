@@ -11,8 +11,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import dev.gitlive.firebase.auth.FirebaseAuth
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.koinInject
+import org.zayn.teamhub.feature.admin.DashBoardScreen
+import org.zayn.teamhub.feature.admin.usersList.presentation.UsersListScreen
 import org.zayn.teamhub.feature.home.ui.HomeScreen
 import org.zayn.teamhub.feature.signIn.ui.SignInScreen
 
@@ -21,8 +22,10 @@ fun App(auth: FirebaseAuth = koinInject()) {
     val navController = rememberNavController()
     val userId = auth.currentUser?.uid
     val isAuthenticated = remember { userId != null }
+
+
     Scaffold(
-        bottomBar = { if (isAuthenticated) BottomNavigationBar(navController) }
+        bottomBar = { BottomNavigationBar(navController) }
     ) { innerPadding ->
         Box(modifier = Modifier.padding(innerPadding)) {
             TeamHubNavigationHost(navController, isAuthenticated)
@@ -42,6 +45,12 @@ fun TeamHubNavigationHost(navController: NavHostController, isAuthenticated: Boo
         }
         composable(route = Screen.Home.route) {
             HomeScreen()
+        }
+        composable(route = Screen.DashBoard.route) {
+            DashBoardScreen(onUsersClick = { navController.navigate(Screen.UsersList.route) })
+        }
+        composable(route = Screen.UsersList.route) {
+            UsersListScreen()
         }
     }
 
