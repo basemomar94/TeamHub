@@ -13,6 +13,7 @@ import androidx.navigation.compose.rememberNavController
 import dev.gitlive.firebase.auth.FirebaseAuth
 import org.koin.compose.koinInject
 import org.zayn.teamhub.feature.admin.DashBoardScreen
+import org.zayn.teamhub.feature.admin.add_new_user.AddNewUserScreen
 import org.zayn.teamhub.feature.admin.usersList.presentation.UsersListScreen
 import org.zayn.teamhub.feature.home.ui.HomeScreen
 import org.zayn.teamhub.feature.signIn.ui.SignInScreen
@@ -50,7 +51,12 @@ fun TeamHubNavigationHost(navController: NavHostController, isAuthenticated: Boo
             DashBoardScreen(onUsersClick = { navController.navigate(Screen.UsersList.route) })
         }
         composable(route = Screen.UsersList.route) {
-            UsersListScreen()
+            UsersListScreen(){
+                navController.navigate(Screen.NewUser.route)
+            }
+        }
+        composable(route = Screen.NewUser.route) {
+            AddNewUserScreen()
         }
     }
 

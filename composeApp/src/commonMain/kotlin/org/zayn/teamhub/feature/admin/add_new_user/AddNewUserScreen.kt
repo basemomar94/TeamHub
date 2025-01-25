@@ -13,6 +13,7 @@ import androidx.compose.material.Button
 import androidx.compose.material.Switch
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -22,14 +23,29 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import org.koin.compose.koinInject
 import org.zayn.teamhub.core.desgin_repo.CustomTextField
 import org.zayn.teamhub.core.models.User
 
 @Composable
+fun AddNewUserScreen(viewModel: AddUserViewModel = koinInject()) {
+    val state by viewModel.viewState.collectAsState()
+    when (state) {
+        NewUserState.NewUserAdded -> {}
+        NewUserState.UnIntialized -> {}
+    }
+    CreateUserCompose() {
+        viewModel.setEvent(NewUserEvent.AddNewUser(it))
+    }
+
+}
+
+@Composable
 fun CreateUserCompose(
-    onCreateUser: (User, String) -> Unit,
-    modifier: Modifier = Modifier
-) {
+    modifier: Modifier = Modifier,
+    onCreateUser: (User) -> Unit,
+
+    ) {
     var firstName by remember { mutableStateOf("") }
     var lastName by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
@@ -43,21 +59,18 @@ fun CreateUserCompose(
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        // First Name
         CustomTextField(
             query = firstName,
             placeHolder = "First Name",
             onQueryChanged = { firstName = it }
         )
 
-        // Last Name
         CustomTextField(
             query = lastName,
             placeHolder = "Last Name",
             onQueryChanged = { lastName = it }
         )
 
-        // Email
         CustomTextField(
             query = email,
             placeHolder = "Email",
@@ -65,14 +78,12 @@ fun CreateUserCompose(
             onQueryChanged = { email = it }
         )
 
-        // Company ID
         CustomTextField(
             query = companyId,
             placeHolder = "Company ID",
             onQueryChanged = { companyId = it }
         )
 
-        // Is Admin (Toggle)
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth()
@@ -85,7 +96,6 @@ fun CreateUserCompose(
             )
         }
 
-        // Password
         CustomTextField(
             query = password,
             placeHolder = "Password",
@@ -94,7 +104,6 @@ fun CreateUserCompose(
             onQueryChanged = { password = it }
         )
 
-        // Create Button
         Button(
             onClick = {
                 val newUser = User(
@@ -102,9 +111,10 @@ fun CreateUserCompose(
                     lastName = lastName,
                     email = email,
                     companyId = companyId,
-                    isAdmin = isAdmin
+                    isAdmin = isAdmin,
+                    password = password
                 )
-                onCreateUser(newUser, password)
+                onCreateUser(newUser)
             },
             modifier = Modifier.fillMaxWidth()
         ) {

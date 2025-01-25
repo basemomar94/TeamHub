@@ -128,12 +128,12 @@ abstract class BaseViewModel<UiState : ViewState, Event : ViewEvent, Effect : Vi
 
     fun <T> launchAndCollectResult(
         flow: Flow<T>,
-        resultSuccess: (T) -> Unit = {},
+        resultSuccess: suspend (T) -> Unit = {},
         resultFailure: (NetworkResult.Failure) -> Unit = {},
         onError: (ErrorResponse) -> Unit = {},
         onStart: () -> Unit = {},
         onComplete: (Throwable?) -> Unit = {},
-        tag: String="Unknown",
+        tag: String = "Unknown",
     ): Job {
         logger.d("launchAndCollectResult called for flow with tag: $tag")
 

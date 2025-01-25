@@ -32,6 +32,7 @@ class UserRepoImp(private val firestore: FirebaseFirestore) : BaseRepo(), IUserR
         return firestore.addDocumentAsFlow(
             collection = FirebaseCollections.USER_COLLECTION,
             data = user,
+            documentId = user.id,
             "Add new user"
         )
     }

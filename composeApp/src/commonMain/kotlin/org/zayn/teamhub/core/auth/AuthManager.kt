@@ -1,6 +1,7 @@
 package org.zayn.teamhub.core.auth
 
 import dev.gitlive.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import org.zayn.teamhub.core.utils.networkresultwrapper.NetworkResult
@@ -16,6 +17,27 @@ class AuthManager(private val auth: FirebaseAuth) : IAuthManager {
             } catch (e: Exception) {
                 emit(NetworkResult.Failure(e.message ?: "Unknown error occurred"))
             }
+        }.catch { e ->
+            emit(NetworkResult.Failure(e.message ?: "Unexpected error occurred"))
+        }
+
+    override suspend fun signUp(mail: String?, password: String?): Flow<NetworkResult<String>> =
+        flow {
+            try {
+                if (mail.isNullOrEmpty() || password.isNullOrEmpty()) {
+                    emit(NetworkResult.Failure("password and mail cant be empty"))
+
+                } else {
+                    val authResult =
+                        auth.createUserWithEmailAndPassword(email = mail, password = password)
+                    val userId = authResult.user?.uid
+                    emit(NetworkResult.Success(userId))
+                }
+
+            } catch (e: Exception) {
+                emit(NetworkResult.Failure(e.message ?: "Unknown error occurred"))
+            }
+
         }.catch { e ->
             emit(NetworkResult.Failure(e.message ?: "Unexpected error occurred"))
         }

@@ -6,5 +6,6 @@ import org.zayn.teamhub.core.utils.networkresultwrapper.NetworkResult
 
 interface IAuthManager {
     suspend fun signIn(mail: String, password: String): Flow<NetworkResult<Boolean>>
+    suspend fun signUp(mail: String?, password: String?): Flow<NetworkResult<String>>
     suspend fun signOut()
 }

@@ -43,13 +43,21 @@ open class BaseRepo {
     protected inline fun <reified T : Any> FirebaseFirestore.addDocumentAsFlow(
         collection: String,
         data: T,
+        documentId: String? = null,
         operationName: String = "Adding Document"
     ): Flow<NetworkResult<String>> {
         return runFireStoreOperationAsFlow(operationName) {
-            val documentRef = collection(collection).add(data)
+            val documentRef = if (documentId != null) {
+                collection(collection).document(documentId).set(data)
+                collection(collection).document(documentId)
+            } else {
+                val addedDocRef = collection(collection).add(data)
+                addedDocRef
+            }
             documentRef.id
         }
     }
+
 
     protected inline fun <reified T> FirebaseFirestore.updateDocumentAsFlow(
         collection: String,

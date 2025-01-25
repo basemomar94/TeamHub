@@ -14,6 +14,8 @@ import org.zayn.teamhub.core.auth.IAuthManager
 import org.zayn.teamhub.core.repo.IUserRepo
 import org.zayn.teamhub.core.repo_Impl.UserRepoImp
 import org.zayn.teamhub.core.services.SessionManager
+import org.zayn.teamhub.core.usecases.AddNewUserUseCase
+import org.zayn.teamhub.core.usecases.AuthNewUserUseCase
 import org.zayn.teamhub.core.usecases.GetAllCompanyUsers
 import org.zayn.teamhub.core.usecases.GetCurrentUserUseCase
 import org.zayn.teamhub.core.usecases.GetUserUseCase
@@ -21,6 +23,7 @@ import org.zayn.teamhub.core.usecases.LogInUseCase
 import org.zayn.teamhub.feature.home.HomeViewModel
 import org.zayn.teamhub.feature.signIn.SignInViewModel
 import org.zayn.teamhub.feature.admin.usersList.presentation.UserListViewModel
+import org.zayn.teamhub.feature.admin.add_new_user.AddUserViewModel
 
 
 private val repoModules = module {
@@ -35,6 +38,7 @@ private val viewModelsModules = module {
     factory { SessionManager() }
     viewModelOf(::HomeViewModel)
     viewModelOf(::UserListViewModel)
+    viewModelOf(::AddUserViewModel)
 }
 
 private val useCasesModules = module {
@@ -42,6 +46,8 @@ private val useCasesModules = module {
     factory { GetUserUseCase(get()) }
     factory { GetAllCompanyUsers(get()) }
     factory { GetCurrentUserUseCase(get(), get()) }
+    factory { AddNewUserUseCase(get()) }
+    factory { AuthNewUserUseCase(get()) }
 }
 
 private val firebaseModules = module {
