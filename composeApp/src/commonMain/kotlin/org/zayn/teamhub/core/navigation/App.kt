@@ -24,14 +24,16 @@ fun App(auth: FirebaseAuth = koinInject()) {
     val userId = auth.currentUser?.uid
     val isAuthenticated = remember { userId != null }
 
-
-    Scaffold(
-        bottomBar = { BottomNavigationBar(navController) }
-    ) { innerPadding ->
-        Box(modifier = Modifier.padding(innerPadding)) {
-            TeamHubNavigationHost(navController, isAuthenticated)
+    MyAppTheme {
+        Scaffold(
+            bottomBar = { BottomNavigationBar(navController) }
+        ) { innerPadding ->
+            Box(modifier = Modifier.padding(innerPadding)) {
+                TeamHubNavigationHost(navController, isAuthenticated)
+            }
         }
     }
+
 
 }
 

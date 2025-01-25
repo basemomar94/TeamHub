@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
 import androidx.compose.material.Switch
 import androidx.compose.material.Text
@@ -20,11 +19,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import org.koin.compose.koinInject
 import org.zayn.teamhub.core.desgin_repo.CustomTextField
+import org.zayn.teamhub.core.desgin_repo.MailEditText
+import org.zayn.teamhub.core.desgin_repo.PasswordEditText
 import org.zayn.teamhub.core.models.User
 
 @Composable
@@ -71,11 +70,9 @@ fun CreateUserCompose(
             onQueryChanged = { lastName = it }
         )
 
-        CustomTextField(
-            query = email,
-            placeHolder = "Email",
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-            onQueryChanged = { email = it }
+        MailEditText(
+            mail = email,
+            onMailChange   = { email = it }
         )
 
         CustomTextField(
@@ -96,12 +93,9 @@ fun CreateUserCompose(
             )
         }
 
-        CustomTextField(
-            query = password,
-            placeHolder = "Password",
-            visualTransformation = PasswordVisualTransformation(),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-            onQueryChanged = { password = it }
+        PasswordEditText(
+            password = password,
+            onPasswordChange = { password = it }
         )
 
         Button(
