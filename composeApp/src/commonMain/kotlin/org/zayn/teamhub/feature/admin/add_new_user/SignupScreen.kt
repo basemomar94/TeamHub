@@ -25,9 +25,10 @@ import org.zayn.teamhub.core.desgin_repo.CustomTextField
 import org.zayn.teamhub.core.desgin_repo.MailEditText
 import org.zayn.teamhub.core.desgin_repo.PasswordEditText
 import org.zayn.teamhub.core.models.User
+import org.zayn.teamhub.core.utils.getCurrentTime
 
 @Composable
-fun AddNewUserScreen(viewModel: AddUserViewModel = koinInject()) {
+fun AddNewUserScreen(viewModel: SignupViewModel = koinInject()) {
     val state by viewModel.viewState.collectAsState()
     when (state) {
         NewUserState.NewUserAdded -> {}
@@ -72,7 +73,7 @@ fun CreateUserCompose(
 
         MailEditText(
             mail = email,
-            onMailChange   = { email = it }
+            onMailChange = { email = it }
         )
 
         CustomTextField(
@@ -106,7 +107,8 @@ fun CreateUserCompose(
                     email = email,
                     companyId = companyId,
                     isAdmin = isAdmin,
-                    password = password
+                    password = password,
+                    createdAt = getCurrentTime()
                 )
                 onCreateUser(newUser)
             },

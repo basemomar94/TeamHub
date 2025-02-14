@@ -44,7 +44,7 @@ fun TeamHubNavigationHost(navController: NavHostController, isAuthenticated: Boo
         startDestination = if (isAuthenticated) Screen.Home.route else Screen.SignIn.route
     ) {
         composable(route = Screen.SignIn.route) {
-            SignInScreen(onSignIn = { navController.navigate(Screen.Home.route) })
+            SignInScreen(onSignIn = { navController.navigate(Screen.Home.route) }, onSignUp = {navController.navigate(Screen.SignUp.route)})
         }
         composable(route = Screen.Home.route) {
             HomeScreen()
@@ -54,10 +54,10 @@ fun TeamHubNavigationHost(navController: NavHostController, isAuthenticated: Boo
         }
         composable(route = Screen.UsersList.route) {
             UsersListScreen(){
-                navController.navigate(Screen.NewUser.route)
+                navController.navigate(Screen.SignUp.route)
             }
         }
-        composable(route = Screen.NewUser.route) {
+        composable(route = Screen.SignUp.route) {
             AddNewUserScreen()
         }
     }

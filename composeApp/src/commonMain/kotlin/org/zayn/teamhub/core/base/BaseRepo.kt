@@ -21,7 +21,7 @@ open class BaseRepo {
         source: Source = Source.DEFAULT,
         operationName: String = "Fetching Document"
     ): Flow<NetworkResult<T>> {
-        return runFireStoreOperationAsFlow(operationName) {
+        return runFireStoreOperationAsFlow("fetching document $operationName") {
             val document = collection(collection).document(documentId).get(source)
             document.data<T>()
         }
@@ -33,7 +33,7 @@ open class BaseRepo {
         source: Source = Source.DEFAULT,
         operationName: String = "Fetching Query"
     ): Flow<NetworkResult<List<T>>> {
-        return runFireStoreOperationAsFlow(operationName) {
+        return runFireStoreOperationAsFlow("fetching query $operationName") {
             val query = queryBuilder(collection(collection))
             val snapshot = query.get(source)
             snapshot.documents.mapNotNull { it.data<T>() }
@@ -46,7 +46,7 @@ open class BaseRepo {
         documentId: String? = null,
         operationName: String = "Adding Document"
     ): Flow<NetworkResult<String>> {
-        return runFireStoreOperationAsFlow(operationName) {
+        return runFireStoreOperationAsFlow("adding document $operationName") {
             val documentRef = if (documentId != null) {
                 collection(collection).document(documentId).set(data)
                 collection(collection).document(documentId)
@@ -65,7 +65,7 @@ open class BaseRepo {
         updates: Map<String, Any>,
         operationName: String = "Updating Document"
     ): Flow<NetworkResult<Boolean>> {
-        return runFireStoreOperationAsFlow(operationName) {
+        return runFireStoreOperationAsFlow("updating document $operationName") {
             collection(collection).document(documentId).update(updates)
             true
         }

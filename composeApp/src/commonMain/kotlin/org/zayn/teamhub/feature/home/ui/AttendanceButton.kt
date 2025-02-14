@@ -7,9 +7,12 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.zayn.teamhub.core.desgin_repo.Vspacer
 
 
 @Composable
@@ -32,14 +35,17 @@ fun AttendanceButton(
     ) {
         Column {
             Text(
-                text = title,
-                style = MaterialTheme.typography.button,
-                textAlign = TextAlign.Center
-            )
-            Text(
+                modifier = Modifier.align(Alignment.CenterHorizontally),
                 text = attendanceTime,
                 style = MaterialTheme.typography.button,
                 textAlign = TextAlign.Center
+            )
+            Vspacer(4.dp)
+            Text(
+                modifier = Modifier.align(Alignment.CenterHorizontally),
+                text = title,
+                style = MaterialTheme.typography.button,
+                textAlign = TextAlign.Center,
             )
 
         }

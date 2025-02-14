@@ -1,12 +1,12 @@
 package org.zayn.teamhub.feature.signIn.ui
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Scaffold
-import androidx.compose.material.SnackbarHost
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.SnackbarHostState
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -18,9 +18,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
-import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 import org.zayn.teamhub.core.desgin_repo.CustomTextField
 import org.zayn.teamhub.core.desgin_repo.DefaultButton
@@ -32,6 +32,7 @@ import org.zayn.teamhub.feature.signIn.SignInViewModel
 @Composable
 fun SignInScreen(
     onSignIn: () -> Unit,
+    onSignUp: () -> Unit,
     viewModel: SignInViewModel = koinInject(),
 ) {
     val state by viewModel.viewState.collectAsState()
@@ -60,14 +61,14 @@ fun SignInScreen(
             }
         }
 
-        SignIn { mail, password ->
+        SignIn(onSignUpClick = onSignUp, onSigInClick = { mail, password ->
             viewModel.setEvent(SignInEvent.SingIn(email = mail, password = password))
-        }
+        })
     }
 }
 
 @Composable
-fun SignIn(onSigInClick: (String, String) -> Unit) {
+fun SignIn(onSigInClick: (String, String) -> Unit, onSignUpClick: () -> Unit) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     Column(modifier = Modifier.padding(22.dp)) {
@@ -82,6 +83,11 @@ fun SignIn(onSigInClick: (String, String) -> Unit) {
         DefaultButton("Login", modifier = Modifier.fillMaxWidth()) {
             onSigInClick(email, password)
         }
+        Text(
+            style = MaterialTheme.typography.body1,
+            text = "Create a new account",
+            textDecoration = TextDecoration.Underline,
+            modifier = Modifier.clickable { onSignUpClick() })
 
     }
 

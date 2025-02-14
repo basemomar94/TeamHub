@@ -3,8 +3,12 @@ package org.zayn.teamhub.core.utils
 object FirebaseCollections {
     const val USER_COLLECTION = "user"
     const val COMPANY_COLLECTION = "company"
+    const val ATTENDANCE_COLLECTION = "attendance"
 }
 
 object CollectionReference {
-    const val CompanyId = "companyId"
+    const val COMPANY_ID = "companyId"
+    const val LAST_UPDATE = "lastUpdate"
+    const val CURRENT_STATUS = "currentStatus"
+
 }

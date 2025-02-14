@@ -10,7 +10,7 @@ sealed class Screen(
     data object Home : Screen("home")
     data object DashBoard : Screen("Dashboard")
     data object UsersList : Screen("users_list")
-    data object NewUser : Screen("new_user")
+    data object SignUp : Screen("sign_up")
 
 
 }

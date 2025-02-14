@@ -6,7 +6,7 @@ import org.zayn.teamhub.core.usecases.AddNewUserUseCase
 import org.zayn.teamhub.core.usecases.AuthNewUserUseCase
 import org.zayn.teamhub.core.utils.networkresultwrapper.NetworkResult
 
-class AddUserViewModel(
+class SignupViewModel(
     private val newUserUseCase: AddNewUserUseCase,
     private val authNewUserUseCase: AuthNewUserUseCase
 ) :

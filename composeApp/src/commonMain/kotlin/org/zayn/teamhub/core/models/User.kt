@@ -1,5 +1,8 @@
 package org.zayn.teamhub.core.models
 
+import dev.gitlive.firebase.firestore.Timestamp
+import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -10,5 +13,8 @@ data class User(
     val isAdmin: Boolean? = false,
     val companyId: String? = "",
     val email: String? = "",
-    val password: String? = ""
+    val password: String? = "",
+    val createdAt: Long? = 0L,
+    val lastUpdate: Long? = 0L,
+    val currentStatus: String? = ""
 )

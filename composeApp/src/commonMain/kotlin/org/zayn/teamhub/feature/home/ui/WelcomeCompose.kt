@@ -29,11 +29,12 @@ fun WelcomeHeader(userFirstName: String, onViewProfileClick: () -> Unit) {
         horizontalAlignment = Alignment.Start
     ) {
         Text(
+            modifier = Modifier.align(Alignment.CenterHorizontally),
             text = buildAnnotatedString {
                 withStyle(
                     style = SpanStyle(
                         color = MaterialTheme.colors.primary,
-                        fontSize = 24.sp,
+                        fontSize = MaterialTheme.typography.h4.fontSize,
                         fontWeight = FontWeight.Bold
                     )
                 ) {
@@ -42,7 +43,7 @@ fun WelcomeHeader(userFirstName: String, onViewProfileClick: () -> Unit) {
                 withStyle(
                     style = SpanStyle(
                         color = MaterialTheme.colors.secondary,
-                        fontSize = 24.sp,
+                        fontSize = MaterialTheme.typography.h4.fontSize,
                         fontWeight = FontWeight.ExtraBold
                     )
                 ) {
