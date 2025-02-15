@@ -31,7 +31,6 @@ fun UserItem(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp)
             .clickable { onUserClick(user) },
         verticalAlignment = Alignment.CenterVertically
     ) {
