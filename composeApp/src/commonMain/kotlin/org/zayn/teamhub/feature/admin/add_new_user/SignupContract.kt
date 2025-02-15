@@ -5,17 +5,18 @@ import org.zayn.teamhub.core.base.ViewSideEffect
 import org.zayn.teamhub.core.base.ViewState
 import org.zayn.teamhub.core.models.User
 
-sealed class NewUserState : ViewState {
-    data object UnIntialized : NewUserState()
-    data object NewUserAdded : NewUserState()
+sealed class SignupState : ViewState {
+    data object UnInitialized : SignupState()
+    data object Loading : SignupState()
 
 }
 
-sealed class NewUserEvent : ViewEvent {
-    data class AddNewUser(val user: User) : NewUserEvent()
+sealed class SignupEvent : ViewEvent {
+    data class AddSignup(val user: User) : SignupEvent()
 
 }
 
-sealed class NewUserSideEffect : ViewSideEffect {
+sealed class SignupSideEffect : ViewSideEffect {
+    data object NavigateHome : SignupSideEffect()
 
 }

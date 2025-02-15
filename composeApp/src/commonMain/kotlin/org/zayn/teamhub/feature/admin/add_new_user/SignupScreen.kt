@@ -12,6 +12,7 @@ import androidx.compose.material.Button
 import androidx.compose.material.Switch
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -20,22 +21,33 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.onEach
 import org.koin.compose.koinInject
+import org.zayn.teamhub.core.base.SideEffectsKey
 import org.zayn.teamhub.core.desgin_repo.CustomTextField
+import org.zayn.teamhub.core.desgin_repo.LoadingIndicator
 import org.zayn.teamhub.core.desgin_repo.MailEditText
 import org.zayn.teamhub.core.desgin_repo.PasswordEditText
 import org.zayn.teamhub.core.models.User
 import org.zayn.teamhub.core.utils.getCurrentTime
 
 @Composable
-fun AddNewUserScreen(viewModel: SignupViewModel = koinInject()) {
+fun AddNewUserScreen(viewModel: SignupViewModel = koinInject(), navigateHome: () -> Unit) {
     val state by viewModel.viewState.collectAsState()
     when (state) {
-        NewUserState.NewUserAdded -> {}
-        NewUserState.UnIntialized -> {}
+        SignupState.UnInitialized -> {}
+        SignupState.Loading -> LoadingIndicator()
     }
-    CreateUserCompose() {
-        viewModel.setEvent(NewUserEvent.AddNewUser(it))
+    CreateUserCompose {
+        viewModel.setEvent(SignupEvent.AddSignup(it))
+    }
+    LaunchedEffect(SideEffectsKey) {
+        viewModel.effect.onEach { effect ->
+            when (effect) {
+                SignupSideEffect.NavigateHome -> navigateHome()
+            }
+        }.collectLatest { }
     }
 
 }

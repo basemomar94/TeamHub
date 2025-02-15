@@ -61,7 +61,7 @@ fun TeamHubNavigationHost(navController: NavHostController, isAuthenticated: Boo
             }
         }
         composable(route = Screen.SignUp.route) {
-            AddNewUserScreen()
+            AddNewUserScreen(navigateHome = { Screen.Home.route })
         }
 
         composable(

@@ -19,13 +19,14 @@ class SignInViewModel(
         launchAndCollectResult(
             flow = logInUseCase(email = email, password = password),
             onStart = { setState { SignInState.Loading } },
+            onComplete = { setState { SignInState.Idle } },
             tag = "sigIn",
             resultSuccess = {
-                setState { SignInState.SignInSuccess }
+                setEffect { SignInSideEffect.Navigate }
             },
             resultFailure = {
-                setState {
-                    SignInState.SignInFailure(it.error)
+                setEffect {
+                    SignInSideEffect.ShowSnackBar(it.error)
                 }
             }
         )

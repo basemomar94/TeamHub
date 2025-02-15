@@ -5,19 +5,20 @@ import org.zayn.teamhub.core.models.User
 import org.zayn.teamhub.core.usecases.AddNewUserUseCase
 import org.zayn.teamhub.core.usecases.AuthNewUserUseCase
 import org.zayn.teamhub.core.utils.networkresultwrapper.NetworkResult
+import org.zayn.teamhub.feature.home.HomeState
 
 class SignupViewModel(
     private val newUserUseCase: AddNewUserUseCase,
     private val authNewUserUseCase: AuthNewUserUseCase
 ) :
-    BaseViewModel<NewUserState, NewUserEvent, NewUserSideEffect>() {
-    override fun setInitialState(): NewUserState {
-        return NewUserState.UnIntialized
+    BaseViewModel<SignupState, SignupEvent, SignupSideEffect>() {
+    override fun setInitialState(): SignupState {
+        return SignupState.UnInitialized
     }
 
-    override suspend fun handleEvents(event: NewUserEvent) {
+    override suspend fun handleEvents(event: SignupEvent) {
         when (event) {
-            is NewUserEvent.AddNewUser -> createAuthAndUser(event.user)
+            is SignupEvent.AddSignup -> createAuthAndUser(event.user)
         }
     }
 
@@ -25,6 +26,7 @@ class SignupViewModel(
         launchAndCollectResult(
             flow = authNewUserUseCase(user),
             tag = "create auth account",
+            onStart = { setState { SignupState.Loading } },
             resultSuccess = { uid ->
                 if (uid is NetworkResult.Success) {
                     addNewUserToDatabase(user.copy(id = uid.data))
@@ -36,10 +38,10 @@ class SignupViewModel(
 
     private suspend fun addNewUserToDatabase(user: User) {
         launchAndCollectResult(
-            flow = newUserUseCase(user), // Add the user to your database
+            flow = newUserUseCase(user),
             tag = "add new user",
             resultSuccess = {
-                setState { NewUserState.NewUserAdded }
+                setEffect { SignupSideEffect.NavigateHome }
             },
 
             )

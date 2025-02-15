@@ -11,11 +11,10 @@ sealed class SignInEvent : ViewEvent {
 sealed class SignInState : ViewState {
     data object Loading : SignInState()
     data object Idle : SignInState()
-    data object SignInSuccess : SignInState()
-    data class SignInFailure(val message: String) : SignInState()
 }
 
 
 sealed class SignInSideEffect : ViewSideEffect {
-    data class ShowError(val message: String) : SignInSideEffect()
+    data class ShowSnackBar(val message: String) : SignInSideEffect()
+    data object Navigate : SignInSideEffect()
 }
