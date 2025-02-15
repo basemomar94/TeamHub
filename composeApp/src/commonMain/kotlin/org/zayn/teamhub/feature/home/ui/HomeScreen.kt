@@ -11,8 +11,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -22,13 +24,12 @@ import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
 import org.zayn.teamhub.core.base.SideEffectsKey
 import org.zayn.teamhub.core.desgin_repo.BaseSnackBar
+import org.zayn.teamhub.core.desgin_repo.CustomAlertMessage
 import org.zayn.teamhub.core.desgin_repo.LoadingIndicator
 import org.zayn.teamhub.core.desgin_repo.Vspacer
 import org.zayn.teamhub.core.models.AttendanceType
 import org.zayn.teamhub.core.models.User
-import org.zayn.teamhub.core.utils.Logger
-import org.zayn.teamhub.core.utils.Logger.Companion.createLogger
-import org.zayn.teamhub.core.utils.getConnectedWifiMacAddress
+import org.zayn.teamhub.core.utils.isDeveloperOptionEnabled
 import org.zayn.teamhub.core.utils.toLocalizedDateTime
 import org.zayn.teamhub.feature.home.HomeEvent
 import org.zayn.teamhub.feature.home.HomeSideEffect
@@ -40,6 +41,7 @@ fun HomeScreen(viewModel: HomeViewModel = koinInject()) {
     val state by viewModel.viewState.collectAsState()
     val snackBarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
+    var showDeveloperDialog by remember { mutableStateOf(false) }
 
     LaunchedEffect(SideEffectsKey) {
         viewModel.effect.onEach { effect ->
@@ -59,7 +61,11 @@ fun HomeScreen(viewModel: HomeViewModel = koinInject()) {
             is HomeState.UserData -> {
                 (state as HomeState.UserData).user?.let {
                     HomeCompose(it) { type ->
-                        viewModel.setEvent(HomeEvent.AddAttendance(type))
+                        if (true) {
+                            viewModel.setEvent(HomeEvent.AddAttendance(type))
+                        } else {
+                            showDeveloperDialog = true
+                        }
                     }
                 }
             }
@@ -69,13 +75,16 @@ fun HomeScreen(viewModel: HomeViewModel = koinInject()) {
             modifier = Modifier.align(Alignment.BottomCenter)
         )
     }
+    if (showDeveloperDialog) {
+        CustomAlertMessage(title = "", message = "") {
+            showDeveloperDialog = !showDeveloperDialog
+        }
+    }
 
 }
 
 @Composable
 fun HomeCompose(user: User, addAttendance: (AttendanceType) -> Unit) {
-    val currentWifi = getConnectedWifiMacAddress()
-    Logger.createLogger("currentWifi").d("current mac is $currentWifi")
     Column {
         WelcomeHeader(user.firstName ?: "") {
 

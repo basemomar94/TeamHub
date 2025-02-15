@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
@@ -28,6 +27,8 @@ fun UserItem(
     user: User,
     onUserClick: (User) -> Unit,
 ) {
+    val isUserOnline = user.currentStatus == AttendanceType.CLOCK_IN.name
+    val indicatorColor = if (isUserOnline) Color.Green else Color.Gray
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -37,7 +38,7 @@ fun UserItem(
         Box(
             modifier = Modifier
                 .size(48.dp)
-                .background(MaterialTheme.colors.primary, CircleShape),
+                .background(indicatorColor, CircleShape),
             contentAlignment = Alignment.Center
         ) {
             Text(
@@ -68,7 +69,7 @@ fun UserItem(
         Box(
             modifier = Modifier.size(12.dp).background(
                 shape = CircleShape,
-                color = if (user.currentStatus == AttendanceType.CLOCK_IN.name) Color.Green else Color.Gray
+                color = indicatorColor
             )
         )
 

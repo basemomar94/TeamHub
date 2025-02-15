@@ -16,7 +16,6 @@ sealed class HomeState : ViewState {
 sealed class HomeEvent() : ViewEvent {
     data object GetUserData : HomeEvent()
     data class AddAttendance(val type: AttendanceType) : HomeEvent()
-
 }
 
 sealed class HomeSideEffect() : ViewSideEffect {
