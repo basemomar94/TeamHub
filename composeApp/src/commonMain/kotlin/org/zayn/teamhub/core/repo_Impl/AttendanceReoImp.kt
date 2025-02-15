@@ -8,6 +8,7 @@ import org.zayn.teamhub.core.base.BaseRepo
 import org.zayn.teamhub.core.models.Attendance
 import org.zayn.teamhub.core.models.AttendanceType
 import org.zayn.teamhub.core.repo.IAttendanceRepo
+import org.zayn.teamhub.core.utils.CollectionReference
 import org.zayn.teamhub.core.utils.FirebaseCollections
 import org.zayn.teamhub.core.utils.getCurrentTime
 import org.zayn.teamhub.core.utils.networkresultwrapper.NetworkResult
@@ -27,6 +28,14 @@ class AttendanceReoImp(
             collection = FirebaseCollections.ATTENDANCE_COLLECTION,
             data = attendance,
             operationName = "addAttendance"
+        )
+    }
+
+    override suspend fun getAttendanceByUser(userId: String): Flow<NetworkResult<List<Attendance>>> {
+        return firestore.fetchQueryAsFlow(
+            collection = FirebaseCollections.ATTENDANCE_COLLECTION,
+            queryBuilder = { this.where { CollectionReference.USER_ID equalTo userId } },
+            operationName = "getAttendanceByUser"
         )
     }
 }

@@ -15,7 +15,7 @@ import org.zayn.teamhub.feature.admin.usersList.UserListEvent
 import org.zayn.teamhub.feature.admin.usersList.UserListState
 
 @Composable
-fun UsersListScreen(viewModel: UserListViewModel = koinInject(), onAddClick: () -> Unit) {
+fun UsersListScreen(viewModel: UserListViewModel = koinInject(), onUserClick: (String?) -> Unit) {
     val state by viewModel.viewState.collectAsState()
     var users by remember { mutableStateOf<List<User>?>(emptyList()) }
     when (state) {
@@ -23,23 +23,17 @@ fun UsersListScreen(viewModel: UserListViewModel = koinInject(), onAddClick: () 
         UserListState.UnIntiialized -> viewModel.setEvent(UserListEvent.GetUsers)
         is UserListState.UsersListData -> users = (state as UserListState.UsersListData).users
     }
-    users?.let { UsersListCompose(it) }
-
-
+    users?.let { UsersLazyCompose(usersList = it, onUserClick = { id -> onUserClick(id) }) }
 }
 
 @Composable
-fun UsersListCompose(usersList: List<User>) {
-    Box() {
-        UsersLazyCompose(usersList)
-    }
-}
-
-@Composable
-fun UsersLazyCompose(usersList: List<User>) {
+fun UsersLazyCompose(usersList: List<User>, onUserClick: (String?) -> Unit) {
     LazyColumn() {
         items(usersList) { user ->
-            UserItem(user = user, {})
+            UserItem(user = user) {
+                onUserClick(user.id)
+
+            }
 
         }
 

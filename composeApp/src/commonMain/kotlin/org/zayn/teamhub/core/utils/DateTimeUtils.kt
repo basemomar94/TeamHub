@@ -6,3 +6,6 @@ fun getCurrentTime() = Clock.System.now().epochSeconds
 
 expect fun Long?.toLocalizedDateTime(): String
 
+expect fun Long?.toLocalizedDate():String
+expect fun Long?.toWorkDuration(): String
+

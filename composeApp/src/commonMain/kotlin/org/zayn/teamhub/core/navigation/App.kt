@@ -17,6 +17,7 @@ import org.zayn.teamhub.feature.admin.add_new_user.AddNewUserScreen
 import org.zayn.teamhub.feature.admin.usersList.presentation.UsersListScreen
 import org.zayn.teamhub.feature.home.ui.HomeScreen
 import org.zayn.teamhub.feature.signIn.ui.SignInScreen
+import org.zayn.teamhub.feature.work_summary.ui.WorkDaySummaryScreen
 
 @Composable
 fun App(auth: FirebaseAuth = koinInject()) {
@@ -44,7 +45,9 @@ fun TeamHubNavigationHost(navController: NavHostController, isAuthenticated: Boo
         startDestination = if (isAuthenticated) Screen.Home.route else Screen.SignIn.route
     ) {
         composable(route = Screen.SignIn.route) {
-            SignInScreen(onSignIn = { navController.navigate(Screen.Home.route) }, onSignUp = {navController.navigate(Screen.SignUp.route)})
+            SignInScreen(
+                onSignIn = { navController.navigate(Screen.Home.route) },
+                onSignUp = { navController.navigate(Screen.SignUp.route) })
         }
         composable(route = Screen.Home.route) {
             HomeScreen()
@@ -53,12 +56,22 @@ fun TeamHubNavigationHost(navController: NavHostController, isAuthenticated: Boo
             DashBoardScreen(onUsersClick = { navController.navigate(Screen.UsersList.route) })
         }
         composable(route = Screen.UsersList.route) {
-            UsersListScreen(){
-                navController.navigate(Screen.SignUp.route)
+            UsersListScreen() {
+                navController.navigate(Screen.WorkSummary.createRoute(it))
             }
         }
         composable(route = Screen.SignUp.route) {
             AddNewUserScreen()
+        }
+
+        composable(
+            route = Screen.WorkSummary.route,
+            arguments = Screen.WorkSummary.navArguments
+        ) { backStackEntry ->
+            val userId = backStackEntry.arguments?.getString("userId")
+            if (userId != null) {
+                WorkDaySummaryScreen(userId)
+            }
         }
     }
 

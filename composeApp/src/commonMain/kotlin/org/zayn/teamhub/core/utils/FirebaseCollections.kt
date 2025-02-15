@@ -10,5 +10,6 @@ object CollectionReference {
     const val COMPANY_ID = "companyId"
     const val LAST_UPDATE = "lastUpdate"
     const val CURRENT_STATUS = "currentStatus"
+    const val USER_ID = "userId"
 
 }

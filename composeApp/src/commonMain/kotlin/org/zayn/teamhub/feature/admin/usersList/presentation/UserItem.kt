@@ -19,7 +19,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import org.zayn.teamhub.core.models.AttendanceType
 import org.zayn.teamhub.core.models.User
+import org.zayn.teamhub.core.utils.toLocalizedDateTime
 
 @Composable
 fun UserItem(
@@ -48,7 +50,6 @@ fun UserItem(
 
         Spacer(modifier = Modifier.width(8.dp))
 
-        // User details
         Column(
             modifier = Modifier.weight(1f)
         ) {
@@ -58,11 +59,18 @@ fun UserItem(
                 fontWeight = FontWeight.Bold
             )
             Text(
-                text = user.email.orEmpty(),
-                style = MaterialTheme.typography.body1,
+                text = "Last update: ${user.lastUpdate.toLocalizedDateTime()}",
+                style = MaterialTheme.typography.body2,
                 color = Color.Gray
             )
         }
+
+        Box(
+            modifier = Modifier.size(12.dp).background(
+                shape = CircleShape,
+                color = if (user.currentStatus == AttendanceType.CLOCK_IN.name) Color.Green else Color.Gray
+            )
+        )
 
         if (user.isAdmin == true) {
             Text(
