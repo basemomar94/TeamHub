@@ -2,6 +2,7 @@ package org.zayn.teamhub.feature.work_summary
 
 import org.zayn.teamhub.core.base.BaseViewModel
 import org.zayn.teamhub.core.models.Attendance
+import org.zayn.teamhub.core.models.AttendanceType
 import org.zayn.teamhub.core.models.WorkDaySummary
 import org.zayn.teamhub.core.usecases.GetAttendanceByUser
 import org.zayn.teamhub.core.utils.networkresultwrapper.NetworkResult
@@ -45,9 +46,9 @@ class WorkSummaryViewModel(private val getAttendanceByUser: GetAttendanceByUser)
                 var lastClockIn: Long? = null
 
                 sortedRecords.forEach { record ->
-                    if (record.type == "clockIn") {
+                    if (record.type == AttendanceType.CLOCK_IN.name) {
                         lastClockIn = record.createdAt
-                    } else if (record.type == "clockOut" && lastClockIn != null) {
+                    } else if (record.type == AttendanceType.CLOCK_OUT.name && lastClockIn != null) {
                         totalWorkTime += record.createdAt - lastClockIn!!
                         lastClockIn = null
                     }
