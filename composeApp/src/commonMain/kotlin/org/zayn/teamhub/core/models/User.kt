@@ -13,5 +13,5 @@ data class User(
     val password: String? = "",
     val createdAt: Long? = 0L,
     val lastUpdate: Long? = 0L,
-    val currentStatus: String? = ""
+    val currentStatus: String? = null
 )

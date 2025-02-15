@@ -92,7 +92,7 @@ fun HomeCompose(user: User, addAttendance: (AttendanceType) -> Unit) {
             AttendanceButton(
                 title = "Clock In",
                 attendanceTime = if (user.currentStatus == AttendanceType.CLOCK_IN.name) user.lastUpdate.toLocalizedDateTime() else "-- --",
-                isEnabled = user.currentStatus == AttendanceType.CLOCK_OUT.name
+                isEnabled = user.currentStatus == AttendanceType.CLOCK_OUT.name || user.currentStatus == null
             ) {
                 addAttendance(AttendanceType.CLOCK_IN)
             }
