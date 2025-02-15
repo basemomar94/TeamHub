@@ -37,7 +37,7 @@ class HomeViewModel(
             }, tag = "addAttendance",
             resultSuccess = { result ->
                 if (result.first is NetworkResult.Success && result.second is NetworkResult.Success) {
-
+                    setEffect { HomeSideEffect.Success }
                 }
             }
         )

@@ -15,6 +15,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.onEach
 import org.koin.compose.koinInject
 import org.zayn.teamhub.core.base.SideEffectsKey
@@ -46,12 +47,13 @@ fun HomeScreen(viewModel: HomeViewModel = koinInject()) {
                 }
 
                 HomeSideEffect.Success -> {
+                    viewModel.setEvent(HomeEvent.GetUserData)
                     dialogTitle = "Success"
                     dialogMessage = "Operation completed successfully!"
                     showDialog = true
                 }
             }
-        }
+        }.collectLatest { }
     }
     when (state) {
         HomeState.Loading -> isLoading = true
