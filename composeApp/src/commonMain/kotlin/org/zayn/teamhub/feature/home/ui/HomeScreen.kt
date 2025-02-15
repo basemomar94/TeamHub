@@ -26,6 +26,9 @@ import org.zayn.teamhub.core.desgin_repo.LoadingIndicator
 import org.zayn.teamhub.core.desgin_repo.Vspacer
 import org.zayn.teamhub.core.models.AttendanceType
 import org.zayn.teamhub.core.models.User
+import org.zayn.teamhub.core.utils.Logger
+import org.zayn.teamhub.core.utils.Logger.Companion.createLogger
+import org.zayn.teamhub.core.utils.getConnectedWifiMacAddress
 import org.zayn.teamhub.core.utils.toLocalizedDateTime
 import org.zayn.teamhub.feature.home.HomeEvent
 import org.zayn.teamhub.feature.home.HomeSideEffect
@@ -71,6 +74,8 @@ fun HomeScreen(viewModel: HomeViewModel = koinInject()) {
 
 @Composable
 fun HomeCompose(user: User, addAttendance: (AttendanceType) -> Unit) {
+    val currentWifi = getConnectedWifiMacAddress()
+    Logger.createLogger("currentWifi").d("current mac is $currentWifi")
     Column {
         WelcomeHeader(user.firstName ?: "") {
 
