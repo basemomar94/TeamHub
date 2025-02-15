@@ -36,10 +36,14 @@ class HomeViewModel(
 
             }, tag = "addAttendance",
             onStart = { setState { HomeState.Loading } },
+            onComplete = { setState { HomeState.UnInitialized } },
             resultSuccess = { result ->
                 if (result.first is NetworkResult.Success && result.second is NetworkResult.Success) {
-                    setEffect { HomeSideEffect.Success }
+                    setEffect { HomeSideEffect.ShowSnackBar("Attendance has been recorded") }
                 }
+            },
+            resultFailure = {
+                setEffect { HomeSideEffect.ShowSnackBar(it.error) }
             }
         )
     }
@@ -53,6 +57,9 @@ class HomeViewModel(
                 if (it is NetworkResult.Success) {
                     setState { HomeState.UserData(it.data) }
                 }
+            },
+            resultFailure = {
+                setEffect { HomeSideEffect.ShowSnackBar(it.error) }
             }
         )
     }

@@ -1,25 +1,27 @@
 package org.zayn.teamhub.feature.home.ui
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
 import org.zayn.teamhub.core.base.SideEffectsKey
-import org.zayn.teamhub.core.desgin_repo.CustomAlertMessage
+import org.zayn.teamhub.core.desgin_repo.BaseSnackBar
 import org.zayn.teamhub.core.desgin_repo.LoadingIndicator
 import org.zayn.teamhub.core.desgin_repo.Vspacer
 import org.zayn.teamhub.core.models.AttendanceType
@@ -33,47 +35,36 @@ import org.zayn.teamhub.feature.home.HomeViewModel
 @Composable
 fun HomeScreen(viewModel: HomeViewModel = koinInject()) {
     val state by viewModel.viewState.collectAsState()
-    var isLoading by remember<MutableState<Boolean>> { mutableStateOf(false) }
-    var showDialog by remember { mutableStateOf(false) }
-    var dialogMessage by remember { mutableStateOf("") }
-    var dialogTitle by remember { mutableStateOf("") }
+    val snackBarHostState = remember { SnackbarHostState() }
+    val coroutineScope = rememberCoroutineScope()
 
     LaunchedEffect(SideEffectsKey) {
         viewModel.effect.onEach { effect ->
             when (effect) {
-                is HomeSideEffect.Error -> {
-                    dialogTitle = "Error"
-                    dialogMessage = effect.reason
-                    showDialog = true
-                }
-
-                HomeSideEffect.Success -> {
-                    viewModel.setEvent(HomeEvent.GetUserData)
-                    dialogTitle = "Success"
-                    dialogMessage = "Operation completed successfully!"
-                    showDialog = true
+                is HomeSideEffect.ShowSnackBar -> {
+                    coroutineScope.launch {
+                        snackBarHostState.showSnackbar(effect.message)
+                    }
                 }
             }
         }.collectLatest { }
     }
-    when (state) {
-        HomeState.Loading -> LoadingIndicator()
-        HomeState.UnInitialized -> viewModel.setEvent(HomeEvent.GetUserData)
-        is HomeState.UserData -> {
-            (state as HomeState.UserData).user?.let {
-                HomeCompose(it) {
-                    viewModel.setEvent(HomeEvent.AddAttendance(it))
+    Box(modifier = Modifier.fillMaxSize()) {
+        when (state) {
+            HomeState.Loading -> LoadingIndicator()
+            HomeState.UnInitialized -> viewModel.setEvent(HomeEvent.GetUserData)
+            is HomeState.UserData -> {
+                (state as HomeState.UserData).user?.let {
+                    HomeCompose(it) { type ->
+                        viewModel.setEvent(HomeEvent.AddAttendance(type))
+                    }
                 }
             }
         }
-
-        HomeState.AttendanceUpdate -> {}
-    }
-    if (showDialog) {
-        CustomAlertMessage(title = dialogTitle, message = dialogMessage) {
-            showDialog = false
-
-        }
+        BaseSnackBar(
+            snackBarState = snackBarHostState,
+            modifier = Modifier.align(Alignment.BottomCenter)
+        )
     }
 
 }
