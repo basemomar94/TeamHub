@@ -25,6 +25,7 @@ class WorkSummaryViewModel(private val getAttendanceByUser: GetAttendanceByUser)
         launchAndCollectResult(
             tag = "getUserAttendance",
             flow = getAttendanceByUser(userId),
+            onStart = { WorkSummaryState.Loading },
             resultSuccess = { result ->
                 if (result is NetworkResult.Success) {
                     val workSummaries = result.data?.mapAttendance()
@@ -34,7 +35,7 @@ class WorkSummaryViewModel(private val getAttendanceByUser: GetAttendanceByUser)
             })
     }
 
-    fun List<Attendance>.mapAttendance(): List<WorkDaySummary> {
+    private fun List<Attendance>.mapAttendance(): List<WorkDaySummary> {
         return this
             .groupBy { it.createdAt.toLocalizedDate() }
             .map { (date, records) ->

@@ -35,6 +35,7 @@ class HomeViewModel(
                 Pair(attendance, updateAttendance)
 
             }, tag = "addAttendance",
+            onStart = { setState { HomeState.Loading } },
             resultSuccess = { result ->
                 if (result.first is NetworkResult.Success && result.second is NetworkResult.Success) {
                     setEffect { HomeSideEffect.Success }

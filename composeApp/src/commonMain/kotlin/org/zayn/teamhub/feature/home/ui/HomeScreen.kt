@@ -20,6 +20,7 @@ import kotlinx.coroutines.flow.onEach
 import org.koin.compose.koinInject
 import org.zayn.teamhub.core.base.SideEffectsKey
 import org.zayn.teamhub.core.desgin_repo.CustomAlertMessage
+import org.zayn.teamhub.core.desgin_repo.LoadingIndicator
 import org.zayn.teamhub.core.desgin_repo.Vspacer
 import org.zayn.teamhub.core.models.AttendanceType
 import org.zayn.teamhub.core.models.User
@@ -56,7 +57,7 @@ fun HomeScreen(viewModel: HomeViewModel = koinInject()) {
         }.collectLatest { }
     }
     when (state) {
-        HomeState.Loading -> isLoading = true
+        HomeState.Loading -> LoadingIndicator()
         HomeState.UnInitialized -> viewModel.setEvent(HomeEvent.GetUserData)
         is HomeState.UserData -> {
             (state as HomeState.UserData).user?.let {

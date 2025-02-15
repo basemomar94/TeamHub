@@ -42,7 +42,8 @@ fun UserItem(
             contentAlignment = Alignment.Center
         ) {
             Text(
-                text = user.firstName?.take(1).orEmpty() + user.lastName?.take(1).orEmpty(),
+                text = user.firstName?.take(1)?.uppercase().orEmpty() + user.lastName?.take(1)
+                    ?.uppercase().orEmpty(),
                 style = MaterialTheme.typography.body1,
                 color = Color.White
             )
@@ -59,7 +60,7 @@ fun UserItem(
                 fontWeight = FontWeight.Bold
             )
             Text(
-                text = "Last update: ${user.lastUpdate.toLocalizedDateTime()}",
+                text = if (user.lastUpdate != 0L) "Last update: ${user.lastUpdate.toLocalizedDateTime()}" else "",
                 style = MaterialTheme.typography.body2,
                 color = Color.Gray
             )

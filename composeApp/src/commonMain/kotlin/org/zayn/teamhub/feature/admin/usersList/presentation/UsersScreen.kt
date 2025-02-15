@@ -10,6 +10,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import org.koin.compose.koinInject
+import org.zayn.teamhub.core.desgin_repo.LoadingIndicator
 import org.zayn.teamhub.core.models.User
 import org.zayn.teamhub.feature.admin.usersList.UserListEvent
 import org.zayn.teamhub.feature.admin.usersList.UserListState
@@ -17,13 +18,16 @@ import org.zayn.teamhub.feature.admin.usersList.UserListState
 @Composable
 fun UsersListScreen(viewModel: UserListViewModel = koinInject(), onUserClick: (String?) -> Unit) {
     val state by viewModel.viewState.collectAsState()
-    var users by remember { mutableStateOf<List<User>?>(emptyList()) }
     when (state) {
-        UserListState.Loading -> {}
+        UserListState.Loading -> LoadingIndicator()
         UserListState.UnIntiialized -> viewModel.setEvent(UserListEvent.GetUsers)
-        is UserListState.UsersListData -> users = (state as UserListState.UsersListData).users
+        is UserListState.UsersListData -> {
+            val users = (state as UserListState.UsersListData).users
+            if (users != null) {
+                UsersLazyCompose(usersList = users, onUserClick = onUserClick)
+            }
+        }
     }
-    users?.let { UsersLazyCompose(usersList = it, onUserClick = { id -> onUserClick(id) }) }
 }
 
 @Composable
