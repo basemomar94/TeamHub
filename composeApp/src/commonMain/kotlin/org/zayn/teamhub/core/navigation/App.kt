@@ -46,7 +46,11 @@ fun TeamHubNavigationHost(navController: NavHostController, isAuthenticated: Boo
     ) {
         composable(route = Screen.SignIn.route) {
             SignInScreen(
-                onSignIn = { navController.navigate(Screen.Home.route) },
+                onSignIn = {
+                    navController.navigate(route = Screen.Home.route) {
+                        popUpTo(Screen.SignIn.route) { inclusive = true }
+                    }
+                },
                 onSignUp = { navController.navigate(Screen.SignUp.route) })
         }
         composable(route = Screen.Home.route) {

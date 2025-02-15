@@ -8,6 +8,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import org.zayn.teamhub.core.utils.Logger
+import org.zayn.teamhub.core.utils.Logger.Companion.createLogger
 
 @Composable
 fun BottomNavigationBar(navController: NavHostController) {
@@ -18,25 +20,28 @@ fun BottomNavigationBar(navController: NavHostController) {
     )
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = currentBackStackEntry?.destination?.route
-
-    BottomNavigation {
-        items.forEach { item ->
-            BottomNavigationItem(
-                icon = { Icon(imageVector = item.icon, contentDescription = "") },
-                label = { Text(item.label) },
-                selected = currentRoute == item.route,
-                onClick = {
-                    if (currentRoute != item.route) {
-                        navController.navigate(item.route) {
-                            launchSingleTop = true
-                            restoreState = true
-                            popUpTo(navController.graph.startDestinationId) {
-                                saveState = true
+    Logger.createLogger("currentRoute").d("current destination is $currentRoute")
+    val noBottomBarScreens = listOf(Screen.SignIn.route, Screen.SignUp.route)
+    if (!noBottomBarScreens.contains(currentRoute) && currentRoute != null) {
+        BottomNavigation {
+            items.forEach { item ->
+                BottomNavigationItem(
+                    icon = { Icon(imageVector = item.icon, contentDescription = "") },
+                    label = { Text(item.label) },
+                    selected = currentRoute == item.route,
+                    onClick = {
+                        if (currentRoute != item.route) {
+                            navController.navigate(item.route) {
+                                launchSingleTop = true
+                                restoreState = true
+                                popUpTo(navController.graph.startDestinationId) {
+                                    saveState = true
+                                }
                             }
                         }
                     }
-                }
-            )
+                )
+            }
         }
     }
 }
