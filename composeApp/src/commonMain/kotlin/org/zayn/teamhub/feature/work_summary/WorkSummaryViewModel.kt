@@ -1,10 +1,12 @@
 package org.zayn.teamhub.feature.work_summary
 
+import kotlinx.datetime.Clock
 import org.zayn.teamhub.core.base.BaseViewModel
 import org.zayn.teamhub.core.models.Attendance
 import org.zayn.teamhub.core.models.AttendanceType
 import org.zayn.teamhub.core.models.WorkDaySummary
 import org.zayn.teamhub.core.usecases.GetAttendanceByUser
+import org.zayn.teamhub.core.utils.getCurrentTime
 import org.zayn.teamhub.core.utils.networkresultwrapper.NetworkResult
 import org.zayn.teamhub.core.utils.toLocalizedDate
 
@@ -46,17 +48,31 @@ class WorkSummaryViewModel(private val getAttendanceByUser: GetAttendanceByUser)
                 var lastClockIn: Long? = null
 
                 sortedRecords.forEach { record ->
-                    if (record.type == AttendanceType.CLOCK_IN.name) {
-                        lastClockIn = record.createdAt
-                    } else if (record.type == AttendanceType.CLOCK_OUT.name && lastClockIn != null) {
-                        totalWorkTime += record.createdAt - lastClockIn!!
-                        lastClockIn = null
+                    val attendanceType = try {
+                        AttendanceType.valueOf(record.type)
+                    } catch (e: IllegalArgumentException) {
+                        null
                     }
+
+                    when (attendanceType) {
+                        AttendanceType.CLOCK_IN -> lastClockIn = record.createdAt
+                        AttendanceType.CLOCK_OUT -> {
+                            if (lastClockIn != null) {
+                                totalWorkTime += record.createdAt - lastClockIn!!
+                                lastClockIn = null
+                            }
+                        }
+                        else -> {}
+                    }
+                }
+                if (lastClockIn != null) {
+                    totalWorkTime += getCurrentTime() - lastClockIn!!
                 }
 
                 WorkDaySummary(date = date, totalMinutesWorked = totalWorkTime / 60)
             }
     }
+
 
 
 }
