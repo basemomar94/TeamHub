@@ -7,6 +7,10 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
@@ -23,14 +27,19 @@ fun AttendanceButton(
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
 ) {
+    var isClickable by remember { mutableStateOf(isEnabled) }
 
     OutlinedButton(
-        modifier = modifier,
-        onClick = onClick, colors = ButtonDefaults.buttonColors(
-            backgroundColor = if (isEnabled) MaterialTheme.colors.primary else MaterialTheme.colors.onSurface.copy(
+        modifier = modifier.fillMaxWidth(),
+        enabled = isClickable,
+        onClick = {
+            isClickable = !isClickable
+            onClick()
+        }, colors = ButtonDefaults.buttonColors(
+            backgroundColor = if (isClickable) MaterialTheme.colors.primary else MaterialTheme.colors.onSurface.copy(
                 alpha = 0.12f
             ),
-            contentColor = if (isEnabled) MaterialTheme.colors.onPrimary else MaterialTheme.colors.onSurface,
+            contentColor = if (isClickable) MaterialTheme.colors.onPrimary else MaterialTheme.colors.onSurface,
         )
     ) {
         Column {

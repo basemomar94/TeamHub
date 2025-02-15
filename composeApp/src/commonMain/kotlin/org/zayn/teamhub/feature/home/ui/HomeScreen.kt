@@ -5,8 +5,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -15,11 +15,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.flow.onEach
 import org.koin.compose.koinInject
+import org.zayn.teamhub.core.base.SideEffectsKey
+import org.zayn.teamhub.core.desgin_repo.CustomAlertMessage
+import org.zayn.teamhub.core.desgin_repo.Vspacer
 import org.zayn.teamhub.core.models.AttendanceType
 import org.zayn.teamhub.core.models.User
 import org.zayn.teamhub.core.utils.toLocalizedDateTime
 import org.zayn.teamhub.feature.home.HomeEvent
+import org.zayn.teamhub.feature.home.HomeSideEffect
 import org.zayn.teamhub.feature.home.HomeState
 import org.zayn.teamhub.feature.home.HomeViewModel
 
@@ -27,7 +32,27 @@ import org.zayn.teamhub.feature.home.HomeViewModel
 fun HomeScreen(viewModel: HomeViewModel = koinInject()) {
     val state by viewModel.viewState.collectAsState()
     var isLoading by remember<MutableState<Boolean>> { mutableStateOf(false) }
-    var user by remember<MutableState<User?>> { mutableStateOf(null) }
+    var showDialog by remember { mutableStateOf(false) }
+    var dialogMessage by remember { mutableStateOf("") }
+    var dialogTitle by remember { mutableStateOf("") }
+
+    LaunchedEffect(SideEffectsKey) {
+        viewModel.effect.onEach { effect ->
+            when (effect) {
+                is HomeSideEffect.Error -> {
+                    dialogTitle = "Error"
+                    dialogMessage = effect.reason
+                    showDialog = true
+                }
+
+                HomeSideEffect.Success -> {
+                    dialogTitle = "Success"
+                    dialogMessage = "Operation completed successfully!"
+                    showDialog = true
+                }
+            }
+        }
+    }
     when (state) {
         HomeState.Loading -> isLoading = true
         HomeState.UnInitialized -> viewModel.setEvent(HomeEvent.GetUserData)
@@ -37,6 +62,14 @@ fun HomeScreen(viewModel: HomeViewModel = koinInject()) {
                     viewModel.setEvent(HomeEvent.AddAttendance(it))
                 }
             }
+        }
+
+        HomeState.AttendanceUpdate -> {}
+    }
+    if (showDialog) {
+        CustomAlertMessage(title = dialogTitle, message = dialogMessage) {
+            showDialog = false
+
         }
     }
 
@@ -49,20 +82,22 @@ fun HomeCompose(user: User, addAttendance: (AttendanceType) -> Unit) {
 
         }
 
-        Row(
+        Column(
             modifier = Modifier.fillMaxWidth().padding(8.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
+            verticalArrangement = Arrangement.SpaceBetween
         ) {
             AttendanceButton(
-                title = "Check In",
+                title = "Clock In",
                 attendanceTime = if (user.currentStatus == AttendanceType.CLOCK_IN.name) user.lastUpdate.toLocalizedDateTime() else "-- --",
                 isEnabled = user.currentStatus == AttendanceType.CLOCK_OUT.name
             ) {
                 addAttendance(AttendanceType.CLOCK_IN)
             }
+            Vspacer(16.dp)
+
             AttendanceButton(
-                title = "Check Out",
-                attendanceTime = if (user.currentStatus == AttendanceType.CLOCK_IN.name) user.lastUpdate.toLocalizedDateTime() else "-- --",
+                title = "Clock Out",
+                attendanceTime = if (user.currentStatus == AttendanceType.CLOCK_OUT.name) user.lastUpdate.toLocalizedDateTime() else "-- --",
                 isEnabled = user.currentStatus == AttendanceType.CLOCK_IN.name
 
             ) {

@@ -1,19 +1,19 @@
 package org.zayn.teamhub.feature.home
 
+import kotlinx.coroutines.flow.combine
 import org.zayn.teamhub.core.base.BaseViewModel
 import org.zayn.teamhub.core.models.AttendanceType
-import org.zayn.teamhub.core.services.SessionManager
-import org.zayn.teamhub.core.usecases.AddAttendanceUseCase
+import org.zayn.teamhub.core.usecases.AddAttendanceLogUseCase
 import org.zayn.teamhub.core.usecases.GetCurrentUserUseCase
+import org.zayn.teamhub.core.usecases.UpdateUserAttendanceUseCase
 import org.zayn.teamhub.core.utils.networkresultwrapper.NetworkResult
 
 class HomeViewModel(
-    private val sessionManager: SessionManager,
     private val userUseCase: GetCurrentUserUseCase,
-    private val attendanceUseCase: AddAttendanceUseCase,
+    private val attendanceUseCase: AddAttendanceLogUseCase,
+    private val updateUserAttendanceUseCase: UpdateUserAttendanceUseCase
 ) :
     BaseViewModel<HomeState, HomeEvent, HomeSideEffect>() {
-    val userId = sessionManager.getUserId()
 
     override fun setInitialState(): HomeState {
         return HomeState.UnInitialized
@@ -27,7 +27,20 @@ class HomeViewModel(
     }
 
     private suspend fun addAttendance(type: AttendanceType) {
-        launchAndCollectResult(flow = attendanceUseCase(type), tag = "addAttendance")
+        launchAndCollectResult(
+            flow = combine(
+                attendanceUseCase(type),
+                updateUserAttendanceUseCase(type)
+            ) { attendance, updateAttendance ->
+                Pair(attendance, updateAttendance)
+
+            }, tag = "addAttendance",
+            resultSuccess = { result ->
+                if (result.first is NetworkResult.Success && result.second is NetworkResult.Success) {
+
+                }
+            }
+        )
     }
 
     private suspend fun getUser() {

@@ -16,13 +16,14 @@ import org.zayn.teamhub.core.repo.IUserRepo
 import org.zayn.teamhub.core.repo_Impl.AttendanceReoImp
 import org.zayn.teamhub.core.repo_Impl.UserRepoImp
 import org.zayn.teamhub.core.services.SessionManager
-import org.zayn.teamhub.core.usecases.AddAttendanceUseCase
+import org.zayn.teamhub.core.usecases.AddAttendanceLogUseCase
 import org.zayn.teamhub.core.usecases.AddNewUserUseCase
 import org.zayn.teamhub.core.usecases.AuthNewUserUseCase
 import org.zayn.teamhub.core.usecases.GetAllCompanyUsers
 import org.zayn.teamhub.core.usecases.GetCurrentUserUseCase
 import org.zayn.teamhub.core.usecases.GetUserUseCase
 import org.zayn.teamhub.core.usecases.LogInUseCase
+import org.zayn.teamhub.core.usecases.UpdateUserAttendanceUseCase
 import org.zayn.teamhub.feature.home.HomeViewModel
 import org.zayn.teamhub.feature.signIn.SignInViewModel
 import org.zayn.teamhub.feature.admin.usersList.presentation.UserListViewModel
@@ -50,7 +51,8 @@ private val useCasesModules = module {
     factory { GetCurrentUserUseCase(get(), get()) }
     factory { AddNewUserUseCase(get()) }
     factory { AuthNewUserUseCase(get()) }
-    factory { AddAttendanceUseCase(get(), get()) }
+    factory { AddAttendanceLogUseCase(get()) }
+    factory { UpdateUserAttendanceUseCase(get()) }
 }
 
 private val firebaseModules = module {
