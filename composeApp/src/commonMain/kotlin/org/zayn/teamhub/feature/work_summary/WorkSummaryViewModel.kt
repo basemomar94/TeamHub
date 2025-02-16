@@ -1,12 +1,13 @@
 package org.zayn.teamhub.feature.work_summary
 
-import kotlinx.datetime.Clock
 import org.zayn.teamhub.core.base.BaseViewModel
 import org.zayn.teamhub.core.models.Attendance
 import org.zayn.teamhub.core.models.AttendanceType
 import org.zayn.teamhub.core.models.WorkDaySummary
 import org.zayn.teamhub.core.usecases.GetAttendanceByUser
 import org.zayn.teamhub.core.utils.getCurrentTime
+import org.zayn.teamhub.core.utils.getEndOfCurrentMonth
+import org.zayn.teamhub.core.utils.getStartOfCurrentMonth
 import org.zayn.teamhub.core.utils.networkresultwrapper.NetworkResult
 import org.zayn.teamhub.core.utils.toLocalizedDate
 
@@ -19,15 +20,19 @@ class WorkSummaryViewModel(private val getAttendanceByUser: GetAttendanceByUser)
     override suspend fun handleEvents(event: WorkSummaryEvent) {
         when (event) {
             is WorkSummaryEvent.LoadUserAttendance -> {
-                getUserAttendance(event.userId)
+                getCurrentMonthUserAttendance(event.userId)
             }
         }
     }
 
-    private suspend fun getUserAttendance(userId: String) {
+    private suspend fun getCurrentMonthUserAttendance(userId: String) {
         launchAndCollectResult(
             tag = "getUserAttendance",
-            flow = getAttendanceByUser(userId),
+            flow = getAttendanceByUser(
+                userId = userId,
+                start = getStartOfCurrentMonth(),
+                end = getEndOfCurrentMonth()
+            ),
             onStart = { WorkSummaryState.Loading },
             resultSuccess = { result ->
                 if (result is NetworkResult.Success) {
@@ -35,7 +40,10 @@ class WorkSummaryViewModel(private val getAttendanceByUser: GetAttendanceByUser)
                     setState { WorkSummaryState.Success(workSummaries) }
                 }
 
-            })
+            },
+            resultFailure = {setEffect { WorkSummaryEffect.ShowMessage(it.error) }}
+
+        )
     }
 
     private fun List<Attendance>.mapAttendance(): List<WorkDaySummary> {
@@ -62,6 +70,7 @@ class WorkSummaryViewModel(private val getAttendanceByUser: GetAttendanceByUser)
                                 lastClockIn = null
                             }
                         }
+
                         else -> {}
                     }
                 }
@@ -72,7 +81,6 @@ class WorkSummaryViewModel(private val getAttendanceByUser: GetAttendanceByUser)
                 WorkDaySummary(date = date, totalMinutesWorked = totalWorkTime / 60)
             }
     }
-
 
 
 }

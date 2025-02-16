@@ -13,7 +13,6 @@ sealed class WorkSummaryState : ViewState {
     data object UnInitialized : WorkSummaryState()
     data object Loading : WorkSummaryState()
     data class Success(val attendanceList: List<WorkDaySummary>?) : WorkSummaryState()
-    data class Error(val message: String) : WorkSummaryState()
 }
 
 sealed class WorkSummaryEffect : ViewSideEffect {

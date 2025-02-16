@@ -9,7 +9,11 @@ interface IAttendanceRepo {
 
     suspend fun addAttendance(type: AttendanceType): Flow<NetworkResult<String>>
 
-    suspend fun getAttendanceByUser(userId: String): Flow<NetworkResult<List<Attendance>>>
+    suspend fun getAttendanceByUser(
+        userId: String,
+        start: Long,
+        end: Long,
+    ): Flow<NetworkResult<List<Attendance>>>
 
     suspend fun getTodayWorkingHours(): Flow<NetworkResult<List<Attendance>>>
 }
