@@ -20,19 +20,27 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import org.zayn.teamhub.core.models.AttendanceType
 import org.zayn.teamhub.core.models.User
+import org.zayn.teamhub.core.utils.Logger
+import org.zayn.teamhub.core.utils.Logger.Companion.createLogger
 import org.zayn.teamhub.core.utils.toLocalizedDateTime
 
 @Composable
 fun UserItem(
     user: User,
-    onUserClick: (User) -> Unit,
+    onUserClick: (String) -> Unit,
 ) {
     val isUserOnline = user.currentStatus == AttendanceType.CLOCK_IN.name
     val indicatorColor = if (isUserOnline) Color.Green else Color.Gray
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { onUserClick(user) },
+            .clickable {
+                user.id?.let {
+                    Logger.createLogger("UserItem").d("clicked in $it")
+                    onUserClick(it) }
+
+
+            },
         verticalAlignment = Alignment.CenterVertically
     ) {
         Box(

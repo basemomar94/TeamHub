@@ -13,6 +13,8 @@ import androidx.compose.ui.unit.dp
 import org.koin.compose.koinInject
 import org.zayn.teamhub.core.desgin_repo.LoadingIndicator
 import org.zayn.teamhub.core.models.User
+import org.zayn.teamhub.core.utils.Logger
+import org.zayn.teamhub.core.utils.Logger.Companion.createLogger
 import org.zayn.teamhub.feature.admin.usersList.UserListEvent
 import org.zayn.teamhub.feature.admin.usersList.UserListState
 
@@ -35,9 +37,9 @@ fun UsersListScreen(viewModel: UserListViewModel = koinInject(), onUserClick: (S
 fun UsersLazyCompose(usersList: List<User>, onUserClick: (String?) -> Unit) {
     LazyColumn(contentPadding = PaddingValues(8.dp)) {
         itemsIndexed(usersList) { index, user ->
-            UserItem(user = user) {
-                onUserClick(user.id)
-            }
+            UserItem(user = user, onUserClick = { onUserClick(it)
+            Logger.createLogger("UsersLazyCompose").d("clicked id is $it")
+            })
             if (index < usersList.lastIndex) {
                 Divider(modifier = Modifier.padding(4.dp))
             }

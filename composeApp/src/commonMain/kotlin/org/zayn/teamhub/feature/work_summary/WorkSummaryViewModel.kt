@@ -30,7 +30,7 @@ class WorkSummaryViewModel(private val getAttendanceByUser: GetAttendanceByUser)
 
     private suspend fun getCurrentMonthUserAttendance(userId: String) {
         launchAndCollectResult(
-            tag = "getUserAttendance",
+            tag = "getUserAttendance for $userId",
             flow = getAttendanceByUser(
                 userId = userId,
                 start = getStartOfCurrentMonth(),

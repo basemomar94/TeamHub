@@ -3,6 +3,7 @@ package org.zayn.teamhub.core.navigation
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -24,9 +25,15 @@ fun App(auth: FirebaseAuth = koinInject()) {
     val navController = rememberNavController()
     val userId = auth.currentUser?.uid
     val isAuthenticated = remember { userId != null }
+    val appBarTitle = "test"
 
     MyAppTheme {
         Scaffold(
+            topBar = {
+                BaseTopAppBar(
+                    text = appBarTitle,
+                    onNavigationClick = { navController.popBackStack() })
+            },
             bottomBar = { BottomNavigationBar(navController) }
         ) { innerPadding ->
             Box(modifier = Modifier.padding(innerPadding)) {
@@ -60,8 +67,8 @@ fun TeamHubNavigationHost(navController: NavHostController, isAuthenticated: Boo
             DashBoardScreen(onUsersClick = { navController.navigate(Screen.UsersList.route) })
         }
         composable(route = Screen.UsersList.route) {
-            UsersListScreen() {
-                navController.navigate(Screen.WorkSummary.createRoute(it))
+            UsersListScreen() { id ->
+                navController.navigate(Screen.WorkSummary.createRoute(id))
             }
         }
         composable(route = Screen.SignUp.route) {

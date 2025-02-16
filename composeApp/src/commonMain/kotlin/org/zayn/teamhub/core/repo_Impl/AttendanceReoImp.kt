@@ -37,16 +37,15 @@ class AttendanceReoImp(
         start: Long,
         end: Long,
     ): Flow<NetworkResult<List<Attendance>>> {
-        Logger.createLogger("getAttendanceByUser").d("start $start   end $end")
+        Logger.createLogger("getAttendanceByUser").d("start $start   end $end for userid $userId")
         return firestore.fetchQueryAsFlow(
             collection = FirebaseCollections.ATTENDANCE_COLLECTION,
             queryBuilder = {
-                this.where {
-                    CollectionReference.USER_ID equalTo userId
-                    CollectionReference.CREATED_AT greaterThanOrEqualTo start
-                    CollectionReference.CREATED_AT lessThanOrEqualTo end
-                }
-            },
+                this.where { CollectionReference.USER_ID equalTo userId }
+                    .where { CollectionReference.CREATED_AT greaterThanOrEqualTo start }
+                    .where { CollectionReference.CREATED_AT lessThanOrEqualTo end }
+            }
+            ,
             operationName = "getAttendanceByUser"
         )
     }
