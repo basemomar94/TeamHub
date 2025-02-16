@@ -1,4 +1,4 @@
-package org.zayn.teamhub.feature.admin.add_new_user
+package org.zayn.teamhub.feature.sign_up
 
 import org.zayn.teamhub.core.base.ViewEvent
 import org.zayn.teamhub.core.base.ViewSideEffect

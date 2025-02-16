@@ -1,11 +1,11 @@
-package org.zayn.teamhub.feature.admin.usersList.presentation
+package org.zayn.teamhub.feature.usersList.presentation
 
 import org.zayn.teamhub.core.base.BaseViewModel
 import org.zayn.teamhub.core.usecases.GetAllCompanyUsers
 import org.zayn.teamhub.core.utils.networkresultwrapper.NetworkResult
-import org.zayn.teamhub.feature.admin.usersList.UserListEvent
-import org.zayn.teamhub.feature.admin.usersList.UserListSideEffect
-import org.zayn.teamhub.feature.admin.usersList.UserListState
+import org.zayn.teamhub.feature.usersList.UserListEvent
+import org.zayn.teamhub.feature.usersList.UserListSideEffect
+import org.zayn.teamhub.feature.usersList.UserListState
 
 class UserListViewModel(private val getAllCompanyUsers: GetAllCompanyUsers) :
     BaseViewModel<UserListState, UserListEvent, UserListSideEffect>() {

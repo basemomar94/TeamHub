@@ -1,4 +1,4 @@
-package org.zayn.teamhub.feature.admin.usersList.presentation
+package org.zayn.teamhub.feature.usersList.presentation
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
@@ -15,8 +15,8 @@ import org.zayn.teamhub.core.desgin_repo.LoadingIndicator
 import org.zayn.teamhub.core.models.User
 import org.zayn.teamhub.core.utils.Logger
 import org.zayn.teamhub.core.utils.Logger.Companion.createLogger
-import org.zayn.teamhub.feature.admin.usersList.UserListEvent
-import org.zayn.teamhub.feature.admin.usersList.UserListState
+import org.zayn.teamhub.feature.usersList.UserListEvent
+import org.zayn.teamhub.feature.usersList.UserListState
 
 @Composable
 fun UsersListScreen(viewModel: UserListViewModel = koinInject(), onUserClick: (String?) -> Unit) {

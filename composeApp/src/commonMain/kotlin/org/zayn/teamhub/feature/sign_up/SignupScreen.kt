@@ -1,4 +1,4 @@
-package org.zayn.teamhub.feature.admin.add_new_user
+package org.zayn.teamhub.feature.sign_up
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize

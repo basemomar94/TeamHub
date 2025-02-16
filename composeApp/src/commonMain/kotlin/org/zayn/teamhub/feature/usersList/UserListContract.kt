@@ -1,4 +1,4 @@
-package org.zayn.teamhub.feature.admin.usersList
+package org.zayn.teamhub.feature.usersList
 
 import org.zayn.teamhub.core.base.ViewEvent
 import org.zayn.teamhub.core.base.ViewSideEffect

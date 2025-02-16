@@ -25,7 +25,7 @@ fun BaseTopAppBar(
         title = {
             if (text != null) Text(
                 text = text,
-                color = MaterialTheme.colors.primary,
+                color = Color.White,
                 style = MaterialTheme.typography.body1.copy(fontSize = 18.sp)
             )
         },

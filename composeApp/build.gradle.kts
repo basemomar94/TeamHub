@@ -9,7 +9,7 @@ plugins {
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.googleGmsGoogleServices)
     alias(libs.plugins.kotlinSerialization)
-    id("dev.icerock.mobile.multiplatform-resources")
+   // id("dev.icerock.mobile.multiplatform-resources")
 
 }
 
@@ -38,11 +38,11 @@ kotlin {
     
     sourceSets {
         val desktopMain by getting
-        val commonMain by getting {
+       /* val commonMain by getting {
             dependencies {
                 api(libs.resources)
             }
-        }
+        }*/
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
@@ -114,7 +114,7 @@ compose.desktop {
         }
     }
 }
-multiplatformResources {
+/*multiplatformResources {
     multiplatformResourcesPackage = "org.zayn.teamhub"
     multiplatformResourcesClassName = "SharedRes"
-}
+}*/

@@ -1,4 +1,4 @@
-package org.zayn.teamhub.feature.admin.usersList.presentation
+package org.zayn.teamhub.feature.usersList.presentation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

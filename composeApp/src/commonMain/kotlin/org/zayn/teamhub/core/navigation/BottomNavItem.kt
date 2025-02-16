@@ -1,11 +1,9 @@
 package org.zayn.teamhub.core.navigation
 
-import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
 
 sealed class BottomNavItem(val route: String, val label: String, val icon: ImageVector) {
@@ -15,12 +13,12 @@ sealed class BottomNavItem(val route: String, val label: String, val icon: Image
     data object Profile : BottomNavItem(
         "profile",
         "Profile",
-        Icons.Default.Home
+        Icons.Default.Person
     )
 
-    data object Settings : BottomNavItem(
+    data object Dashboard : BottomNavItem(
         Screen.DashBoard.route,
         "Dashboard",
-        Icons.Default.Settings
+        Icons.Default.Info
     )
 }

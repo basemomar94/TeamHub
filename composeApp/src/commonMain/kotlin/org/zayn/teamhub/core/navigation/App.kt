@@ -4,17 +4,19 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import dev.gitlive.firebase.auth.FirebaseAuth
 import org.koin.compose.koinInject
-import org.zayn.teamhub.feature.admin.DashBoardScreen
-import org.zayn.teamhub.feature.admin.add_new_user.SignupScreen
-import org.zayn.teamhub.feature.admin.usersList.presentation.UsersListScreen
+import org.zayn.teamhub.feature.dashboard.DashBoardScreen
+import org.zayn.teamhub.feature.sign_up.SignupScreen
+import org.zayn.teamhub.feature.usersList.presentation.UsersListScreen
 import org.zayn.teamhub.feature.home.ui.HomeScreen
 import org.zayn.teamhub.feature.signIn.ui.SignInScreen
 import org.zayn.teamhub.feature.work_day_details.ui.WorkDayScreen
@@ -25,7 +27,9 @@ fun App(auth: FirebaseAuth = koinInject()) {
     val navController = rememberNavController()
     val userId = auth.currentUser?.uid
     val isAuthenticated = remember { userId != null }
-    val appBarTitle = "test"
+    val currentBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = currentBackStackEntry?.destination?.route
+    val appBarTitle = getAppTitle(currentRoute)
 
     MyAppTheme {
         Scaffold(
@@ -45,8 +49,21 @@ fun App(auth: FirebaseAuth = koinInject()) {
 
 }
 
+private fun getAppTitle(currentDestination: String?): String {
+    return when (currentDestination) {
+        Screen.Home.route -> "Home"
+        Screen.UsersList.route -> "Users List"
+        Screen.WorkSummary.route -> "Work Summary"
+        Screen.WorkSessions.route -> "Day Sessions"
+        Screen.SignIn.route -> "Sign In"
+        Screen.SignUp.route -> "Sign up"
+        else -> "Team Hub"
+    }
+
+}
+
 @Composable
-fun TeamHubNavigationHost(navController: NavHostController, isAuthenticated: Boolean) {
+private fun TeamHubNavigationHost(navController: NavHostController, isAuthenticated: Boolean) {
     NavHost(
         navController = navController,
         startDestination = if (isAuthenticated) Screen.Home.route else Screen.SignIn.route
@@ -67,7 +84,7 @@ fun TeamHubNavigationHost(navController: NavHostController, isAuthenticated: Boo
             DashBoardScreen(onUsersClick = { navController.navigate(Screen.UsersList.route) })
         }
         composable(route = Screen.UsersList.route) {
-            UsersListScreen() { id ->
+            UsersListScreen { id ->
                 navController.navigate(Screen.WorkSummary.createRoute(id))
             }
         }

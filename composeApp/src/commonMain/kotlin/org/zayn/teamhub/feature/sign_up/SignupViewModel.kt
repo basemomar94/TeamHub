@@ -1,11 +1,10 @@
-package org.zayn.teamhub.feature.admin.add_new_user
+package org.zayn.teamhub.feature.sign_up
 
 import org.zayn.teamhub.core.base.BaseViewModel
 import org.zayn.teamhub.core.models.User
 import org.zayn.teamhub.core.usecases.AddNewUserUseCase
 import org.zayn.teamhub.core.usecases.AuthNewUserUseCase
 import org.zayn.teamhub.core.utils.networkresultwrapper.NetworkResult
-import org.zayn.teamhub.feature.home.HomeState
 
 class SignupViewModel(
     private val newUserUseCase: AddNewUserUseCase,
