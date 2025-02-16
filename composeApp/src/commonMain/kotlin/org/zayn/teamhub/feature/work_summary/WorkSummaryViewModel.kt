@@ -5,6 +5,8 @@ import org.zayn.teamhub.core.models.Attendance
 import org.zayn.teamhub.core.models.AttendanceType
 import org.zayn.teamhub.core.models.WorkDaySummary
 import org.zayn.teamhub.core.usecases.GetAttendanceByUser
+import org.zayn.teamhub.core.utils.Logger
+import org.zayn.teamhub.core.utils.Logger.Companion.createLogger
 import org.zayn.teamhub.core.utils.getCurrentTime
 import org.zayn.teamhub.core.utils.getEndOfCurrentMonth
 import org.zayn.teamhub.core.utils.getStartOfCurrentMonth
@@ -16,6 +18,7 @@ class WorkSummaryViewModel(private val getAttendanceByUser: GetAttendanceByUser)
     override fun setInitialState(): WorkSummaryState {
         return WorkSummaryState.UnInitialized
     }
+    val logger = this.createLogger()
 
     override suspend fun handleEvents(event: WorkSummaryEvent) {
         when (event) {
@@ -51,7 +54,6 @@ class WorkSummaryViewModel(private val getAttendanceByUser: GetAttendanceByUser)
             .groupBy { it.createdAt.toLocalizedDate() }
             .map { (date, records) ->
                 val sortedRecords = records.sortedBy { it.createdAt }
-
                 var totalWorkTime = 0L
                 var lastClockIn: Long? = null
 
@@ -59,28 +61,36 @@ class WorkSummaryViewModel(private val getAttendanceByUser: GetAttendanceByUser)
                     val attendanceType = try {
                         AttendanceType.valueOf(record.type)
                     } catch (e: IllegalArgumentException) {
+                        logger.w("Unknown attendance type: ${record.type}")
                         null
                     }
 
                     when (attendanceType) {
-                        AttendanceType.CLOCK_IN -> lastClockIn = record.createdAt
-                        AttendanceType.CLOCK_OUT -> {
-                            if (lastClockIn != null) {
-                                totalWorkTime += record.createdAt - lastClockIn!!
-                                lastClockIn = null
-                            }
+                        AttendanceType.CLOCK_IN -> {
+                            lastClockIn = record.createdAt
+                            logger.d("User clocked in at $lastClockIn")
                         }
-
-                        else -> {}
+                        AttendanceType.CLOCK_OUT -> {
+                            lastClockIn?.let {
+                                totalWorkTime += record.createdAt - it
+                                logger.d("User clocked out at ${record.createdAt}, worked: ${(record.createdAt - it) / 1000} seconds")
+                                lastClockIn = null
+                            } ?: logger.w("Clock out without a preceding clock in at ${record.createdAt}")
+                        }
+                        else -> logger.w("Unknown attendance type: ${record.type}")
                     }
                 }
-                if (lastClockIn != null) {
-                    totalWorkTime += getCurrentTime() - lastClockIn!!
+
+                lastClockIn?.let {
+                    val currentTime = getCurrentTime()
+                    totalWorkTime += currentTime - it
+                    logger.d("User still clocked in, adding ${(currentTime - it) / 1000} seconds")
                 }
 
-                WorkDaySummary(date = date, totalMinutesWorked = totalWorkTime / 60)
+                WorkDaySummary(date = date, totalMinutesWorked = totalWorkTime / 60000)
             }
     }
+
 
 
 }
