@@ -30,6 +30,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
 import org.zayn.teamhub.core.base.SideEffectsKey
+import org.zayn.teamhub.core.desgin_repo.BaseSnackBar
 import org.zayn.teamhub.core.desgin_repo.CustomTextField
 import org.zayn.teamhub.core.desgin_repo.DefaultButton
 import org.zayn.teamhub.core.desgin_repo.LoadingIndicator
@@ -80,11 +81,8 @@ fun SignInScreen(
                 LoadingIndicator()
             }
         }
-        SnackbarHost(
-            modifier = Modifier.align(Alignment.BottomCenter),
-            hostState = snackBarHostState
-        )
 
+        BaseSnackBar(snackBarHostState,Modifier.align(Alignment.BottomCenter),)
     }
 }
 

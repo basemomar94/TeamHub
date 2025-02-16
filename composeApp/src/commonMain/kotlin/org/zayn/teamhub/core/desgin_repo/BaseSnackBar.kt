@@ -22,14 +22,14 @@ fun BaseSnackBar(snackBarState: SnackbarHostState, modifier: Modifier = Modifier
                 Text(
                     text = "Dismiss",
                     style = MaterialTheme.typography.button,
-                    color = MaterialTheme.colors.secondary,
+                    color = MaterialTheme.colors.secondaryVariant,
                     modifier = Modifier
                         .clickable { snackBarData.dismiss() }
                         .padding(8.dp)
                 )
             }
         ) {
-            Text(text = snackBarData.message)
+            Text(text = snackBarData.message, style = MaterialTheme.typography.button)
         }
     }
 }

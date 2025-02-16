@@ -9,7 +9,7 @@ import org.zayn.teamhub.feature.home.HomeState
 
 class SignupViewModel(
     private val newUserUseCase: AddNewUserUseCase,
-    private val authNewUserUseCase: AuthNewUserUseCase
+    private val authNewUserUseCase: AuthNewUserUseCase,
 ) :
     BaseViewModel<SignupState, SignupEvent, SignupSideEffect>() {
     override fun setInitialState(): SignupState {
@@ -32,18 +32,26 @@ class SignupViewModel(
                     addNewUserToDatabase(user.copy(id = uid.data))
                 }
             },
+            resultFailure = {
+                setEffect { SignupSideEffect.ShowMessage(it.error) }
+            },
+            onComplete = { setState { SignupState.UnInitialized } }
 
-            )
+        )
     }
 
     private suspend fun addNewUserToDatabase(user: User) {
         launchAndCollectResult(
             flow = newUserUseCase(user),
+            onStart = { setState { SignupState.Loading } },
             tag = "add new user",
             resultSuccess = {
                 setEffect { SignupSideEffect.NavigateHome }
             },
+            resultFailure = {
+                setEffect { SignupSideEffect.ShowMessage(it.error) }
+            }
 
-            )
+        )
     }
 }

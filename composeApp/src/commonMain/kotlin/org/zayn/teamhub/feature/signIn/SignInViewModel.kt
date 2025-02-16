@@ -1,13 +1,10 @@
 package org.zayn.teamhub.feature.signIn
 
 import org.zayn.teamhub.core.base.BaseViewModel
-import org.zayn.teamhub.core.services.SessionManager
-import org.zayn.teamhub.core.usecases.GetUserUseCase
 import org.zayn.teamhub.core.usecases.LogInUseCase
 
 class SignInViewModel(
     private val logInUseCase: LogInUseCase,
-    private val getUserUseCase: GetUserUseCase,
 ) :
     BaseViewModel<SignInState, SignInEvent, SignInSideEffect>() {
 

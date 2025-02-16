@@ -18,5 +18,6 @@ sealed class SignupEvent : ViewEvent {
 
 sealed class SignupSideEffect : ViewSideEffect {
     data object NavigateHome : SignupSideEffect()
+    data class ShowMessage(val message: String) : SignupSideEffect()
 
 }
