@@ -6,7 +6,7 @@ import androidx.navigation.navArgument
 
 sealed class Screen(
     val route: String,
-    val navArguments: List<NamedNavArgument> = emptyList()
+    val navArguments: List<NamedNavArgument> = emptyList(),
 ) {
     data object SignIn : Screen("signIn")
     data object Home : Screen("home")
@@ -21,6 +21,17 @@ sealed class Screen(
         })
     ) {
         fun createRoute(userId: String?) = "WorkSummary/${userId}"
+
+    }
+
+    data object WorkSessions : Screen(
+        route = "WorkSessions/{userId}",
+        navArguments = listOf(navArgument("userId") {
+            type = NavType.StringType
+            nullable = true
+        })
+    ) {
+        fun createRoute(userId: String?) = "WorkSessions/${userId}"
 
     }
 

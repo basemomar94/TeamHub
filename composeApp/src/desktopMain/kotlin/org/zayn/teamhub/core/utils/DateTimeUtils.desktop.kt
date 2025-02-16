@@ -10,3 +10,7 @@ actual fun Long?.toWorkDuration(): String {
 
 actual fun Long?.toLocalizedDate(): String {
 }
+
+actual fun Long?.toLocalizedTime(): String {
+    TODO("Not yet implemented")
+}

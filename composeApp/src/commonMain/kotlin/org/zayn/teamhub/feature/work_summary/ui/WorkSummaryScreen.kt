@@ -24,7 +24,11 @@ import org.zayn.teamhub.feature.work_summary.WorkSummaryState
 import org.zayn.teamhub.feature.work_summary.WorkSummaryViewModel
 
 @Composable
-fun WorkDaySummaryScreen(userId: String, viewModel: WorkSummaryViewModel = koinViewModel()) {
+fun WorkDaySummaryScreen(
+    userId: String,
+    onDayClick: (String) -> Unit,
+    viewModel: WorkSummaryViewModel = koinViewModel(),
+) {
     val state by viewModel.viewState.collectAsState()
 
     val snackBarHostState = remember { SnackbarHostState() }
@@ -49,7 +53,7 @@ fun WorkDaySummaryScreen(userId: String, viewModel: WorkSummaryViewModel = koinV
         when (state) {
             WorkSummaryState.Loading -> LoadingIndicator()
             is WorkSummaryState.Success -> {
-                (state as WorkSummaryState.Success).attendanceList?.let { AttendanceList(it) }
+                (state as WorkSummaryState.Success).attendanceList?.let { AttendanceList(workdayList=it, onWorkDayClick = onDayClick) }
             }
 
             WorkSummaryState.UnInitialized -> {

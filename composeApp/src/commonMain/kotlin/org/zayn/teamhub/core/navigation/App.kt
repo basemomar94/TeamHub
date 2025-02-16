@@ -3,7 +3,6 @@ package org.zayn.teamhub.core.navigation
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -18,6 +17,7 @@ import org.zayn.teamhub.feature.admin.add_new_user.SignupScreen
 import org.zayn.teamhub.feature.admin.usersList.presentation.UsersListScreen
 import org.zayn.teamhub.feature.home.ui.HomeScreen
 import org.zayn.teamhub.feature.signIn.ui.SignInScreen
+import org.zayn.teamhub.feature.work_day_details.ui.WorkDayScreen
 import org.zayn.teamhub.feature.work_summary.ui.WorkDaySummaryScreen
 
 @Composable
@@ -81,8 +81,20 @@ fun TeamHubNavigationHost(navController: NavHostController, isAuthenticated: Boo
         ) { backStackEntry ->
             val userId = backStackEntry.arguments?.getString("userId")
             if (userId != null) {
-                WorkDaySummaryScreen(userId)
+                WorkDaySummaryScreen(
+                    userId = userId,
+                    onDayClick = { navController.navigate(Screen.WorkSessions.createRoute(it)) })
             }
+        }
+        composable(
+            route = Screen.WorkSessions.route,
+            arguments = Screen.WorkSessions.navArguments
+        ) { backStackEntry ->
+            val userId = backStackEntry.arguments?.getString("userId")
+            if (userId != null) {
+                WorkDayScreen(userId = userId)
+            }
+
         }
     }
 

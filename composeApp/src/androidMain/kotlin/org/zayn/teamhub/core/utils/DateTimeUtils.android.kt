@@ -17,3 +17,9 @@ actual fun Long?.toLocalizedDate(): String {
     val dateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM, locale)
     return dateFormat.format(Date(this ?: 0))
 }
+
+actual fun Long?.toLocalizedTime(): String {
+    val locale = Locale.getDefault()
+    val timeFormat = DateFormat.getTimeInstance(DateFormat.SHORT, locale)
+    return timeFormat.format(Date(this ?: 0))
+}

@@ -85,3 +85,5 @@ private fun getLastDayOfMonth(year: Int, month: Month): Int {
 private fun isLeapYear(year: Int): Boolean {
     return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)
 }
+
+expect fun Long?.toLocalizedTime(): String

@@ -1,5 +1,6 @@
 package org.zayn.teamhub.feature.work_summary.ui
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,13 +20,13 @@ import org.zayn.teamhub.core.models.WorkDaySummary
 import org.zayn.teamhub.core.utils.toWorkDuration
 
 @Composable
-fun AttendanceItem(summary: WorkDaySummary) {
+fun AttendanceItem(summary: WorkDaySummary, onDayClick: (String) -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp),
+            .padding(8.dp).clickable { summary.userId?.let { onDayClick(it) } },
         elevation = 4.dp,
-        shape = RoundedCornerShape(12.dp) // Rounded corners
+        shape = RoundedCornerShape(12.dp)
     ) {
         Column(
             modifier = Modifier

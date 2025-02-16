@@ -18,6 +18,7 @@ class WorkSummaryViewModel(private val getAttendanceByUser: GetAttendanceByUser)
     override fun setInitialState(): WorkSummaryState {
         return WorkSummaryState.UnInitialized
     }
+
     val logger = this.createLogger()
 
     override suspend fun handleEvents(event: WorkSummaryEvent) {
@@ -40,11 +41,12 @@ class WorkSummaryViewModel(private val getAttendanceByUser: GetAttendanceByUser)
             resultSuccess = { result ->
                 if (result is NetworkResult.Success) {
                     val workSummaries = result.data?.mapAttendance()
+                    logger.d("work summaries $workSummaries")
                     setState { WorkSummaryState.Success(workSummaries) }
                 }
 
             },
-            resultFailure = {setEffect { WorkSummaryEffect.ShowMessage(it.error) }}
+            resultFailure = { setEffect { WorkSummaryEffect.ShowMessage(it.error) } }
 
         )
     }
@@ -70,13 +72,16 @@ class WorkSummaryViewModel(private val getAttendanceByUser: GetAttendanceByUser)
                             lastClockIn = record.createdAt
                             logger.d("User clocked in at $lastClockIn")
                         }
+
                         AttendanceType.CLOCK_OUT -> {
                             lastClockIn?.let {
                                 totalWorkTime += record.createdAt - it
                                 logger.d("User clocked out at ${record.createdAt}, worked: ${(record.createdAt - it) / 1000} seconds")
                                 lastClockIn = null
-                            } ?: logger.w("Clock out without a preceding clock in at ${record.createdAt}")
+                            }
+                                ?: logger.w("Clock out without a preceding clock in at ${record.createdAt}")
                         }
+
                         else -> logger.w("Unknown attendance type: ${record.type}")
                     }
                 }
@@ -87,10 +92,13 @@ class WorkSummaryViewModel(private val getAttendanceByUser: GetAttendanceByUser)
                     logger.d("User still clocked in, adding ${(currentTime - it) / 1000} seconds")
                 }
 
-                WorkDaySummary(date = date, totalMinutesWorked = totalWorkTime / 60000)
+                WorkDaySummary(
+                    date = date,
+                    totalMinutesWorked = totalWorkTime / 60000,
+                    userId = records.firstOrNull()?.userId
+                )
             }
     }
-
 
 
 }
