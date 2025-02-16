@@ -43,7 +43,7 @@ class AttendanceReoImp(
         val userId = auth.currentUser?.uid ?: ""
         return firestore.fetchQueryAsFlow(
             collection = FirebaseCollections.ATTENDANCE_COLLECTION,
-            queryBuilder = { this.where { CollectionReference.USER_ID equalTo userId }.where { CollectionReference. } },
+            queryBuilder = { this.where { CollectionReference.USER_ID equalTo userId } },
             operationName = "getAttendanceByUser"
         )
     }

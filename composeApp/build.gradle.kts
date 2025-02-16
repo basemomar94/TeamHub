@@ -9,6 +9,8 @@ plugins {
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.googleGmsGoogleServices)
     alias(libs.plugins.kotlinSerialization)
+    id("dev.icerock.mobile.multiplatform-resources")
+
 }
 
 kotlin {
@@ -27,6 +29,8 @@ kotlin {
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
             isStatic = true
+            export("dev.icerock.moko:resources:0.22.3")
+            export("dev.icerock.moko:graphics:0.9.0")
         }
     }
     
@@ -34,7 +38,11 @@ kotlin {
     
     sourceSets {
         val desktopMain by getting
-        
+        val commonMain by getting {
+            dependencies {
+                api(libs.resources)
+            }
+        }
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
@@ -105,4 +113,8 @@ compose.desktop {
             packageVersion = "1.0.0"
         }
     }
+}
+multiplatformResources {
+    multiplatformResourcesPackage = "org.zayn.teamhub"
+    multiplatformResourcesClassName = "SharedRes"
 }

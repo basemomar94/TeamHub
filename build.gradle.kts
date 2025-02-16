@@ -13,3 +13,8 @@ plugins {
 
 
 }
+buildscript {
+    dependencies {
+        classpath(libs.resources.generator)
+    }
+}

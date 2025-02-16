@@ -11,6 +11,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.Button
 import androidx.compose.material.Switch
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -19,11 +22,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import org.jetbrains.compose.resources.stringResource
+import org.zayn.teamhub.SharedRes
 import org.zayn.teamhub.core.desgin_repo.CustomTextField
 import org.zayn.teamhub.core.desgin_repo.MailEditText
 import org.zayn.teamhub.core.desgin_repo.PasswordEditText
 import org.zayn.teamhub.core.models.User
 import org.zayn.teamhub.core.utils.getCurrentTime
+import org.zayn.teamhub.core.utils.getStringResource
 
 @Composable
 fun SignupCompose(
@@ -44,16 +50,19 @@ fun SignupCompose(
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
+        Text(text = getStringResource(SharedRes.strings.hello_x))
         CustomTextField(
             query = firstName,
-            placeHolder = "First Name",
-            onQueryChanged = { firstName = it }
+            placeHolder = getStringResource(SharedRes.strings.hello_x),
+            onQueryChanged = { firstName = it },
+            startIcon = Icons.Default.Person
         )
 
         CustomTextField(
             query = lastName,
             placeHolder = "Last Name",
-            onQueryChanged = { lastName = it }
+            onQueryChanged = { lastName = it },
+            startIcon = Icons.Default.Person
         )
 
         MailEditText(
@@ -64,7 +73,8 @@ fun SignupCompose(
         CustomTextField(
             query = companyId,
             placeHolder = "Company ID",
-            onQueryChanged = { companyId = it }
+            onQueryChanged = { companyId = it },
+            startIcon = Icons.Default.Info
         )
 
         Row(

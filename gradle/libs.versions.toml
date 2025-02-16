@@ -25,6 +25,7 @@ navigationCompose = "2.8.0-alpha10"
 googleGmsGoogleServices = "4.4.2"
 firebaseAuthVersion = "23.1.0"
 androidx-data-store = "1.1.2" #at the time of this article
+resourcesGenerator = "0.22.3"
 
 [libraries]
 firebase-auth = { module = "dev.gitlive:firebase-auth", version.ref = "firebase" }
@@ -53,6 +54,8 @@ kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 multiplatform-settings = { module = "com.russhwolf:multiplatform-settings", version.ref = "multiplatformSettings" }
 navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
+resources = { module = "dev.icerock.moko:resources", version.ref = "resourcesGenerator" }
+resources-generator = { module = "dev.icerock.moko:resources-generator", version.ref = "resourcesGenerator" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
