@@ -11,5 +11,6 @@ object CollectionReference {
     const val LAST_UPDATE = "lastUpdate"
     const val CURRENT_STATUS = "currentStatus"
     const val USER_ID = "userId"
+    const val CREATED_AT = "createdAt"
 
 }

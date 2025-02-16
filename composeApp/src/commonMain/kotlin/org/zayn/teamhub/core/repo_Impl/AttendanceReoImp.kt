@@ -38,4 +38,13 @@ class AttendanceReoImp(
             operationName = "getAttendanceByUser"
         )
     }
+
+    override suspend fun getTodayWorkingHours(): Flow<NetworkResult<List<Attendance>>> {
+        val userId = auth.currentUser?.uid ?: ""
+        return firestore.fetchQueryAsFlow(
+            collection = FirebaseCollections.ATTENDANCE_COLLECTION,
+            queryBuilder = { this.where { CollectionReference.USER_ID equalTo userId }.where { CollectionReference. } },
+            operationName = "getAttendanceByUser"
+        )
+    }
 }
