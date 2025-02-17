@@ -6,6 +6,6 @@ import org.zayn.teamhub.core.repo.IAttendanceRepo
 class AddAttendanceLogUseCase(
     private val attendanceRepo: IAttendanceRepo
 ) {
-    suspend operator fun invoke(attendanceType: AttendanceType) =
-        attendanceRepo.addAttendance(attendanceType)
+    suspend operator fun invoke(attendanceType: AttendanceType, lat: Double?, lon: Double?) =
+        attendanceRepo.addAttendance(type = attendanceType, lat = lat, log = lon)
 }

@@ -119,6 +119,9 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 }
+dependencies {
+    implementation(libs.play.services.location)
+}
 
 
 compose.desktop {

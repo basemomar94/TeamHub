@@ -26,6 +26,7 @@ googleGmsGoogleServices = "4.4.2"
 firebaseAuthVersion = "23.1.0"
 androidx-data-store = "1.1.2" #at the time of this article
 resourcesGenerator = "0.22.3"
+playServicesLocation = "21.3.0"
 
 [libraries]
 firebase-auth = { module = "dev.gitlive:firebase-auth", version.ref = "firebase" }
@@ -56,6 +57,7 @@ multiplatform-settings = { module = "com.russhwolf:multiplatform-settings", vers
 navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 resources = { module = "dev.icerock.moko:resources", version.ref = "resourcesGenerator" }
 resources-generator = { module = "dev.icerock.moko:resources-generator", version.ref = "resourcesGenerator" }
+play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "playServicesLocation" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

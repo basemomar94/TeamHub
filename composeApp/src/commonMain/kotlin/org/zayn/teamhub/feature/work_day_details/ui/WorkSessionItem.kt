@@ -16,6 +16,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
 import org.zayn.teamhub.core.models.WorkSession
+import org.zayn.teamhub.core.utils.Logger
+import org.zayn.teamhub.core.utils.Logger.Companion.createLogger
+import org.zayn.teamhub.core.utils.openMap
 import org.zayn.teamhub.core.utils.toLocalizedTime
 import org.zayn.teamhub.core.utils.toWorkDuration
 import teamhub.composeapp.generated.resources.Res
@@ -24,6 +27,7 @@ import teamhub.composeapp.generated.resources.clock_out
 
 @Composable
 fun WorkSessionItem(session: WorkSession) {
+    val logger = Logger.createLogger("WorkSessionItem")
     val clockInText = session.clockInTime?.toLocalizedTime() ?: "No Clock-In"
     val clockOutText = session.clockOutTime?.toLocalizedTime() ?: "Still Clocked In"
 
@@ -47,20 +51,30 @@ fun WorkSessionItem(session: WorkSession) {
                 .padding(16.dp)
                 .fillMaxWidth()
         ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(text = stringResource(Res.string.clock_in), fontWeight = FontWeight.Bold)
-                Text(text = clockInText)
-            }
+            SessionItem(label = stringResource(Res.string.clock_in), text = clockInText) {
+                val lat = session.clockInLocation?.lat
+                val long = session.clockInLocation?.long
+                if (lat != null && long != null) {
+                    openMap(
+                        latitude = lat,
+                        longitude = long
+                    )
+                } else {
+                    logger.e("location isn't provided")
+                }
 
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(text = stringResource(Res.string.clock_out), fontWeight = FontWeight.Bold)
-                Text(text = clockOutText)
+            }
+            SessionItem(label = stringResource(Res.string.clock_out), text = clockOutText) {
+                val lat = session.clockOutLocation?.lat
+                val long = session.clockOutLocation?.long
+                if (lat != null && long != null) {
+                    openMap(
+                        latitude = lat,
+                        longitude = long
+                    )
+                } else {
+                    logger.e("location isn't provided")
+                }
             }
 
             Divider(modifier = Modifier.padding(vertical = 8.dp))

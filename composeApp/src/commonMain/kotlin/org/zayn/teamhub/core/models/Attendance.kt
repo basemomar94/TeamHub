@@ -1,6 +1,5 @@
 package org.zayn.teamhub.core.models
 
-import dev.gitlive.firebase.firestore.Timestamp
 import kotlinx.serialization.Serializable
 
 @Serializable

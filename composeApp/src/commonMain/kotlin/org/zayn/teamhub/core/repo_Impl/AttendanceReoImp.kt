@@ -18,9 +18,15 @@ class AttendanceReoImp(
     private val firestore: FirebaseFirestore,
     private val auth: FirebaseAuth,
 ) : BaseRepo(), IAttendanceRepo {
-    override suspend fun addAttendance(type: AttendanceType): Flow<NetworkResult<String>> {
+    override suspend fun addAttendance(
+        type: AttendanceType,
+        lat: Double?,
+        log: Double?
+    ): Flow<NetworkResult<String>> {
         val attendance =
             Attendance(
+                lat = lat,
+                long = log,
                 userId = auth.currentUser?.uid ?: "N/A",
                 createdAt = getCurrentTime(),
                 type = type.name
@@ -44,8 +50,7 @@ class AttendanceReoImp(
                 this.where { CollectionReference.USER_ID equalTo userId }
                     .where { CollectionReference.CREATED_AT greaterThanOrEqualTo start }
                     .where { CollectionReference.CREATED_AT lessThanOrEqualTo end }
-            }
-            ,
+            },
             operationName = "getAttendanceByUser"
         )
     }

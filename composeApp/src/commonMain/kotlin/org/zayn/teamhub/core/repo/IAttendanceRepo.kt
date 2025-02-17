@@ -7,7 +7,11 @@ import org.zayn.teamhub.core.utils.networkresultwrapper.NetworkResult
 
 interface IAttendanceRepo {
 
-    suspend fun addAttendance(type: AttendanceType): Flow<NetworkResult<String>>
+    suspend fun addAttendance(
+        type: AttendanceType,
+        lat: Double?,
+        log: Double?
+    ): Flow<NetworkResult<String>>
 
     suspend fun getAttendanceByUser(
         userId: String,

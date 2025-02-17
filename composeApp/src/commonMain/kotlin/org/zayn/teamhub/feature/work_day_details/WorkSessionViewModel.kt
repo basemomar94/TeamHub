@@ -3,6 +3,7 @@ package org.zayn.teamhub.feature.work_day_details
 import org.zayn.teamhub.core.base.BaseViewModel
 import org.zayn.teamhub.core.models.Attendance
 import org.zayn.teamhub.core.models.AttendanceType
+import org.zayn.teamhub.core.models.Location
 import org.zayn.teamhub.core.models.WorkSession
 import org.zayn.teamhub.core.usecases.GetAttendanceByUser
 import org.zayn.teamhub.core.utils.Logger.Companion.createLogger
@@ -53,7 +54,7 @@ class WorkSessionViewModel(private val getAttendanceByUser: GetAttendanceByUser)
     private fun List<Attendance>.mapAttendanceToPairs(): List<WorkSession> {
         val sortedRecords = this.sortedBy { it.createdAt } // Sort records by time
         val result = mutableListOf<WorkSession>()
-        var lastClockIn: Long? = null
+        var lastClockIn: Attendance? = null
 
         sortedRecords.forEach { record ->
             val attendanceType = try {
@@ -65,14 +66,24 @@ class WorkSessionViewModel(private val getAttendanceByUser: GetAttendanceByUser)
 
             when (attendanceType) {
                 AttendanceType.CLOCK_IN -> {
-                    lastClockIn = record.createdAt
-                    logger.d("User clocked in at $lastClockIn")
+                    lastClockIn = record
+                    logger.d("User clocked in at ${record.createdAt}")
                 }
 
                 AttendanceType.CLOCK_OUT -> {
-                    lastClockIn?.let { clockInTime ->
-                        result.add(WorkSession(clockInTime, record.createdAt))
-                        logger.d("User clocked out at ${record.createdAt}, worked: ${(record.createdAt - clockInTime) / 1000} seconds")
+                    lastClockIn?.let { clockInRecord ->
+                        result.add(
+                            WorkSession(
+                                clockInTime = clockInRecord.createdAt,
+                                clockOutTime = record.createdAt,
+                                clockInLocation = Location(
+                                    clockInRecord.lat,
+                                    clockInRecord.long
+                                ),
+                                clockOutLocation = Location(record.lat, record.long)
+                            )
+                        )
+                        logger.d("User clocked out at ${record.createdAt}, worked: ${(record.createdAt - clockInRecord.createdAt) / 1000} seconds")
                         lastClockIn = null
                     } ?: logger.w("Clock out without a preceding clock in at ${record.createdAt}")
                 }
@@ -80,9 +91,17 @@ class WorkSessionViewModel(private val getAttendanceByUser: GetAttendanceByUser)
                 else -> logger.w("Unknown attendance type: ${record.type}")
             }
         }
+
         lastClockIn?.let {
-            result.add(WorkSession(it, null))
-            logger.d("User still clocked in at $it, no clock out found")
+            result.add(
+                WorkSession(
+                    clockInTime = it.createdAt,
+                    clockOutTime = null,
+                    clockInLocation = Location(it.lat, it.long),
+                    clockOutLocation = Location(null, null)
+                )
+            )
+            logger.d("User still clocked in at ${it.createdAt}, no clock out found")
         }
 
         return result

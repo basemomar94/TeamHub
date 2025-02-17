@@ -6,6 +6,7 @@ import org.zayn.teamhub.core.models.AttendanceType
 import org.zayn.teamhub.core.usecases.AddAttendanceLogUseCase
 import org.zayn.teamhub.core.usecases.GetCurrentUserUseCase
 import org.zayn.teamhub.core.usecases.UpdateUserAttendanceUseCase
+import org.zayn.teamhub.core.utils.getCurrentLocation
 import org.zayn.teamhub.core.utils.networkresultwrapper.NetworkResult
 
 class HomeViewModel(
@@ -27,9 +28,14 @@ class HomeViewModel(
     }
 
     private suspend fun addAttendance(type: AttendanceType) {
+        val location = getCurrentLocation()
         launchAndCollectResult(
             flow = combine(
-                attendanceUseCase(type),
+                attendanceUseCase(
+                    attendanceType = type,
+                    lat = location?.first,
+                    lon = location?.second
+                ),
                 updateUserAttendanceUseCase(type)
             ) { attendance, updateAttendance ->
                 Pair(attendance, updateAttendance)

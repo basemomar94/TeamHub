@@ -30,7 +30,6 @@ import org.zayn.teamhub.core.desgin_repo.LoadingIndicator
 import org.zayn.teamhub.core.desgin_repo.Vspacer
 import org.zayn.teamhub.core.models.AttendanceType
 import org.zayn.teamhub.core.models.User
-import org.zayn.teamhub.core.utils.isDeveloperOptionEnabled
 import org.zayn.teamhub.core.utils.toLocalizedDateTime
 import org.zayn.teamhub.feature.home.HomeEvent
 import org.zayn.teamhub.feature.home.HomeSideEffect
@@ -39,7 +38,6 @@ import org.zayn.teamhub.feature.home.HomeViewModel
 import teamhub.composeapp.generated.resources.Res
 import teamhub.composeapp.generated.resources.clock_in
 import teamhub.composeapp.generated.resources.clock_out
-import teamhub.composeapp.generated.resources.login
 
 @Composable
 fun HomeScreen(viewModel: HomeViewModel = koinInject()) {
@@ -66,6 +64,7 @@ fun HomeScreen(viewModel: HomeViewModel = koinInject()) {
             is HomeState.UserData -> {
                 (state as HomeState.UserData).user?.let {
                     HomeCompose(it) { type ->
+
                         if (true) {
                             viewModel.setEvent(HomeEvent.AddAttendance(type))
                         } else {
