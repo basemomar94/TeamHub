@@ -31,6 +31,7 @@ import org.zayn.teamhub.feature.usersList.presentation.UserListViewModel
 import org.zayn.teamhub.feature.sign_up.SignupViewModel
 import org.zayn.teamhub.feature.work_summary.WorkSummaryViewModel
 import org.zayn.teamhub.feature.work_day_details.WorkSessionViewModel
+import org.zayn.teamhub.feature.profile.ProfileViewModel
 
 
 private val repoModules = module {
@@ -47,6 +48,7 @@ private val viewModelsModules = module {
     viewModelOf(::SignupViewModel)
     viewModelOf(::WorkSummaryViewModel)
     viewModelOf(::WorkSessionViewModel)
+    viewModelOf(::ProfileViewModel)
 }
 
 private val useCasesModules = module {

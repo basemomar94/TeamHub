@@ -1,4 +1,4 @@
-package org.zayn.teamhub.feature.profile
+package org.zayn.teamhub.feature.profile.ui
 
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items

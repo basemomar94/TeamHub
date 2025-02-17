@@ -1,6 +1,7 @@
 package org.zayn.teamhub.feature.work_summary.ui
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.SnackbarHostState
 import androidx.compose.runtime.Composable
@@ -54,7 +55,17 @@ fun WorkDaySummaryScreen(
         when (state) {
             WorkSummaryState.Loading -> LoadingIndicator()
             is WorkSummaryState.Success -> {
-                (state as WorkSummaryState.Success).attendanceList?.let { AttendanceList(workdayList=it, onWorkDayClick = onDayClick) }
+
+                (state as WorkSummaryState.Success).attendanceList?.let {
+                    Column {
+                        AttendanceSummary(
+                            totalDays = it.size,
+                            totalHours = (it.sumOf { it.totalMinutesWorked } / 60).toInt()
+                        )
+                        AttendanceList(workdayList = it, onWorkDayClick = onDayClick)
+                    }
+
+                }
             }
 
             WorkSummaryState.UnInitialized -> {

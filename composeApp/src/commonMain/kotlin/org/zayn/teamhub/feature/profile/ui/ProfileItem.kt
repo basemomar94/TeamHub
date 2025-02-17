@@ -1,4 +1,4 @@
-package org.zayn.teamhub.feature.profile
+package org.zayn.teamhub.feature.profile.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
@@ -24,7 +23,7 @@ import androidx.compose.ui.unit.dp
 fun ProfileItemCompose(profileItem: ProfileItem, onClick: (ProfileItem) -> Unit) {
     Column(modifier =Modifier.padding(12.dp) ) {
         Row(
-            modifier = Modifier.clickable { onClick(profileItem) },
+            modifier = Modifier.fillMaxWidth().clickable { onClick(profileItem) },
             horizontalArrangement = Arrangement.spacedBy(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
