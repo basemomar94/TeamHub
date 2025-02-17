@@ -7,11 +7,11 @@ data class User(
     val id: String? = "",
     val firstName: String? = "",
     val lastName: String? = "",
-    val isAdmin: Boolean? = false,
     val companyId: String? = "",
     val email: String? = "",
     val password: String? = "",
     val createdAt: Long? = 0L,
     val lastUpdate: Long? = 0L,
-    val currentStatus: String? = null
+    val currentStatus: String? = null,
+    val role: String? = null,
 )

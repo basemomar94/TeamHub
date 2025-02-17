@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import org.zayn.teamhub.core.desgin_repo.CustomTextField
 import org.zayn.teamhub.core.desgin_repo.MailEditText
 import org.zayn.teamhub.core.desgin_repo.PasswordEditText
+import org.zayn.teamhub.core.models.Roles
 import org.zayn.teamhub.core.models.User
 import org.zayn.teamhub.core.utils.getCurrentTime
 
@@ -39,6 +40,7 @@ fun SignupCompose(
     var email by remember { mutableStateOf("") }
     var companyId by remember { mutableStateOf("") }
     var isAdmin by remember { mutableStateOf(false) }
+    var userRole by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
     Column(
@@ -97,7 +99,7 @@ fun SignupCompose(
                     lastName = lastName,
                     email = email,
                     companyId = companyId,
-                    isAdmin = isAdmin,
+                    role = if (isAdmin) Roles.ADMIN.name else Roles.USER.name,
                     password = password,
                     createdAt = getCurrentTime()
                 )

@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import org.zayn.teamhub.core.models.AttendanceType
+import org.zayn.teamhub.core.models.Roles
 import org.zayn.teamhub.core.models.User
 import org.zayn.teamhub.core.utils.Logger
 import org.zayn.teamhub.core.utils.Logger.Companion.createLogger
@@ -37,7 +38,8 @@ fun UserItem(
             .clickable {
                 user.id?.let {
                     Logger.createLogger("UserItem").d("clicked in $it")
-                    onUserClick(it) }
+                    onUserClick(it)
+                }
 
 
             },
@@ -81,7 +83,7 @@ fun UserItem(
             )
         )
 
-        if (user.isAdmin == true) {
+        if (user.role == Roles.ADMIN.name) {
             Text(
                 text = "Admin",
                 color = MaterialTheme.colors.secondary,
