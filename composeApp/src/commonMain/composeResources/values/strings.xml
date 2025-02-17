@@ -1,0 +1,5 @@
+<resources>
+    <string name="test">Team Hub</string>
+    <string name="enter_mail">Enter your email</string>
+    <string name="enter_password">Enter your password</string>
+</resources>

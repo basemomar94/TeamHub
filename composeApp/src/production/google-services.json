@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "194037601926",
+    "project_id": "teams-hub",
+    "storage_bucket": "teams-hub.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:194037601926:android:3549b9e85c4beefce16307",
+        "android_client_info": {
+          "package_name": "org.zayn.teamhub"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqQJ5s1cDq9Iu9LwBEkEwUAtYDRcYsHhk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

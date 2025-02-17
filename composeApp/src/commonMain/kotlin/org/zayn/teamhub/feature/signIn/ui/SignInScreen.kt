@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 import org.zayn.teamhub.core.base.SideEffectsKey
 import org.zayn.teamhub.core.desgin_repo.BaseSnackBar
@@ -40,6 +41,9 @@ import org.zayn.teamhub.feature.signIn.SignInEvent
 import org.zayn.teamhub.feature.signIn.SignInSideEffect
 import org.zayn.teamhub.feature.signIn.SignInState
 import org.zayn.teamhub.feature.signIn.SignInViewModel
+import teamhub.composeapp.generated.resources.Res
+import teamhub.composeapp.generated.resources.enter_mail
+import teamhub.composeapp.generated.resources.enter_password
 
 @Composable
 fun SignInScreen(
@@ -82,7 +86,7 @@ fun SignInScreen(
             }
         }
 
-        BaseSnackBar(snackBarHostState,Modifier.align(Alignment.BottomCenter),)
+        BaseSnackBar(snackBarHostState, Modifier.align(Alignment.BottomCenter))
     }
 }
 
@@ -91,11 +95,11 @@ fun SignIn(onSigInClick: (String, String) -> Unit, onSignUpClick: () -> Unit) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     Column(modifier = Modifier.padding(22.dp)) {
-        CustomTextField(placeHolder = "Enter Mail", query = email) {
+        CustomTextField(placeHolder = stringResource(Res.string.enter_mail), query = email) {
             email = it
         }
         Spacer(modifier = Modifier.height(8.dp))
-        CustomTextField(placeHolder = "Enter Password", query = password) {
+        CustomTextField(placeHolder = stringResource(Res.string.enter_password), query = password) {
             password = it
         }
         Spacer(modifier = Modifier.height(8.dp))

@@ -1,0 +1,5 @@
+<resources>
+    <string name="test">Team Hub</string>
+    <string name="enter_mail">ادخل الايميل</string>
+    <string name="enter_password">ادخل الباسورد</string>
+</resources>
