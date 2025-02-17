@@ -24,6 +24,9 @@ import org.zayn.teamhub.core.utils.toWorkDuration
 import teamhub.composeapp.generated.resources.Res
 import teamhub.composeapp.generated.resources.clock_in
 import teamhub.composeapp.generated.resources.clock_out
+import teamhub.composeapp.generated.resources.hr
+import teamhub.composeapp.generated.resources.mins
+import teamhub.composeapp.generated.resources.total_time
 
 @Composable
 fun WorkSessionItem(session: WorkSession) {
@@ -37,7 +40,11 @@ fun WorkSessionItem(session: WorkSession) {
         null
     }
 
-    val totalTimeText = totalMinutesWorked?.toWorkDuration() ?: "Ongoing session"
+    val totalTime = totalMinutesWorked?.toWorkDuration()
+    val totalTimeText =
+        "${totalTime?.hours} ${stringResource(Res.string.hr)} ${totalTime?.minutes} ${
+            stringResource(Res.string.mins)
+        }"
 
     Card(
         modifier = Modifier
@@ -84,7 +91,7 @@ fun WorkSessionItem(session: WorkSession) {
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    text = "Total Time:",
+                    text = stringResource(Res.string.total_time),
                     fontWeight = FontWeight.Bold,
                     color = Color(0xFF388E3C)
                 )

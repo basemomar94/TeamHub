@@ -8,6 +8,7 @@ import kotlinx.datetime.atStartOfDayIn
 import kotlinx.datetime.atTime
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
+import org.zayn.teamhub.core.models.Time
 import org.zayn.teamhub.core.utils.Logger.Companion.createLogger
 
 fun getCurrentTime() = Clock.System.now().toEpochMilliseconds()
@@ -16,20 +17,19 @@ expect fun Long?.toLocalizedDateTime(): String
 
 expect fun Long?.toLocalizedDate(): String
 
-fun Long?.toWorkDuration(): String {
+fun Long?.toWorkDuration(): Time {
 
-    if (this == null || this <= 0) return "0 mins"
+    if (this == null || this <= 0) return Time(0, 0)
 
     val hours = this / 60
     val minutes = this % 60
 
     return when {
-        hours > 0 && minutes > 0 -> "$hours hr${if (hours > 1) "s" else ""} $minutes min${if (minutes > 1) "s" else ""}"
-        hours > 0 -> "$hours hr${if (hours > 1) "s" else ""}"
-        else -> "$minutes min${if (minutes > 1) "s" else ""}"
+        hours > 0 && minutes > 0 -> Time(hours.toInt(), minutes.toInt())
+        hours > 0 -> Time(hours.toInt(), 0)
+        else -> Time(0, minutes.toInt())
     }
 }
-
 
 
 fun getStartOfCurrentMonth(): Long {

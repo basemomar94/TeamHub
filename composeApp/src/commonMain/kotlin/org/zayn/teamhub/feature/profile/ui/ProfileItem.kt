@@ -18,17 +18,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import org.jetbrains.compose.resources.StringResource
+import org.jetbrains.compose.resources.stringResource
+import teamhub.composeapp.generated.resources.Res
+import teamhub.composeapp.generated.resources.log_out
+import teamhub.composeapp.generated.resources.my_attendance
 
 @Composable
 fun ProfileItemCompose(profileItem: ProfileItem, onClick: (ProfileItem) -> Unit) {
-    Column(modifier =Modifier.padding(12.dp) ) {
+    Column(modifier = Modifier.padding(12.dp)) {
         Row(
             modifier = Modifier.fillMaxWidth().clickable { onClick(profileItem) },
             horizontalArrangement = Arrangement.spacedBy(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Image(imageVector = profileItem.icon, contentDescription = profileItem.title)
-            Text(text = profileItem.title, modifier = Modifier)
+            Image(imageVector = profileItem.icon, contentDescription = "")
+            Text(text = stringResource(profileItem.title), modifier = Modifier)
             Image(
                 imageVector = Icons.AutoMirrored.Default.ArrowForward,
                 contentDescription = "",
@@ -43,7 +48,7 @@ fun ProfileItemCompose(profileItem: ProfileItem, onClick: (ProfileItem) -> Unit)
 }
 
 data class ProfileItem(
-    val title: String,
+    val title: StringResource,
     val icon: ImageVector,
     val action: ProfileAction,
 )
@@ -53,13 +58,13 @@ enum class ProfileAction {
 }
 
 val attendanceItem = ProfileItem(
-    title = "My Attendance",
+    title = Res.string.my_attendance,
     icon = Icons.Default.Person,
     action = ProfileAction.ATTENDANCE
 )
 
 val logoutItem = ProfileItem(
-    title = "Log out",
+    title = Res.string.log_out,
     icon = Icons.Default.Lock,
     action = ProfileAction.LOG_OUT
 )

@@ -24,4 +24,10 @@
     <string name="total_working_hours">إجمالي ساعات العمل هذا الشهر %1$d</string>
     <string name="total_worked">إجمالي العمل: %1$d ساعة %2$d دقيقة</string>
     <string name="last_update">اخر تحديث</string>
+    <string name="total_time">إجمالي الوقت:</string>
+    <string name="hr">ساعة</string>
+    <string name="mins">دقيقة</string>
+    <string name="my_attendance">حضوري</string>
+    <string name="log_out">تسجيل الخروج</string>
+
 </resources>

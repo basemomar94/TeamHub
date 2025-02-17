@@ -16,8 +16,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import org.jetbrains.compose.resources.stringResource
 import org.zayn.teamhub.core.models.WorkDaySummary
 import org.zayn.teamhub.core.utils.toWorkDuration
+import teamhub.composeapp.generated.resources.Res
+import teamhub.composeapp.generated.resources.hr
+import teamhub.composeapp.generated.resources.mins
 
 @Composable
 fun AttendanceItem(summary: WorkDaySummary, onDayClick: (WorkDaySummary) -> Unit) {
@@ -40,17 +44,20 @@ fun AttendanceItem(summary: WorkDaySummary, onDayClick: (WorkDaySummary) -> Unit
                 fontSize = 18.sp,
                 modifier = Modifier.padding(bottom = 8.dp)
             )
+            val totalTime = summary.totalMinutesWorked.toWorkDuration()
+            val totalTimeText =
+                "${totalTime.hours} ${stringResource(Res.string.hr)} ${totalTime.minutes} ${
+                    stringResource(Res.string.mins)
+                }"
 
-            // Work Duration using the extension function
             Text(
-                text = "Total Worked: ${summary.totalMinutesWorked.toWorkDuration()}",
+                text = totalTimeText,
                 fontSize = 14.sp,
                 color = Color.Gray
             )
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Progress Indicator (Optional)
             LinearProgressIndicator(
                 progress = (summary.totalMinutesWorked / 480f).coerceIn(
                     0f,
