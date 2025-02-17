@@ -6,7 +6,7 @@ import org.zayn.teamhub.core.base.ViewState
 import org.zayn.teamhub.core.models.WorkSession
 
 sealed class WorkDayEvent : ViewEvent {
-    data class GetDayDetails(val userId: String) : WorkDayEvent()
+    data class GetDayDetails(val userId: String, val startOfDay: Long, val endOfDay: Long) : WorkDayEvent()
 }
 
 sealed class WorkDayState : ViewState {

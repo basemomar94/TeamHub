@@ -18,6 +18,7 @@ import org.koin.compose.viewmodel.koinViewModel
 import org.zayn.teamhub.core.base.SideEffectsKey
 import org.zayn.teamhub.core.desgin_repo.BaseSnackBar
 import org.zayn.teamhub.core.desgin_repo.LoadingIndicator
+import org.zayn.teamhub.core.models.WorkDaySummary
 import org.zayn.teamhub.feature.work_summary.WorkSummaryEffect
 import org.zayn.teamhub.feature.work_summary.WorkSummaryEvent
 import org.zayn.teamhub.feature.work_summary.WorkSummaryState
@@ -26,7 +27,7 @@ import org.zayn.teamhub.feature.work_summary.WorkSummaryViewModel
 @Composable
 fun WorkDaySummaryScreen(
     userId: String,
-    onDayClick: (String) -> Unit,
+    onDayClick: (WorkDaySummary) -> Unit,
     viewModel: WorkSummaryViewModel = koinViewModel(),
 ) {
     val state by viewModel.viewState.collectAsState()

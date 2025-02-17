@@ -100,7 +100,15 @@ private fun TeamHubNavigationHost(navController: NavHostController, isAuthentica
             if (userId != null) {
                 WorkDaySummaryScreen(
                     userId = userId,
-                    onDayClick = { navController.navigate(Screen.WorkSessions.createRoute(it)) })
+                    onDayClick = {
+                        navController.navigate(
+                            Screen.WorkSessions.createRoute(
+                                userId = it.userId,
+                                startOfDay = it.startOfDay ?: -1L,
+                                endOfDay = it.endOfDay ?: -1L
+                            )
+                        )
+                    })
             }
         }
         composable(
@@ -108,8 +116,14 @@ private fun TeamHubNavigationHost(navController: NavHostController, isAuthentica
             arguments = Screen.WorkSessions.navArguments
         ) { backStackEntry ->
             val userId = backStackEntry.arguments?.getString("userId")
+            val startOfDay = backStackEntry.arguments?.getLong("startOfDay")
+            val endOfDay = backStackEntry.arguments?.getLong("endOfDay")
             if (userId != null) {
-                WorkDayScreen(userId = userId)
+                WorkDayScreen(
+                    userId = userId,
+                    startOfDay = startOfDay ?: -1L,
+                    endOfDay = endOfDay ?: -1L
+                )
             }
 
         }

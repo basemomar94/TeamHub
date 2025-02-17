@@ -20,11 +20,11 @@ import org.zayn.teamhub.core.models.WorkDaySummary
 import org.zayn.teamhub.core.utils.toWorkDuration
 
 @Composable
-fun AttendanceItem(summary: WorkDaySummary, onDayClick: (String) -> Unit) {
+fun AttendanceItem(summary: WorkDaySummary, onDayClick: (WorkDaySummary) -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp).clickable { summary.userId?.let { onDayClick(it) } },
+            .padding(8.dp).clickable { summary.userId?.let { onDayClick(summary) } },
         elevation = 4.dp,
         shape = RoundedCornerShape(12.dp)
     ) {

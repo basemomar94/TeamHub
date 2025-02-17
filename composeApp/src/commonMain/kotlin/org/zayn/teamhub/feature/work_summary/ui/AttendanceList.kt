@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 import org.zayn.teamhub.core.models.WorkDaySummary
 
 @Composable
-fun AttendanceList(workdayList: List<WorkDaySummary>, onWorkDayClick: (String) -> Unit) {
+fun AttendanceList(workdayList: List<WorkDaySummary>, onWorkDayClick: (WorkDaySummary) -> Unit) {
     LazyColumn {
         items(workdayList) { work ->
             AttendanceItem(work){

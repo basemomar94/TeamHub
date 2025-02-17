@@ -25,13 +25,20 @@ sealed class Screen(
     }
 
     data object WorkSessions : Screen(
-        route = "WorkSessions/{userId}",
+        route = "WorkSessions/{userId}/{startOfDay}/{endOfDay}",
         navArguments = listOf(navArgument("userId") {
             type = NavType.StringType
             nullable = true
-        })
+        }, navArgument("startOfDay") {
+            type = NavType.LongType
+        }, navArgument("endOfDay") {
+            type = NavType.LongType
+        }
+
+        )
     ) {
-        fun createRoute(userId: String?) = "WorkSessions/${userId}"
+        fun createRoute(userId: String?, startOfDay: Long, endOfDay: Long) =
+            "WorkSessions/${userId}/${startOfDay}/${endOfDay}"
 
     }
 

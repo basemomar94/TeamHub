@@ -5,7 +5,6 @@ import org.zayn.teamhub.core.models.Attendance
 import org.zayn.teamhub.core.models.AttendanceType
 import org.zayn.teamhub.core.models.WorkDaySummary
 import org.zayn.teamhub.core.usecases.GetAttendanceByUser
-import org.zayn.teamhub.core.utils.Logger
 import org.zayn.teamhub.core.utils.Logger.Companion.createLogger
 import org.zayn.teamhub.core.utils.getCurrentTime
 import org.zayn.teamhub.core.utils.getEndOfCurrentMonth
@@ -93,6 +92,8 @@ class WorkSummaryViewModel(private val getAttendanceByUser: GetAttendanceByUser)
                 }
 
                 WorkDaySummary(
+                    startOfDay = records.minByOrNull { it.createdAt }?.createdAt ?: 0L,
+                    endOfDay = records.maxByOrNull { it.createdAt }?.createdAt ?: 0L,
                     date = date,
                     totalMinutesWorked = totalWorkTime / 60000,
                     userId = records.firstOrNull()?.userId

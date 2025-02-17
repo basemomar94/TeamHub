@@ -6,8 +6,6 @@ import org.zayn.teamhub.core.models.AttendanceType
 import org.zayn.teamhub.core.models.WorkSession
 import org.zayn.teamhub.core.usecases.GetAttendanceByUser
 import org.zayn.teamhub.core.utils.Logger.Companion.createLogger
-import org.zayn.teamhub.core.utils.getCurrentTime
-import org.zayn.teamhub.core.utils.getStartOfDayMillis
 import org.zayn.teamhub.core.utils.networkresultwrapper.NetworkResult
 
 class WorkSessionViewModel(private val getAttendanceByUser: GetAttendanceByUser) :
@@ -20,17 +18,21 @@ class WorkSessionViewModel(private val getAttendanceByUser: GetAttendanceByUser)
 
     override suspend fun handleEvents(event: WorkDayEvent) {
         when (event) {
-            is WorkDayEvent.GetDayDetails -> getTodayAttendance(event.userId)
+            is WorkDayEvent.GetDayDetails -> getTodayAttendance(
+                userId = event.userId,
+                startOfDay = event.startOfDay,
+                endOfDay = event.endOfDay
+            )
         }
     }
 
-    private suspend fun getTodayAttendance(userId: String) {
+    private suspend fun getTodayAttendance(userId: String, startOfDay: Long, endOfDay: Long) {
         launchAndCollectResult(
             tag = "getTodayAttendance for $userId",
             flow = getAttendanceByUser(
                 userId = userId,
-                start = getStartOfDayMillis(),
-                end = getCurrentTime()
+                start = startOfDay,
+                end = endOfDay
             ),
             resultSuccess = { result ->
                 if (result is NetworkResult.Success) {
