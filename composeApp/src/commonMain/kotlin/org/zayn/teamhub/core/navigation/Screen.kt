@@ -13,6 +13,7 @@ sealed class Screen(
     data object DashBoard : Screen("Dashboard")
     data object UsersList : Screen("users_list")
     data object SignUp : Screen("sign_up")
+    data object Profile : Screen("Profile")
     data object WorkSummary : Screen(
         route = "WorkSummary/{userId}",
         navArguments = listOf(navArgument("userId") {

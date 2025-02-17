@@ -18,6 +18,8 @@ import org.zayn.teamhub.feature.dashboard.DashBoardScreen
 import org.zayn.teamhub.feature.sign_up.SignupScreen
 import org.zayn.teamhub.feature.usersList.presentation.UsersListScreen
 import org.zayn.teamhub.feature.home.ui.HomeScreen
+import org.zayn.teamhub.feature.profile.ProfileAction
+import org.zayn.teamhub.feature.profile.ProfileScreen
 import org.zayn.teamhub.feature.signIn.ui.SignInScreen
 import org.zayn.teamhub.feature.work_day_details.ui.WorkDayScreen
 import org.zayn.teamhub.feature.work_summary.ui.WorkDaySummaryScreen
@@ -79,6 +81,14 @@ private fun TeamHubNavigationHost(navController: NavHostController, isAuthentica
         }
         composable(route = Screen.Home.route) {
             HomeScreen()
+        }
+        composable(route = Screen.Profile.route) {
+            ProfileScreen() { item ->
+                when (item.action) {
+                    ProfileAction.LOG_OUT -> navController.navigate(route = Screen.SignIn.route)
+                    ProfileAction.ATTENDANCE -> TODO()
+                }
+            }
         }
         composable(route = Screen.DashBoard.route) {
             DashBoardScreen(onUsersClick = { navController.navigate(Screen.UsersList.route) })
