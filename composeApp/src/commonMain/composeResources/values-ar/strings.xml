@@ -1,5 +1,27 @@
 <resources>
-    <string name="test">Team Hub</string>
-    <string name="enter_mail">ادخل الايميل</string>
-    <string name="enter_password">ادخل الباسورد</string>
+    <string name="enter_mail">أدخل بريدك الإلكتروني</string>
+    <string name="enter_password">أدخل كلمة المرور</string>
+    <string name="login">تسجيل الدخول</string>
+    <string name="create_new_account">إنشاء حساب جديد</string>
+    <string name="sign_up">التسجيل</string>
+    <string name="first_name">الاسم الأول</string>
+    <string name="last_name">اسم العائلة</string>
+    <string name="company_id">معرف الشركة</string>
+    <string name="is_admin">مسؤول؟</string>
+    <string name="create_user">إنشاء مستخدم</string>
+    <string name="home">الرئيسية</string>
+    <string name="welcome_user">مرحبًا،</string>
+    <string name="view_profile">عرض الملف الشخصي</string>
+    <string name="clock_in">تسجيل الدخول</string>
+    <string name="clock_out">تسجيل الخروج</string>
+    <string name="dashboard">لوحة التحكم</string>
+    <string name="profile">الملف الشخصي</string>
+    <string name="clock_in_time">وقت تسجيل الدخول: %1$s</string>
+    <string name="clock_out_time">وقت تسجيل الخروج: %1$s</string>
+    <string name="not_available">-- --</string>
+    <string name="work_summary">ملخص العمل</string>
+    <string name="total_working_days">إجمالي أيام العمل هذا الشهر %1$d</string>
+    <string name="total_working_hours">إجمالي ساعات العمل هذا الشهر %1$d</string>
+    <string name="total_worked">إجمالي العمل: %1$d ساعة %2$d دقيقة</string>
+    <string name="last_update">اخر تحديث</string>
 </resources>

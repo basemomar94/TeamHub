@@ -14,9 +14,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import org.jetbrains.compose.resources.stringResource
 import org.zayn.teamhub.core.models.WorkSession
 import org.zayn.teamhub.core.utils.toLocalizedTime
 import org.zayn.teamhub.core.utils.toWorkDuration
+import teamhub.composeapp.generated.resources.Res
+import teamhub.composeapp.generated.resources.clock_in
+import teamhub.composeapp.generated.resources.clock_out
 
 @Composable
 fun WorkSessionItem(session: WorkSession) {
@@ -47,7 +51,7 @@ fun WorkSessionItem(session: WorkSession) {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(text = "Clock In:", fontWeight = FontWeight.Bold)
+                Text(text = stringResource(Res.string.clock_in), fontWeight = FontWeight.Bold)
                 Text(text = clockInText)
             }
 
@@ -55,7 +59,7 @@ fun WorkSessionItem(session: WorkSession) {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(text = "Clock Out:", fontWeight = FontWeight.Bold)
+                Text(text = stringResource(Res.string.clock_out), fontWeight = FontWeight.Bold)
                 Text(text = clockOutText)
             }
 

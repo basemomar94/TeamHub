@@ -11,7 +11,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import org.jetbrains.compose.resources.stringResource
 import org.zayn.teamhub.core.desgin_repo.Vspacer
+import teamhub.composeapp.generated.resources.Res
+import teamhub.composeapp.generated.resources.total_working_days
+import teamhub.composeapp.generated.resources.total_working_hours
 
 
 @Composable
@@ -24,13 +28,13 @@ fun AttendanceSummary(totalDays: Int, totalHours: Int) {
         Column(modifier = Modifier.padding(8.dp).fillMaxWidth()) {
             Text(
                 textAlign = TextAlign.Center,
-                text = "This Month total working days $totalDays",
+                text = stringResource(Res.string.total_working_days, totalDays),
                 style = MaterialTheme.typography.body2
             )
             Vspacer(8.dp)
             Text(
                 textAlign = TextAlign.Center,
-                text = "This Month total working hours $totalHours",
+                text = stringResource(Res.string.total_working_hours, totalHours),
                 style = MaterialTheme.typography.body2
             )
         }

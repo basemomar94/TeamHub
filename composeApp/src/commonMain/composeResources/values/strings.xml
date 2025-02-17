@@ -2,4 +2,27 @@
     <string name="test">Team Hub</string>
     <string name="enter_mail">Enter your email</string>
     <string name="enter_password">Enter your password</string>
+    <string name="login">Login</string>
+    <string name="create_new_account">Create a new account</string>
+    <string name="sign_up">Sign up</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="company_id">Company ID</string>
+    <string name="is_admin">Is Admin?</string>
+    <string name="create_user">Create User</string>
+    <string name="home">Home</string>
+    <string name="welcome_user">Welcome, </string>
+    <string name="view_profile">View Profile</string>
+    <string name="clock_in">Clock In</string>
+    <string name="clock_out">Clock Out</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="profile">Profile</string>
+    <string name="clock_in_time">Clock In Time: %1$s</string>
+    <string name="clock_out_time">Clock Out Time: %1$s</string>
+    <string name="not_available">-- --</string>
+    <string name="work_summary">Work Summary</string>
+    <string name="total_worked">Total Worked: %1$d hr %2$d mins</string>
+    <string name="last_update">Last update</string>
+    <string name="total_working_days">This Month total working days %1$d</string>
+    <string name="total_working_hours">This Month total working hours %1$d</string>
 </resources>

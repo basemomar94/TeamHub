@@ -22,12 +22,20 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import org.jetbrains.compose.resources.stringResource
 import org.zayn.teamhub.core.desgin_repo.CustomTextField
 import org.zayn.teamhub.core.desgin_repo.MailEditText
 import org.zayn.teamhub.core.desgin_repo.PasswordEditText
 import org.zayn.teamhub.core.models.Roles
 import org.zayn.teamhub.core.models.User
 import org.zayn.teamhub.core.utils.getCurrentTime
+import teamhub.composeapp.generated.resources.Res
+import teamhub.composeapp.generated.resources.company_id
+import teamhub.composeapp.generated.resources.create_user
+import teamhub.composeapp.generated.resources.enter_password
+import teamhub.composeapp.generated.resources.first_name
+import teamhub.composeapp.generated.resources.is_admin
+import teamhub.composeapp.generated.resources.last_name
 
 @Composable
 fun SignupCompose(
@@ -51,14 +59,14 @@ fun SignupCompose(
     ) {
         CustomTextField(
             query = firstName,
-            placeHolder = "First Name",
+            placeHolder = stringResource(Res.string.first_name),
             onQueryChanged = { firstName = it },
             startIcon = Icons.Default.Person
         )
 
         CustomTextField(
             query = lastName,
-            placeHolder = "Last Name",
+            placeHolder = stringResource(Res.string.last_name),
             onQueryChanged = { lastName = it },
             startIcon = Icons.Default.Person
         )
@@ -70,7 +78,7 @@ fun SignupCompose(
 
         CustomTextField(
             query = companyId,
-            placeHolder = "Company ID",
+            placeHolder = stringResource(Res.string.company_id),
             onQueryChanged = { companyId = it },
             startIcon = Icons.Default.Info
         )
@@ -79,7 +87,7 @@ fun SignupCompose(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text(text = "Is Admin?")
+            Text(text = stringResource(Res.string.is_admin))
             Spacer(modifier = Modifier.width(8.dp))
             Switch(
                 checked = isAdmin,
@@ -107,7 +115,7 @@ fun SignupCompose(
             },
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text(text = "Create User")
+            Text(text = stringResource(Res.string.create_user))
         }
     }
 }

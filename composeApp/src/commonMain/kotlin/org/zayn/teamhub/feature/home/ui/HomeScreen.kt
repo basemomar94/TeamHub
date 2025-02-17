@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 import org.zayn.teamhub.core.base.SideEffectsKey
 import org.zayn.teamhub.core.desgin_repo.BaseSnackBar
@@ -35,6 +36,10 @@ import org.zayn.teamhub.feature.home.HomeEvent
 import org.zayn.teamhub.feature.home.HomeSideEffect
 import org.zayn.teamhub.feature.home.HomeState
 import org.zayn.teamhub.feature.home.HomeViewModel
+import teamhub.composeapp.generated.resources.Res
+import teamhub.composeapp.generated.resources.clock_in
+import teamhub.composeapp.generated.resources.clock_out
+import teamhub.composeapp.generated.resources.login
 
 @Composable
 fun HomeScreen(viewModel: HomeViewModel = koinInject()) {
@@ -95,7 +100,7 @@ fun HomeCompose(user: User, addAttendance: (AttendanceType) -> Unit) {
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             AttendanceButton(
-                title = "Clock In",
+                title = stringResource(Res.string.clock_in),
                 attendanceTime = if (user.currentStatus == AttendanceType.CLOCK_IN.name) user.lastUpdate.toLocalizedDateTime() else "-- --",
                 isEnabled = user.currentStatus == AttendanceType.CLOCK_OUT.name || user.currentStatus == null
             ) {
@@ -104,7 +109,7 @@ fun HomeCompose(user: User, addAttendance: (AttendanceType) -> Unit) {
             Vspacer(16.dp)
 
             AttendanceButton(
-                title = "Clock Out",
+                title = stringResource(Res.string.clock_out),
                 attendanceTime = if (user.currentStatus == AttendanceType.CLOCK_OUT.name) user.lastUpdate.toLocalizedDateTime() else "-- --",
                 isEnabled = user.currentStatus == AttendanceType.CLOCK_IN.name
 

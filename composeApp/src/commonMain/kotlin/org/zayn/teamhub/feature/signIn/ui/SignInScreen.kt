@@ -42,8 +42,10 @@ import org.zayn.teamhub.feature.signIn.SignInSideEffect
 import org.zayn.teamhub.feature.signIn.SignInState
 import org.zayn.teamhub.feature.signIn.SignInViewModel
 import teamhub.composeapp.generated.resources.Res
+import teamhub.composeapp.generated.resources.create_new_account
 import teamhub.composeapp.generated.resources.enter_mail
 import teamhub.composeapp.generated.resources.enter_password
+import teamhub.composeapp.generated.resources.login
 
 @Composable
 fun SignInScreen(
@@ -103,11 +105,11 @@ fun SignIn(onSigInClick: (String, String) -> Unit, onSignUpClick: () -> Unit) {
             password = it
         }
         Spacer(modifier = Modifier.height(8.dp))
-        DefaultButton("Login", modifier = Modifier.fillMaxWidth()) {
+        DefaultButton(stringResource(Res.string.login), modifier = Modifier.fillMaxWidth()) {
             onSigInClick(email, password)
         }
         Text(style = MaterialTheme.typography.body1,
-            text = "Create a new account",
+            text = stringResource(Res.string.create_new_account),
             textDecoration = TextDecoration.Underline,
             modifier = Modifier.clickable { onSignUpClick() })
 

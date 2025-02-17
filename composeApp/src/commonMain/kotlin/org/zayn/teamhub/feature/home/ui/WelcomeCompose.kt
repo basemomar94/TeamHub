@@ -19,6 +19,11 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import org.jetbrains.compose.resources.stringResource
+import teamhub.composeapp.generated.resources.Res
+import teamhub.composeapp.generated.resources.login
+import teamhub.composeapp.generated.resources.view_profile
+import teamhub.composeapp.generated.resources.welcome_user
 
 @Composable
 fun WelcomeHeader(userFirstName: String, onViewProfileClick: () -> Unit) {
@@ -38,7 +43,7 @@ fun WelcomeHeader(userFirstName: String, onViewProfileClick: () -> Unit) {
                         fontWeight = FontWeight.Bold
                     )
                 ) {
-                    append("Welcome, ")
+                    append(stringResource(Res.string.welcome_user))
                 }
                 withStyle(
                     style = SpanStyle(
@@ -56,7 +61,7 @@ fun WelcomeHeader(userFirstName: String, onViewProfileClick: () -> Unit) {
         Spacer(modifier = Modifier.height(4.dp))
 
         Text(
-            text = "View Profile",
+            text = stringResource(Res.string.view_profile),
             style = MaterialTheme.typography.body1.copy(
                 color = MaterialTheme.colors.primary,
                 textDecoration = TextDecoration.Underline,

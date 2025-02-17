@@ -18,12 +18,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import org.jetbrains.compose.resources.stringResource
 import org.zayn.teamhub.core.models.AttendanceType
 import org.zayn.teamhub.core.models.Roles
 import org.zayn.teamhub.core.models.User
 import org.zayn.teamhub.core.utils.Logger
 import org.zayn.teamhub.core.utils.Logger.Companion.createLogger
 import org.zayn.teamhub.core.utils.toLocalizedDateTime
+import teamhub.composeapp.generated.resources.Res
+import teamhub.composeapp.generated.resources.last_update
 
 @Composable
 fun UserItem(
@@ -37,7 +40,6 @@ fun UserItem(
             .fillMaxWidth()
             .clickable {
                 user.id?.let {
-                    Logger.createLogger("UserItem").d("clicked in $it")
                     onUserClick(it)
                 }
 
@@ -70,7 +72,7 @@ fun UserItem(
                 fontWeight = FontWeight.Bold
             )
             Text(
-                text = if (user.lastUpdate != 0L) "Last update: ${user.lastUpdate.toLocalizedDateTime()}" else "",
+                text = if (user.lastUpdate != 0L)  stringResource(Res.string.last_update) + user.lastUpdate.toLocalizedDateTime() else "",
                 style = MaterialTheme.typography.body2,
                 color = Color.Gray
             )
