@@ -30,14 +30,20 @@ import org.zayn.teamhub.core.desgin_repo.LoadingIndicator
 import org.zayn.teamhub.core.desgin_repo.Vspacer
 import org.zayn.teamhub.core.models.AttendanceType
 import org.zayn.teamhub.core.models.User
+import org.zayn.teamhub.core.utils.Logger
+import org.zayn.teamhub.core.utils.Logger.Companion.createLogger
 import org.zayn.teamhub.core.utils.toLocalizedDateTime
 import org.zayn.teamhub.feature.home.HomeEvent
+import org.zayn.teamhub.feature.home.HomeMessage
 import org.zayn.teamhub.feature.home.HomeSideEffect
 import org.zayn.teamhub.feature.home.HomeState
 import org.zayn.teamhub.feature.home.HomeViewModel
 import teamhub.composeapp.generated.resources.Res
+import teamhub.composeapp.generated.resources.attendance_recorded
 import teamhub.composeapp.generated.resources.clock_in
 import teamhub.composeapp.generated.resources.clock_out
+import teamhub.composeapp.generated.resources.gps_not_allowed
+import teamhub.composeapp.generated.resources.location_permission_required
 
 @Composable
 fun HomeScreen(viewModel: HomeViewModel = koinInject()) {
@@ -45,13 +51,33 @@ fun HomeScreen(viewModel: HomeViewModel = koinInject()) {
     val snackBarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
     var showDeveloperDialog by remember { mutableStateOf(false) }
+    val attendanceRecordedText = stringResource(Res.string.attendance_recorded)
+    val gpsNotAllowedText = stringResource(Res.string.gps_not_allowed)
+    val locationPermissionNotGranted = stringResource(Res.string.location_permission_required)
 
     LaunchedEffect(SideEffectsKey) {
         viewModel.effect.onEach { effect ->
             when (effect) {
                 is HomeSideEffect.ShowSnackBar -> {
                     coroutineScope.launch {
-                        snackBarHostState.showSnackbar(effect.message)
+                        when (effect.message) {
+                            is HomeMessage.ApiError -> snackBarHostState.showSnackbar(effect.message.message)
+                            HomeMessage.AttendanceRecorded -> snackBarHostState.showSnackbar(
+                                attendanceRecordedText
+                            )
+
+                            HomeMessage.GPSNotAllowed -> {
+                                snackBarHostState.showSnackbar(
+                                    gpsNotAllowedText
+                                )
+                            }
+
+                            HomeMessage.LocationNotAllowed -> {
+                                snackBarHostState.showSnackbar(
+                                    locationPermissionNotGranted
+                                )
+                            }
+                        }
                     }
                 }
             }

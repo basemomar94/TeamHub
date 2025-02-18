@@ -72,7 +72,7 @@ fun WorkDaySummaryScreen(
                 viewModel.setEvent(WorkSummaryEvent.LoadUserAttendance(userId))
             }
         }
-        BaseSnackBar(snackBarHostState, Modifier.align(Alignment.BottomCenter))
+        BaseSnackBar(snackBarHostState, modifier = Modifier.align(Alignment.BottomCenter))
 
     }
 

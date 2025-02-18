@@ -30,7 +30,13 @@
     <string name="mins">mins</string>
     <string name="my_attendance">My Attendance</string>
     <string name="log_out">Log Out</string>
-    <string name="session_is_on_going">الجلسة لا تزال مستمرة</string>
-    <string name="still_clocked_in">لا يزال مسجلاً الدخول</string>
-    <string name="no_clock_in">لم يتم تسجيل الدخول</string>
+    <string name="session_is_on_going">The session is still ongoing</string>
+    <string name="still_clocked_in">Still clocked in</string>
+    <string name="no_clock_in">No clock-in</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="attendance_recorded">Attendance recorded successfully</string>
+    <string name="gps_not_allowed">GPS is not allowed. Please enable it in settings.</string>
+    <string name="location_permission_required">Location permission is not granted. Please enable it in settings and try again.</string>
+
+
 </resources>

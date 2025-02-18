@@ -8,8 +8,11 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import org.jetbrains.compose.resources.stringResource
 import org.zayn.teamhub.core.navigation.App
 import org.zayn.teamhub.core.utils.Logger.Companion.createLogger
+import teamhub.composeapp.generated.resources.Res
+import teamhub.composeapp.generated.resources.location_permission_required
 
 class MainActivity : ComponentActivity() {
     private val logger = this.createLogger()

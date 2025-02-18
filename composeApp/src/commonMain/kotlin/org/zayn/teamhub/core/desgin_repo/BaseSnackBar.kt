@@ -10,9 +10,17 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import org.jetbrains.compose.resources.stringResource
+import teamhub.composeapp.generated.resources.Res
+import teamhub.composeapp.generated.resources.dismiss
 
 @Composable
-fun BaseSnackBar(snackBarState: SnackbarHostState, modifier: Modifier = Modifier) {
+fun BaseSnackBar(
+    snackBarState: SnackbarHostState,
+    onActionClick: (() -> Unit?)? = null,
+    actionText: String? = null,
+    modifier: Modifier = Modifier,
+) {
     SnackbarHost(
         modifier = modifier,
         hostState = snackBarState
@@ -20,11 +28,14 @@ fun BaseSnackBar(snackBarState: SnackbarHostState, modifier: Modifier = Modifier
         Snackbar(
             action = {
                 Text(
-                    text = "Dismiss",
+                    text = actionText ?: stringResource(Res.string.dismiss),
                     style = MaterialTheme.typography.button,
                     color = MaterialTheme.colors.secondaryVariant,
                     modifier = Modifier
-                        .clickable { snackBarData.dismiss() }
+                        .clickable {
+                            onActionClick?.invoke()
+                            snackBarData.dismiss()
+                        }
                         .padding(8.dp)
                 )
             }

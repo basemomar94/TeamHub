@@ -7,6 +7,8 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
 import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import com.google.android.gms.location.LocationServices
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -38,7 +40,6 @@ actual suspend fun getCurrentLocation(): Pair<Double, Double>? {
 }
 
 
-
 actual fun openMap(latitude: Double, longitude: Double) {
     val logger = Logger.createLogger("openMap")
     try {
@@ -53,7 +54,8 @@ actual fun openMap(latitude: Double, longitude: Double) {
         if (mapIntent.resolveActivity(context.packageManager) != null) {
             context.startActivity(mapIntent)
         } else {
-            val webUri = Uri.parse("https://www.google.com/maps/search/?api=1&query=$latitude,$longitude")
+            val webUri =
+                Uri.parse("https://www.google.com/maps/search/?api=1&query=$latitude,$longitude")
             val webIntent = Intent(Intent.ACTION_VIEW, webUri).apply {
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             }
@@ -64,19 +66,24 @@ actual fun openMap(latitude: Double, longitude: Double) {
     }
 }
 
-actual fun isLocationAvailable(): Boolean {
+actual fun isGpsAvailable(): Boolean {
     val context: Context = AppContext.get()
     val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
-    val isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
+    return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
             locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
 
-    val isPermissionGranted = ContextCompat.checkSelfPermission(
+
+}
+
+actual fun isLocationAllowed(): Boolean {
+    val context: Context = AppContext.get()
+    return ContextCompat.checkSelfPermission(
         context, Manifest.permission.ACCESS_FINE_LOCATION
     ) == PackageManager.PERMISSION_GRANTED ||
             ContextCompat.checkSelfPermission(
                 context, Manifest.permission.ACCESS_COARSE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED
 
-    return isGpsEnabled && isPermissionGranted
 }
+

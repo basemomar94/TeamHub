@@ -7,7 +7,8 @@ import org.zayn.teamhub.core.usecases.AddAttendanceLogUseCase
 import org.zayn.teamhub.core.usecases.GetCurrentUserUseCase
 import org.zayn.teamhub.core.usecases.UpdateUserAttendanceUseCase
 import org.zayn.teamhub.core.utils.getCurrentLocation
-import org.zayn.teamhub.core.utils.isLocationAvailable
+import org.zayn.teamhub.core.utils.isGpsAvailable
+import org.zayn.teamhub.core.utils.isLocationAllowed
 import org.zayn.teamhub.core.utils.networkresultwrapper.NetworkResult
 
 class HomeViewModel(
@@ -29,8 +30,12 @@ class HomeViewModel(
     }
 
     private suspend fun addAttendance(type: AttendanceType) {
-        if (!isLocationAvailable()) {
-            setEffect { HomeSideEffect.ShowSnackBar("Please turn on GPS and try again") }
+        if (!isLocationAllowed()) {
+            setEffect { HomeSideEffect.ShowSnackBar(HomeMessage.LocationNotAllowed) }
+            return
+        }
+        if (!isGpsAvailable()) {
+            setEffect { HomeSideEffect.ShowSnackBar(HomeMessage.GPSNotAllowed) }
             return
         }
         val location = getCurrentLocation()
@@ -50,11 +55,11 @@ class HomeViewModel(
             onComplete = { setState { HomeState.UnInitialized } },
             resultSuccess = { result ->
                 if (result.first is NetworkResult.Success && result.second is NetworkResult.Success) {
-                    setEffect { HomeSideEffect.ShowSnackBar("Attendance has been recorded") }
+                    setEffect { HomeSideEffect.ShowSnackBar(HomeMessage.AttendanceRecorded) }
                 }
             },
             resultFailure = {
-                setEffect { HomeSideEffect.ShowSnackBar(it.error) }
+                setEffect { HomeSideEffect.ShowSnackBar(HomeMessage.ApiError(it.error)) }
             }
         )
     }
@@ -70,7 +75,7 @@ class HomeViewModel(
                 }
             },
             resultFailure = {
-                setEffect { HomeSideEffect.ShowSnackBar(it.error) }
+                setEffect { HomeSideEffect.ShowSnackBar(HomeMessage.ApiError(it.error)) }
             }
         )
     }

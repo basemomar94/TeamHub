@@ -8,6 +8,10 @@ actual suspend fun getCurrentLocation(): Pair<Double, Double>? {
 actual fun openMap(latitude: Double, longitude: Double) {
 }
 
-actual fun isLocationAvailable(): Boolean {
+actual fun isGpsAvailable(): Boolean {
+    TODO("Not yet implemented")
+}
+
+actual fun isLocationAllowed(): Boolean {
     TODO("Not yet implemented")
 }

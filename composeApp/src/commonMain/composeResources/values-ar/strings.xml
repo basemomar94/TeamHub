@@ -29,5 +29,8 @@
     <string name="mins">دقيقة</string>
     <string name="my_attendance">حضوري</string>
     <string name="log_out">تسجيل الخروج</string>
-
+    <string name="dismiss">إغلاق</string>
+    <string name="attendance_recorded">تم تسجيل الحضور بنجاح</string>
+    <string name="gps_not_allowed">ميزة تحديد الموقع غير مفعلة. يرجى تفعيلها من الإعدادات.</string>
+    <string name="location_permission_required">لم يتم منح إذن الموقع. يرجى تمكينه من الإعدادات والمحاولة مرة أخرى.</string>
 </resources>

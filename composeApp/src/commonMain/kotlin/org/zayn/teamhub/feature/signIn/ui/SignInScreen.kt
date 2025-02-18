@@ -4,13 +4,11 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.SnackbarHost
 import androidx.compose.material.SnackbarHostState
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -88,7 +86,7 @@ fun SignInScreen(
             }
         }
 
-        BaseSnackBar(snackBarHostState, Modifier.align(Alignment.BottomCenter))
+        BaseSnackBar(snackBarHostState, modifier = Modifier.align(Alignment.BottomCenter))
     }
 }
 

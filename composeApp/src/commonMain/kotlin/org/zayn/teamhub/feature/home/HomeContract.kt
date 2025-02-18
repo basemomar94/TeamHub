@@ -19,5 +19,5 @@ sealed class HomeEvent() : ViewEvent {
 }
 
 sealed class HomeSideEffect() : ViewSideEffect {
-    data class ShowSnackBar(val message: String) : HomeSideEffect()
+    data class ShowSnackBar(val message: HomeMessage) : HomeSideEffect()
 }
