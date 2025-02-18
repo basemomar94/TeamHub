@@ -3,8 +3,10 @@ package org.zayn.teamhub.feature.home
 import kotlinx.coroutines.flow.combine
 import org.zayn.teamhub.core.base.BaseViewModel
 import org.zayn.teamhub.core.models.AttendanceType
+import org.zayn.teamhub.core.models.User
 import org.zayn.teamhub.core.usecases.AddAttendanceLogUseCase
 import org.zayn.teamhub.core.usecases.GetCurrentUserUseCase
+import org.zayn.teamhub.core.usecases.GetOnlineUsers
 import org.zayn.teamhub.core.usecases.UpdateUserAttendanceUseCase
 import org.zayn.teamhub.core.utils.getCurrentLocation
 import org.zayn.teamhub.core.utils.isGpsAvailable
@@ -15,6 +17,7 @@ class HomeViewModel(
     private val userUseCase: GetCurrentUserUseCase,
     private val attendanceUseCase: AddAttendanceLogUseCase,
     private val updateUserAttendanceUseCase: UpdateUserAttendanceUseCase,
+    private val onlineUserUseCas: GetOnlineUsers
 ) :
     BaseViewModel<HomeState, HomeEvent, HomeSideEffect>() {
 
@@ -24,7 +27,7 @@ class HomeViewModel(
 
     override suspend fun handleEvents(event: HomeEvent) {
         when (event) {
-            HomeEvent.GetUserData -> getUser()
+            HomeEvent.GetUserData -> getCurrentAndOnlineUsers()
             is HomeEvent.AddAttendance -> addAttendance(event.type)
         }
     }
@@ -64,14 +67,24 @@ class HomeViewModel(
         )
     }
 
-    private suspend fun getUser() {
+    private suspend fun getCurrentAndOnlineUsers() {
         launchAndCollectResult(
             tag = "getUser",
-            flow = userUseCase(),
+            flow = combine(onlineUserUseCas(), userUseCase()) { onlineUsers, currentUser ->
+                Pair(onlineUsers, currentUser)
+            },
             onStart = { setState { HomeState.Loading } },
-            resultSuccess = {
-                if (it is NetworkResult.Success) {
-                    setState { HomeState.UserData(it.data) }
+            resultSuccess = { result ->
+                if (result.first is NetworkResult.Success && result.second is NetworkResult.Success) {
+                    val online = (result.first as NetworkResult.Success<List<User>>).data
+                    val user = (result.second as NetworkResult.Success<User>).data
+                    setState {
+                        HomeState.HomeData(
+                            onlineUsers = online,
+                            currentUser = user
+                        )
+                    }
+
                 }
             },
             resultFailure = {

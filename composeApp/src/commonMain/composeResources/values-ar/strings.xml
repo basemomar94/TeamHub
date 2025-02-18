@@ -35,4 +35,5 @@
     <string name="location_permission_required">لم يتم منح إذن الموقع. يرجى تمكينه من الإعدادات والمحاولة مرة أخرى.</string>
     <string name="still_clocked_in">لا يزال مسجلاً الدخول</string>
     <string name="session_is_on_going">الجلسة لا تزال مستمرة</string>
+    <string name="online_now">مسجل الدخول الآن</string>
 </resources>

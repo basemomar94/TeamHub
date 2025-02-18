@@ -52,4 +52,12 @@ class UserRepoImp(private val firestore: FirebaseFirestore, private val auth: Fi
             updates = updates
         )
     }
+
+    override suspend fun getOnlineUsers(): Flow<NetworkResult<List<User>>> {
+        return firestore.fetchQueryAsFlow(
+            collection = FirebaseCollections.USER_COLLECTION,
+            queryBuilder = { this.where { CollectionReference.CURRENT_STATUS equalTo AttendanceType.CLOCK_IN } },
+            operationName = "getOnlineUsers"
+        )
+    }
 }

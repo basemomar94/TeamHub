@@ -30,8 +30,6 @@ import org.zayn.teamhub.core.desgin_repo.LoadingIndicator
 import org.zayn.teamhub.core.desgin_repo.Vspacer
 import org.zayn.teamhub.core.models.AttendanceType
 import org.zayn.teamhub.core.models.User
-import org.zayn.teamhub.core.utils.Logger
-import org.zayn.teamhub.core.utils.Logger.Companion.createLogger
 import org.zayn.teamhub.core.utils.toLocalizedDateTime
 import org.zayn.teamhub.feature.home.HomeEvent
 import org.zayn.teamhub.feature.home.HomeMessage
@@ -87,9 +85,14 @@ fun HomeScreen(viewModel: HomeViewModel = koinInject()) {
         when (state) {
             HomeState.Loading -> LoadingIndicator()
             HomeState.UnInitialized -> viewModel.setEvent(HomeEvent.GetUserData)
-            is HomeState.UserData -> {
-                (state as HomeState.UserData).user?.let {
-                    HomeCompose(it) { type ->
+            is HomeState.HomeData -> {
+                val onlineUsers = (state as HomeState.HomeData).onlineUsers
+                val currentUser = (state as HomeState.HomeData).currentUser
+                if (onlineUsers != null && currentUser != null) {
+                    HomeCompose(
+                        onlineUsers = onlineUsers,
+                        user = currentUser
+                    ) { type ->
 
                         if (true) {
                             viewModel.setEvent(HomeEvent.AddAttendance(type))
@@ -98,6 +101,7 @@ fun HomeScreen(viewModel: HomeViewModel = koinInject()) {
                         }
                     }
                 }
+
             }
         }
         BaseSnackBar(
@@ -114,12 +118,10 @@ fun HomeScreen(viewModel: HomeViewModel = koinInject()) {
 }
 
 @Composable
-fun HomeCompose(user: User, addAttendance: (AttendanceType) -> Unit) {
+fun HomeCompose(user: User, onlineUsers: List<User>, addAttendance: (AttendanceType) -> Unit) {
     Column {
-        WelcomeHeader(user.firstName ?: "") {
-
-        }
-
+        WelcomeHeader(user.firstName ?: "")
+        Vspacer(8.dp)
         Column(
             modifier = Modifier.fillMaxWidth().padding(8.dp),
             verticalArrangement = Arrangement.SpaceBetween
@@ -143,6 +145,9 @@ fun HomeCompose(user: User, addAttendance: (AttendanceType) -> Unit) {
             }
 
         }
+        Vspacer(8.dp)
+        OnlineUserGrid(onlineUsers)
+
     }
 
 }

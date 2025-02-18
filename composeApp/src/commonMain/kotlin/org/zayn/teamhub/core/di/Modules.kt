@@ -22,6 +22,7 @@ import org.zayn.teamhub.core.usecases.AuthNewUserUseCase
 import org.zayn.teamhub.core.usecases.GetAllCompanyUsers
 import org.zayn.teamhub.core.usecases.GetAttendanceByUser
 import org.zayn.teamhub.core.usecases.GetCurrentUserUseCase
+import org.zayn.teamhub.core.usecases.GetOnlineUsers
 import org.zayn.teamhub.core.usecases.GetUserUseCase
 import org.zayn.teamhub.core.usecases.LogInUseCase
 import org.zayn.teamhub.core.usecases.UpdateUserAttendanceUseCase
@@ -61,6 +62,7 @@ private val useCasesModules = module {
     factory { AddAttendanceLogUseCase(get()) }
     factory { UpdateUserAttendanceUseCase(get()) }
     factory { GetAttendanceByUser(get()) }
+    factory { GetOnlineUsers(get()) }
 }
 
 private val firebaseModules = module {
