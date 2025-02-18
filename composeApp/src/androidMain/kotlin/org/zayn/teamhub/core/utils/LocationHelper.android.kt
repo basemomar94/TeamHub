@@ -1,8 +1,13 @@
 package org.zayn.teamhub.core.utils
 
+import android.Manifest
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.location.Location
+import android.location.LocationManager
 import android.net.Uri
+import androidx.core.content.ContextCompat
 import com.google.android.gms.location.LocationServices
 import kotlinx.coroutines.suspendCancellableCoroutine
 import org.zayn.teamhub.core.utils.Logger.Companion.createLogger
@@ -12,9 +17,9 @@ actual suspend fun getCurrentLocation(): Pair<Double, Double>? {
     val fusedLocationClient = LocationServices.getFusedLocationProviderClient(AppContext.get())
 
     return suspendCancellableCoroutine { continuation ->
-        if (androidx.core.content.ContextCompat.checkSelfPermission(
-                AppContext.get(), android.Manifest.permission.ACCESS_FINE_LOCATION
-            ) != android.content.pm.PackageManager.PERMISSION_GRANTED
+        if (ContextCompat.checkSelfPermission(
+                AppContext.get(), Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
         ) {
             continuation.resume(null)
             return@suspendCancellableCoroutine
@@ -41,14 +46,13 @@ actual fun openMap(latitude: Double, longitude: Double) {
 
         val gmmIntentUri = Uri.parse("geo:$latitude,$longitude")
         val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri).apply {
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK) // ✅ Required for non-Activity contexts
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }
 
         val context = AppContext.get()
         if (mapIntent.resolveActivity(context.packageManager) != null) {
             context.startActivity(mapIntent)
         } else {
-            // Open in a web browser as a fallback
             val webUri = Uri.parse("https://www.google.com/maps/search/?api=1&query=$latitude,$longitude")
             val webIntent = Intent(Intent.ACTION_VIEW, webUri).apply {
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -60,3 +64,19 @@ actual fun openMap(latitude: Double, longitude: Double) {
     }
 }
 
+actual fun isLocationAvailable(): Boolean {
+    val context: Context = AppContext.get()
+    val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+
+    val isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
+            locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+
+    val isPermissionGranted = ContextCompat.checkSelfPermission(
+        context, Manifest.permission.ACCESS_FINE_LOCATION
+    ) == PackageManager.PERMISSION_GRANTED ||
+            ContextCompat.checkSelfPermission(
+                context, Manifest.permission.ACCESS_COARSE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+
+    return isGpsEnabled && isPermissionGranted
+}

@@ -7,12 +7,13 @@ import org.zayn.teamhub.core.usecases.AddAttendanceLogUseCase
 import org.zayn.teamhub.core.usecases.GetCurrentUserUseCase
 import org.zayn.teamhub.core.usecases.UpdateUserAttendanceUseCase
 import org.zayn.teamhub.core.utils.getCurrentLocation
+import org.zayn.teamhub.core.utils.isLocationAvailable
 import org.zayn.teamhub.core.utils.networkresultwrapper.NetworkResult
 
 class HomeViewModel(
     private val userUseCase: GetCurrentUserUseCase,
     private val attendanceUseCase: AddAttendanceLogUseCase,
-    private val updateUserAttendanceUseCase: UpdateUserAttendanceUseCase
+    private val updateUserAttendanceUseCase: UpdateUserAttendanceUseCase,
 ) :
     BaseViewModel<HomeState, HomeEvent, HomeSideEffect>() {
 
@@ -28,6 +29,10 @@ class HomeViewModel(
     }
 
     private suspend fun addAttendance(type: AttendanceType) {
+        if (!isLocationAvailable()) {
+            setEffect { HomeSideEffect.ShowSnackBar("Please turn on GPS and try again") }
+            return
+        }
         val location = getCurrentLocation()
         launchAndCollectResult(
             flow = combine(
