@@ -9,6 +9,6 @@ actual fun Long?.toLocalizedDate(): String {
     return ""
 }
 
-actual fun Long?.toLocalizedTime(): String {
+actual fun Long?.toLocalizedTime(): String? {
     TODO("Not yet implemented")
 }

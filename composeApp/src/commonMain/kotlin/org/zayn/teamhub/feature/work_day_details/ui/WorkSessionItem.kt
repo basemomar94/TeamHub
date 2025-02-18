@@ -26,13 +26,16 @@ import teamhub.composeapp.generated.resources.clock_in
 import teamhub.composeapp.generated.resources.clock_out
 import teamhub.composeapp.generated.resources.hr
 import teamhub.composeapp.generated.resources.mins
+import teamhub.composeapp.generated.resources.no_clock_in
+import teamhub.composeapp.generated.resources.session_is_on_going
+import teamhub.composeapp.generated.resources.still_clocked_in
 import teamhub.composeapp.generated.resources.total_time
 
 @Composable
 fun WorkSessionItem(session: WorkSession) {
     val logger = Logger.createLogger("WorkSessionItem")
-    val clockInText = session.clockInTime?.toLocalizedTime() ?: "No Clock-In"
-    val clockOutText = session.clockOutTime?.toLocalizedTime() ?: "Still Clocked In"
+    val clockInText = session.clockInTime?.toLocalizedTime() ?: stringResource(Res.string.no_clock_in)
+    val clockOutText = session.clockOutTime?.toLocalizedTime() ?: stringResource(Res.string.still_clocked_in)
 
     val totalMinutesWorked = if (session.clockOutTime != null && session.clockInTime != null) {
         (session.clockOutTime - session.clockInTime) / 60000
@@ -42,9 +45,10 @@ fun WorkSessionItem(session: WorkSession) {
 
     val totalTime = totalMinutesWorked?.toWorkDuration()
     val totalTimeText =
-        "${totalTime?.hours} ${stringResource(Res.string.hr)} ${totalTime?.minutes} ${
+        if (totalTime != null) "${totalTime.hours} ${stringResource(Res.string.hr)} ${totalTime.minutes} ${
             stringResource(Res.string.mins)
-        }"
+        }" else stringResource(Res.string.session_is_on_going)
+
 
     Card(
         modifier = Modifier
