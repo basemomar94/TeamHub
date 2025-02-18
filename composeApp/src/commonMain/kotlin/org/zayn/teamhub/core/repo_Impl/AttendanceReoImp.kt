@@ -1,6 +1,7 @@
 package org.zayn.teamhub.core.repo_Impl
 
 import dev.gitlive.firebase.auth.FirebaseAuth
+import dev.gitlive.firebase.firestore.Direction
 import dev.gitlive.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.flow.Flow
 import org.zayn.teamhub.core.base.BaseRepo
@@ -50,6 +51,8 @@ class AttendanceReoImp(
                 this.where { CollectionReference.USER_ID equalTo userId }
                     .where { CollectionReference.CREATED_AT greaterThanOrEqualTo start }
                     .where { CollectionReference.CREATED_AT lessThanOrEqualTo end }
+                    .orderBy(CollectionReference.CREATED_AT, Direction.DESCENDING)
+
             },
             operationName = "getAttendanceByUser"
         )
