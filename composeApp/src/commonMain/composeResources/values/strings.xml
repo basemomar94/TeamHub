@@ -30,4 +30,7 @@
     <string name="mins">mins</string>
     <string name="my_attendance">My Attendance</string>
     <string name="log_out">Log Out</string>
+    <string name="session_is_on_going">الجلسة لا تزال مستمرة</string>
+    <string name="still_clocked_in">لا يزال مسجلاً الدخول</string>
+    <string name="no_clock_in">لم يتم تسجيل الدخول</string>
 </resources>

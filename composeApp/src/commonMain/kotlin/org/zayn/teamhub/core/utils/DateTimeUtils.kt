@@ -9,7 +9,6 @@ import kotlinx.datetime.atTime
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 import org.zayn.teamhub.core.models.Time
-import org.zayn.teamhub.core.utils.Logger.Companion.createLogger
 
 fun getCurrentTime() = Clock.System.now().toEpochMilliseconds()
 
@@ -86,4 +85,4 @@ private fun isLeapYear(year: Int): Boolean {
     return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)
 }
 
-expect fun Long?.toLocalizedTime(): String
+expect fun Long?.toLocalizedTime(): String?

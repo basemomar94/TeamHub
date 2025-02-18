@@ -11,15 +11,14 @@ actual fun Long?.toLocalizedDateTime(): String {
 }
 
 
-
 actual fun Long?.toLocalizedDate(): String {
     val locale = Locale.getDefault()
     val dateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM, locale)
     return dateFormat.format(Date(this ?: 0))
 }
 
-actual fun Long?.toLocalizedTime(): String {
+actual fun Long?.toLocalizedTime(): String? {
     val locale = Locale.getDefault()
     val timeFormat = DateFormat.getTimeInstance(DateFormat.SHORT, locale)
-    return timeFormat.format(Date(this ?: 0))
+    return this?.let { Date(it) }?.let { timeFormat.format(it) }
 }
