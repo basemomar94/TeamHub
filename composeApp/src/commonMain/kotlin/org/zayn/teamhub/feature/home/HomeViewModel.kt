@@ -81,7 +81,8 @@ class HomeViewModel(
             onStart = { setState { HomeState.Loading } },
             resultSuccess = { result ->
                 if (result.first is NetworkResult.Success && result.second is NetworkResult.Success) {
-                    val online = (result.first as NetworkResult.Success<List<User>>).data
+                    val online =
+                        (result.first as NetworkResult.Success<List<User>>).data?.sortedByDescending { it.currentStatus == AttendanceType.CLOCK_IN.name }
                     val user = (result.second as NetworkResult.Success<User>).data
                     sessionManager.putUserId(user?.id ?: "")
                     setState {

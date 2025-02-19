@@ -1,6 +1,7 @@
 package org.zayn.teamhub.feature.usersList.presentation
 
 import org.zayn.teamhub.core.base.BaseViewModel
+import org.zayn.teamhub.core.models.AttendanceType
 import org.zayn.teamhub.core.usecases.GetAllCompanyUsers
 import org.zayn.teamhub.core.utils.networkresultwrapper.NetworkResult
 import org.zayn.teamhub.feature.usersList.UserListEvent
@@ -24,7 +25,12 @@ class UserListViewModel(private val getAllCompanyUsers: GetAllCompanyUsers) :
         launchAndCollectResult(
             flow = getAllCompanyUsers("1"),
             onStart = { setState { UserListState.Loading } },
-            resultSuccess = { setState { UserListState.UsersListData((it as NetworkResult.Success).data) } },
+            resultSuccess = {
+                val users =
+                    (it as NetworkResult.Success).data?.sortedByDescending { it.currentStatus == AttendanceType.CLOCK_IN.name }
+                setState { UserListState.UsersListData((users)) }
+            },
+            onComplete = { setState { UserListState.UnIntiialized } }
         )
     }
 }

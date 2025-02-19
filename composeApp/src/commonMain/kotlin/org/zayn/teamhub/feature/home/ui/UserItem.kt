@@ -4,8 +4,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -20,35 +22,43 @@ import org.zayn.teamhub.core.models.User
 
 @Composable
 fun UserItem(user: User, modifier: Modifier = Modifier, onClick: ((User) -> () -> Unit)? = null) {
-    Box(
-        contentAlignment = Alignment.BottomEnd,
-        modifier = modifier.clickable { onClick?.invoke(user) }
-    ) {
-        val initials = user.firstName?.firstOrNull()?.toString()?.uppercase().orEmpty() +
-                user.lastName?.firstOrNull()?.toString()?.uppercase().orEmpty()
-
+    Column {
         Box(
-            modifier = Modifier
-                .size(48.dp)
-                .clip(CircleShape)
-                .background(Color.LightGray),
-            contentAlignment = Alignment.Center
+            contentAlignment = Alignment.BottomEnd,
+            modifier = modifier.clickable { onClick?.invoke(user) }
         ) {
-            Text(
-                text = initials,
-                fontWeight = FontWeight.Bold,
-                fontSize = 18.sp,
-                color = Color.White
+            val initials = user.firstName?.firstOrNull()?.toString()?.uppercase().orEmpty() +
+                    user.lastName?.firstOrNull()?.toString()?.uppercase().orEmpty()
+
+            Box(
+                modifier = Modifier
+                    .size(48.dp)
+                    .clip(CircleShape)
+                    .background(Color.LightGray),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = initials,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp,
+                    color = Color.White
+                )
+            }
+
+            Box(
+                modifier = Modifier
+                    .size(12.dp)
+                    .clip(CircleShape)
+                    .background(if (user.currentStatus == AttendanceType.CLOCK_IN.name) Color.Green else Color.Gray)
+                    .border(1.dp, Color.White, CircleShape)
+                    .align(Alignment.BottomEnd)
             )
         }
-
-        Box(
-            modifier = Modifier
-                .size(12.dp)
-                .clip(CircleShape)
-                .background(if (user.currentStatus == AttendanceType.CLOCK_IN.name) Color.Green else Color.Gray)
-                .border(1.dp, Color.White, CircleShape)
-                .align(Alignment.BottomEnd)
+        Text(
+            text = user.firstName.orEmpty(),
+            style = MaterialTheme.typography.caption,
+            modifier = Modifier.align(Alignment.CenterHorizontally)
         )
     }
+
 }

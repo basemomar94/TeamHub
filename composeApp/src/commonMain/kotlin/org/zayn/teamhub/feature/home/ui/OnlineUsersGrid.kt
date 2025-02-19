@@ -34,12 +34,12 @@ fun OnlineUserGrid(users: List<User>) {
 
     Card(elevation = 4.dp, shape = RoundedCornerShape(12.dp), modifier = Modifier.padding(8.dp)) {
         Column(modifier = Modifier.padding(8.dp)) {
-            Text(
+            /*Text(
                 style = MaterialTheme.typography.body1,
                 text = stringResource(Res.string.online_now),
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             )
-            Vspacer(8.dp)
+            Vspacer(8.dp)*/
             LazyVerticalGrid(
                 columns = GridCells.Adaptive(minSize = 60.dp),
                 modifier = Modifier
@@ -49,9 +49,7 @@ fun OnlineUserGrid(users: List<User>) {
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 items(users) { user ->
-                    UserItem(user = user) { clickedUser ->
-                        {selectedUser = clickedUser}
-                    }
+                    UserItem(user = user)
                 }
             }
         }
