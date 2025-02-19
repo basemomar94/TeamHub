@@ -7,9 +7,8 @@ import org.zayn.teamhub.core.models.User
 import org.zayn.teamhub.core.usecases.AddAttendanceLogUseCase
 import org.zayn.teamhub.core.usecases.GetAllCompanyUsers
 import org.zayn.teamhub.core.usecases.GetCurrentUserUseCase
-import org.zayn.teamhub.core.usecases.GetOnlineUsers
-import org.zayn.teamhub.core.usecases.GetUserUseCase
 import org.zayn.teamhub.core.usecases.UpdateUserAttendanceUseCase
+import org.zayn.teamhub.core.utils.data_store.ISessionManager
 import org.zayn.teamhub.core.utils.getCurrentLocation
 import org.zayn.teamhub.core.utils.isGpsAvailable
 import org.zayn.teamhub.core.utils.isLocationAllowed
@@ -20,6 +19,7 @@ class HomeViewModel(
     private val attendanceUseCase: AddAttendanceLogUseCase,
     private val updateUserAttendanceUseCase: UpdateUserAttendanceUseCase,
     private val getCompanyUsers: GetAllCompanyUsers,
+    private val sessionManager: ISessionManager,
 ) :
     BaseViewModel<HomeState, HomeEvent, HomeSideEffect>() {
 
@@ -83,6 +83,7 @@ class HomeViewModel(
                 if (result.first is NetworkResult.Success && result.second is NetworkResult.Success) {
                     val online = (result.first as NetworkResult.Success<List<User>>).data
                     val user = (result.second as NetworkResult.Success<User>).data
+                    sessionManager.putUserId(user?.id ?: "")
                     setState {
                         HomeState.HomeData(
                             onlineUsers = online,

@@ -15,7 +15,6 @@ import org.zayn.teamhub.core.repo.IAttendanceRepo
 import org.zayn.teamhub.core.repo.IUserRepo
 import org.zayn.teamhub.core.repo_Impl.AttendanceReoImp
 import org.zayn.teamhub.core.repo_Impl.UserRepoImp
-import org.zayn.teamhub.core.services.SessionManager
 import org.zayn.teamhub.core.usecases.AddAttendanceLogUseCase
 import org.zayn.teamhub.core.usecases.AddNewUserUseCase
 import org.zayn.teamhub.core.usecases.AuthNewUserUseCase
@@ -26,6 +25,10 @@ import org.zayn.teamhub.core.usecases.GetOnlineUsers
 import org.zayn.teamhub.core.usecases.GetUserUseCase
 import org.zayn.teamhub.core.usecases.LogInUseCase
 import org.zayn.teamhub.core.usecases.UpdateUserAttendanceUseCase
+import org.zayn.teamhub.core.utils.data_store.ISessionManager
+import org.zayn.teamhub.core.utils.data_store.ISharedPrefManager
+import org.zayn.teamhub.core.utils.data_store.SessionManager
+import org.zayn.teamhub.core.utils.data_store.SharedPrefManager
 import org.zayn.teamhub.feature.home.HomeViewModel
 import org.zayn.teamhub.feature.signIn.SignInViewModel
 import org.zayn.teamhub.feature.usersList.presentation.UserListViewModel
@@ -43,7 +46,6 @@ private val repoModules = module {
 
 private val viewModelsModules = module {
     viewModelOf(::SignInViewModel)
-    factory { SessionManager() }
     viewModelOf(::HomeViewModel)
     viewModelOf(::UserListViewModel)
     viewModelOf(::SignupViewModel)
@@ -71,8 +73,8 @@ private val firebaseModules = module {
 }
 
 private val utilsModules = module {
-    //  single { SessionManager() }
-
+    single<ISharedPrefManager> { SharedPrefManager() }
+    single<ISessionManager> { SessionManager(get()) }
 }
 
 val sharedModule: Module = module {
