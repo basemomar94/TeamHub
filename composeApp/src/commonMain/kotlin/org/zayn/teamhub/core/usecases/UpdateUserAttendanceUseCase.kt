@@ -5,5 +5,6 @@ import org.zayn.teamhub.core.repo.IUserRepo
 
 class UpdateUserAttendanceUseCase(private val repo: IUserRepo) {
 
-    suspend operator fun invoke(type: AttendanceType) = repo.addUserAttendance(type)
+    suspend operator fun invoke(type: AttendanceType, userId: String) =
+        repo.addUserAttendance(type, userId)
 }

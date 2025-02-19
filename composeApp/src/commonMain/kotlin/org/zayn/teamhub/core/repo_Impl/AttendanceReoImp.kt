@@ -22,13 +22,14 @@ class AttendanceReoImp(
     override suspend fun addAttendance(
         type: AttendanceType,
         lat: Double?,
-        log: Double?
+        log: Double?,
+        userId: String
     ): Flow<NetworkResult<String>> {
         val attendance =
             Attendance(
                 lat = lat,
                 long = log,
-                userId = auth.currentUser?.uid ?: "N/A",
+                userId = userId,
                 createdAt = getCurrentTime(),
                 type = type.name
             )

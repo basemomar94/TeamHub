@@ -18,5 +18,5 @@ sealed class HomeEvent() : ViewEvent {
 }
 
 sealed class HomeSideEffect() : ViewSideEffect {
-    data class ShowSnackBar(val message: HomeMessage) : HomeSideEffect()
+    data class ShowSnackBar(val message: RecordAttendanceError) : HomeSideEffect()
 }

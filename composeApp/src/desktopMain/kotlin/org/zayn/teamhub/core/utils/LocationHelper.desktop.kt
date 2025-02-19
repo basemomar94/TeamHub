@@ -5,7 +5,7 @@ actual suspend fun getCurrentLocation(): Pair<Double, Double>? {
 }
 
 
-actual fun openMap(latitude: Double, longitude: Double) {
+actual fun openMap(latitude: Double?, longitude: Double?) {
 }
 
 actual fun isGpsAvailable(): Boolean {

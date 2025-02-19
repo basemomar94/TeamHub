@@ -7,8 +7,6 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
 import android.net.Uri
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import com.google.android.gms.location.LocationServices
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -40,7 +38,8 @@ actual suspend fun getCurrentLocation(): Pair<Double, Double>? {
 }
 
 
-actual fun openMap(latitude: Double, longitude: Double) {
+actual fun openMap(latitude: Double?, longitude: Double?) {
+    if (latitude == null || longitude == null) return
     val logger = Logger.createLogger("openMap")
     try {
         logger.d("open map with $latitude $longitude")

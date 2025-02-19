@@ -22,6 +22,7 @@ class HomeViewModel(
     private val sessionManager: ISessionManager,
 ) :
     BaseViewModel<HomeState, HomeEvent, HomeSideEffect>() {
+    private val currentUser = sessionManager.getUser()
 
     override fun setInitialState(): HomeState {
         return HomeState.UnInitialized
@@ -36,22 +37,23 @@ class HomeViewModel(
 
     private suspend fun addAttendance(type: AttendanceType) {
         if (!isLocationAllowed()) {
-            setEffect { HomeSideEffect.ShowSnackBar(HomeMessage.LocationNotAllowed) }
+            setEffect { HomeSideEffect.ShowSnackBar(RecordAttendanceError.LocationNotAllowed) }
             return
         }
         if (!isGpsAvailable()) {
-            setEffect { HomeSideEffect.ShowSnackBar(HomeMessage.GPSNotAllowed) }
+            setEffect { HomeSideEffect.ShowSnackBar(RecordAttendanceError.GPSNotAllowed) }
             return
         }
         val location = getCurrentLocation()
         launchAndCollectResult(
             flow = combine(
                 attendanceUseCase(
+                    userId = currentUser?.id ?: "",
                     attendanceType = type,
                     lat = location?.first,
                     lon = location?.second
                 ),
-                updateUserAttendanceUseCase(type)
+                updateUserAttendanceUseCase(type = type, userId = currentUser?.id ?: "")
             ) { attendance, updateAttendance ->
                 Pair(attendance, updateAttendance)
 
@@ -60,11 +62,11 @@ class HomeViewModel(
             onComplete = { setState { HomeState.UnInitialized } },
             resultSuccess = { result ->
                 if (result.first is NetworkResult.Success && result.second is NetworkResult.Success) {
-                    setEffect { HomeSideEffect.ShowSnackBar(HomeMessage.AttendanceRecorded) }
+                    setEffect { HomeSideEffect.ShowSnackBar(RecordAttendanceError.AttendanceRecorded) }
                 }
             },
             resultFailure = {
-                setEffect { HomeSideEffect.ShowSnackBar(HomeMessage.ApiError(it.error)) }
+                setEffect { HomeSideEffect.ShowSnackBar(RecordAttendanceError.ApiError(it.error)) }
             }
         )
     }
@@ -95,7 +97,7 @@ class HomeViewModel(
                 }
             },
             resultFailure = {
-                setEffect { HomeSideEffect.ShowSnackBar(HomeMessage.ApiError(it.error)) }
+                setEffect { HomeSideEffect.ShowSnackBar(RecordAttendanceError.ApiError(it.error)) }
             }
         )
     }

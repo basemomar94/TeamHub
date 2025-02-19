@@ -41,14 +41,17 @@ class UserRepoImp(private val firestore: FirebaseFirestore, private val auth: Fi
         )
     }
 
-    override suspend fun addUserAttendance(type: AttendanceType): Flow<NetworkResult<Boolean>> {
+    override suspend fun addUserAttendance(
+        type: AttendanceType,
+        userId: String
+    ): Flow<NetworkResult<Boolean>> {
         val updates = mapOf(
             CollectionReference.CURRENT_STATUS to type.name,
             CollectionReference.LAST_UPDATE to getCurrentTime()
         )
         return firestore.updateDocumentAsFlow<User>(
             collection = FirebaseCollections.USER_COLLECTION,
-            documentId = auth.currentUser?.uid ?: "",
+            documentId = userId,
             updates = updates
         )
     }

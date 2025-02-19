@@ -11,6 +11,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -24,12 +25,13 @@ fun SessionItem(
     label: String,
     text: String,
     modifier: Modifier = Modifier,
-    onClick: () -> Unit,
+    onMapClick: () -> Unit,
+    onClearAttendanceClick: () -> Unit,
+    isOnGoing: Boolean
 ) {
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .clickable { onClick() }
             .padding(8.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
@@ -47,9 +49,17 @@ fun SessionItem(
                 color = MaterialTheme.colors.onSurface
             )
         }
+        if (isOnGoing) {
+            Icon(
+                imageVector = Icons.Default.Delete,
+                modifier = Modifier.size(24.dp).clickable { onClearAttendanceClick() },
+                contentDescription = "delete",
+                tint = MaterialTheme.colors.primary
+            )
+        }
         Icon(
             imageVector = Icons.Default.LocationOn,
-            modifier = Modifier.size(24.dp),
+            modifier = Modifier.size(24.dp).clickable { onMapClick() },
             contentDescription = "Navigate",
             tint = MaterialTheme.colors.primary
         )

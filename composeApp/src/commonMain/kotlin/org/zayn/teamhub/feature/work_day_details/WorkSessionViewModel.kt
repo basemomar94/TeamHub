@@ -1,29 +1,42 @@
 package org.zayn.teamhub.feature.work_day_details
 
+import kotlinx.coroutines.flow.combine
 import org.zayn.teamhub.core.base.BaseViewModel
 import org.zayn.teamhub.core.models.Attendance
 import org.zayn.teamhub.core.models.AttendanceType
 import org.zayn.teamhub.core.models.Location
 import org.zayn.teamhub.core.models.WorkSession
+import org.zayn.teamhub.core.usecases.AddAttendanceLogUseCase
 import org.zayn.teamhub.core.usecases.GetAttendanceByUser
+import org.zayn.teamhub.core.usecases.UpdateUserAttendanceUseCase
 import org.zayn.teamhub.core.utils.Logger.Companion.createLogger
+import org.zayn.teamhub.core.utils.getCurrentLocation
+import org.zayn.teamhub.core.utils.isGpsAvailable
+import org.zayn.teamhub.core.utils.isLocationAllowed
 import org.zayn.teamhub.core.utils.networkresultwrapper.NetworkResult
+import org.zayn.teamhub.feature.home.RecordAttendanceError
 
-class WorkSessionViewModel(private val getAttendanceByUser: GetAttendanceByUser) :
-    BaseViewModel<WorkDayState, WorkDayEvent, WorkDayEffect>() {
+class WorkSessionViewModel(
+    private val getAttendanceByUser: GetAttendanceByUser,
+    private val attendanceUseCase: AddAttendanceLogUseCase,
+    private val updateUserAttendanceUseCase: UpdateUserAttendanceUseCase,
+) :
+    BaseViewModel<WorkSessionState, WorkSessionEvent, WorkSessionEffect>() {
     val logger = this.createLogger()
 
-    override fun setInitialState(): WorkDayState {
-        return WorkDayState.Ideal
+    override fun setInitialState(): WorkSessionState {
+        return WorkSessionState.Ideal
     }
 
-    override suspend fun handleEvents(event: WorkDayEvent) {
+    override suspend fun handleEvents(event: WorkSessionEvent) {
         when (event) {
-            is WorkDayEvent.GetDayDetails -> getTodayAttendance(
+            is WorkSessionEvent.GetSessionDetails -> getTodayAttendance(
                 userId = event.userId,
                 startOfDay = event.startOfDay,
                 endOfDay = event.endOfDay
             )
+
+            is WorkSessionEvent.EndSession -> addAttendance(userId = event.userId)
         }
     }
 
@@ -39,17 +52,54 @@ class WorkSessionViewModel(private val getAttendanceByUser: GetAttendanceByUser)
                 if (result is NetworkResult.Success) {
                     val workDayList = result.data?.mapAttendanceToPairs() ?: listOf()
                     logger.d("work day list $workDayList")
-                    setState { WorkDayState.DayDetails(workDayList) }
+                    setState { WorkSessionState.SessionDetails(workDayList) }
                 }
 
 
             },
             resultFailure = {
-                setEffect { WorkDayEffect.ShowMessage(it.error) }
+                setEffect { WorkSessionEffect.ShowMessage(RecordAttendanceError.ApiError(it.error)) }
             }
         )
 
     }
+
+    private suspend fun addAttendance(userId: String) {
+        if (!isLocationAllowed()) {
+            setEffect { WorkSessionEffect.ShowMessage(RecordAttendanceError.LocationNotAllowed) }
+            return
+        }
+        if (!isGpsAvailable()) {
+            setEffect { WorkSessionEffect.ShowMessage(RecordAttendanceError.GPSNotAllowed) }
+            return
+        }
+        val location = getCurrentLocation()
+        launchAndCollectResult(
+            flow = combine(
+                attendanceUseCase(
+                    attendanceType = AttendanceType.CLOCK_OUT,
+                    lat = location?.first,
+                    lon = location?.second,
+                    userId = userId
+                ),
+                updateUserAttendanceUseCase(type = AttendanceType.CLOCK_OUT, userId = userId)
+            ) { attendance, updateAttendance ->
+                Pair(attendance, updateAttendance)
+
+            }, tag = "addAttendance",
+            onStart = { setState { WorkSessionState.Loading } },
+            onComplete = { setState { WorkSessionState.Ideal } },
+            resultSuccess = { result ->
+                if (result.first is NetworkResult.Success && result.second is NetworkResult.Success) {
+                    setEffect { WorkSessionEffect.ShowMessage(RecordAttendanceError.AttendanceRecorded) }
+                }
+            },
+            resultFailure = {
+                setEffect { WorkSessionEffect.ShowMessage(RecordAttendanceError.ApiError(it.error)) }
+            }
+        )
+    }
+
 
     private fun List<Attendance>.mapAttendanceToPairs(): List<WorkSession> {
         val sortedRecords = this.sortedBy { it.createdAt } // Sort records by time
@@ -74,6 +124,7 @@ class WorkSessionViewModel(private val getAttendanceByUser: GetAttendanceByUser)
                     lastClockIn?.let { clockInRecord ->
                         result.add(
                             WorkSession(
+                                userId = clockInRecord.userId,
                                 clockInTime = clockInRecord.createdAt,
                                 clockOutTime = record.createdAt,
                                 clockInLocation = Location(
@@ -95,6 +146,7 @@ class WorkSessionViewModel(private val getAttendanceByUser: GetAttendanceByUser)
         lastClockIn?.let {
             result.add(
                 WorkSession(
+                    userId = it.userId,
                     clockInTime = it.createdAt,
                     clockOutTime = null,
                     clockInLocation = Location(it.lat, it.long),

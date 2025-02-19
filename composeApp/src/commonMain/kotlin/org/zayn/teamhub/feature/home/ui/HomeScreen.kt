@@ -32,7 +32,7 @@ import org.zayn.teamhub.core.models.AttendanceType
 import org.zayn.teamhub.core.models.User
 import org.zayn.teamhub.core.utils.toLocalizedDateTime
 import org.zayn.teamhub.feature.home.HomeEvent
-import org.zayn.teamhub.feature.home.HomeMessage
+import org.zayn.teamhub.feature.home.RecordAttendanceError
 import org.zayn.teamhub.feature.home.HomeSideEffect
 import org.zayn.teamhub.feature.home.HomeState
 import org.zayn.teamhub.feature.home.HomeViewModel
@@ -59,18 +59,18 @@ fun HomeScreen(viewModel: HomeViewModel = koinInject()) {
                 is HomeSideEffect.ShowSnackBar -> {
                     coroutineScope.launch {
                         when (effect.message) {
-                            is HomeMessage.ApiError -> snackBarHostState.showSnackbar(effect.message.message)
-                            HomeMessage.AttendanceRecorded -> snackBarHostState.showSnackbar(
+                            is RecordAttendanceError.ApiError -> snackBarHostState.showSnackbar(effect.message.message)
+                            RecordAttendanceError.AttendanceRecorded -> snackBarHostState.showSnackbar(
                                 attendanceRecordedText
                             )
 
-                            HomeMessage.GPSNotAllowed -> {
+                            RecordAttendanceError.GPSNotAllowed -> {
                                 snackBarHostState.showSnackbar(
                                     gpsNotAllowedText
                                 )
                             }
 
-                            HomeMessage.LocationNotAllowed -> {
+                            RecordAttendanceError.LocationNotAllowed -> {
                                 snackBarHostState.showSnackbar(
                                     locationPermissionNotGranted
                                 )

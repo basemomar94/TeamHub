@@ -9,7 +9,11 @@ interface IUserRepo {
     suspend fun getUser(id: String): Flow<NetworkResult<User>>
     suspend fun getAllCompanyUsers(companyId: String): Flow<NetworkResult<List<User>>>
     suspend fun addNewUser(user: User): Flow<NetworkResult<String>>
-    suspend fun addUserAttendance(type: AttendanceType): Flow<NetworkResult<Boolean>>
+    suspend fun addUserAttendance(
+        type: AttendanceType,
+        userId: String
+    ): Flow<NetworkResult<Boolean>>
+
     suspend fun getOnlineUsers(): Flow<NetworkResult<List<User>>>
 
 }

@@ -32,10 +32,13 @@ import teamhub.composeapp.generated.resources.still_clocked_in
 import teamhub.composeapp.generated.resources.total_time
 
 @Composable
-fun WorkSessionItem(session: WorkSession) {
+fun WorkSessionItem(session: WorkSession, onEndSessionClick: () -> Unit) {
     val logger = Logger.createLogger("WorkSessionItem")
-    val clockInText = session.clockInTime?.toLocalizedTime() ?: stringResource(Res.string.no_clock_in)
-    val clockOutText = session.clockOutTime?.toLocalizedTime() ?: stringResource(Res.string.still_clocked_in)
+    val isSessionOnGoing = session.clockOutTime?.toLocalizedTime() == null
+    val clockInText =
+        session.clockInTime?.toLocalizedTime() ?: stringResource(Res.string.no_clock_in)
+    val clockOutText =
+        session.clockOutTime?.toLocalizedTime() ?: stringResource(Res.string.still_clocked_in)
 
     val totalMinutesWorked = if (session.clockOutTime != null && session.clockInTime != null) {
         (session.clockOutTime - session.clockInTime) / 60000
@@ -62,31 +65,30 @@ fun WorkSessionItem(session: WorkSession) {
                 .padding(16.dp)
                 .fillMaxWidth()
         ) {
-            SessionItem(label = stringResource(Res.string.clock_in), text = clockInText) {
-                val lat = session.clockInLocation?.lat
-                val long = session.clockInLocation?.long
-                if (lat != null && long != null) {
+            SessionItem(
+                isOnGoing = false,
+                label = stringResource(Res.string.clock_in),
+                text = clockInText,
+                onMapClick = {
                     openMap(
-                        latitude = lat,
-                        longitude = long
+                        latitude = session.clockInLocation?.lat,
+                        longitude = session.clockInLocation?.long
                     )
-                } else {
-                    logger.e("location isn't provided")
-                }
-
-            }
-            SessionItem(label = stringResource(Res.string.clock_out), text = clockOutText) {
-                val lat = session.clockOutLocation?.lat
-                val long = session.clockOutLocation?.long
-                if (lat != null && long != null) {
+                },
+                onClearAttendanceClick = {}
+            )
+            SessionItem(
+                label = stringResource(Res.string.clock_out),
+                text = clockOutText,
+                isOnGoing = isSessionOnGoing,
+                onMapClick = {
                     openMap(
-                        latitude = lat,
-                        longitude = long
+                        latitude = session.clockOutLocation?.lat,
+                        longitude = session.clockOutLocation?.long
                     )
-                } else {
-                    logger.e("location isn't provided")
-                }
-            }
+                },
+                onClearAttendanceClick = onEndSessionClick
+            )
 
             Divider(modifier = Modifier.padding(vertical = 8.dp))
 

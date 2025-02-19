@@ -5,8 +5,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import org.koin.compose.viewmodel.koinViewModel
 import org.zayn.teamhub.core.desgin_repo.LoadingIndicator
-import org.zayn.teamhub.feature.work_day_details.WorkDayEvent
-import org.zayn.teamhub.feature.work_day_details.WorkDayState
+import org.zayn.teamhub.feature.work_day_details.WorkSessionEvent
+import org.zayn.teamhub.feature.work_day_details.WorkSessionState
 import org.zayn.teamhub.feature.work_day_details.WorkSessionViewModel
 
 @Composable
@@ -18,17 +18,21 @@ fun WorkDayScreen(
 ) {
     val state by viewModel.viewState.collectAsState()
     when (state) {
-        WorkDayState.Ideal -> viewModel.setEvent(
-            WorkDayEvent.GetDayDetails(
+        WorkSessionState.Ideal -> viewModel.setEvent(
+            WorkSessionEvent.GetSessionDetails(
                 userId = userId,
                 startOfDay = startOfDay,
                 endOfDay = endOfDay
             )
         )
 
-        WorkDayState.Loading -> LoadingIndicator()
-        is WorkDayState.DayDetails -> {
-            WorkSessionList((state as WorkDayState.DayDetails).attendanceList)
+        WorkSessionState.Loading -> LoadingIndicator()
+        is WorkSessionState.SessionDetails -> {
+            val sessionsList = (state as WorkSessionState.SessionDetails).attendanceList
+            WorkSessionList(sessionsList) {
+                viewModel.setEvent(WorkSessionEvent.EndSession(it))
+
+            }
         }
     }
 

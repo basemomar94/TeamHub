@@ -10,7 +10,8 @@ interface IAttendanceRepo {
     suspend fun addAttendance(
         type: AttendanceType,
         lat: Double?,
-        log: Double?
+        log: Double?,
+        userId: String
     ): Flow<NetworkResult<String>>
 
     suspend fun getAttendanceByUser(
