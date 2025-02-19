@@ -12,10 +12,10 @@ import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,7 +29,7 @@ import teamhub.composeapp.generated.resources.online_now
 
 @Composable
 fun OnlineUserGrid(users: List<User>) {
-    var selectedUser by remember { mutableStateOf<User?>(null) }
+    var selectedUser by remember<MutableState<User?>> { mutableStateOf(null) }
 
 
     Card(elevation = 4.dp, shape = RoundedCornerShape(12.dp), modifier = Modifier.padding(8.dp)) {
@@ -50,7 +50,7 @@ fun OnlineUserGrid(users: List<User>) {
             ) {
                 items(users) { user ->
                     UserItem(user = user) { clickedUser ->
-                        selectedUser = clickedUser
+                        {selectedUser = clickedUser}
                     }
                 }
             }

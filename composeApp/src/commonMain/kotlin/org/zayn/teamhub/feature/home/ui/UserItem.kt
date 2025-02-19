@@ -19,7 +19,7 @@ import org.zayn.teamhub.core.models.AttendanceType
 import org.zayn.teamhub.core.models.User
 
 @Composable
-fun UserItem(user: User, modifier: Modifier = Modifier, onClick: ((User) -> Unit?)? = null) {
+fun UserItem(user: User, modifier: Modifier = Modifier, onClick: ((User) -> () -> Unit)? = null) {
     Box(
         contentAlignment = Alignment.BottomEnd,
         modifier = modifier.clickable { onClick?.invoke(user) }
