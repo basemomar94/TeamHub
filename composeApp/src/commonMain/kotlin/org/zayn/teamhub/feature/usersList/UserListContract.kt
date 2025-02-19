@@ -6,7 +6,7 @@ import org.zayn.teamhub.core.base.ViewState
 import org.zayn.teamhub.core.models.User
 
 sealed class UserListState : ViewState {
-    data object UnIntiialized : UserListState()
+    data object Ideal : UserListState()
     data object Loading : UserListState()
     data class UsersListData(val users: List<User>?) : UserListState()
 

@@ -23,7 +23,7 @@ fun UsersListScreen(viewModel: UserListViewModel = koinInject(), onUserClick: (S
     val state by viewModel.viewState.collectAsState()
     when (state) {
         UserListState.Loading -> LoadingIndicator()
-        UserListState.UnIntiialized -> viewModel.setEvent(UserListEvent.GetUsers)
+        UserListState.Ideal -> viewModel.setEvent(UserListEvent.GetUsers)
         is UserListState.UsersListData -> {
             val users = (state as UserListState.UsersListData).users
             if (users != null) {

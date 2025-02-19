@@ -12,7 +12,7 @@ class UserListViewModel(private val getAllCompanyUsers: GetAllCompanyUsers) :
     BaseViewModel<UserListState, UserListEvent, UserListSideEffect>() {
 
     override fun setInitialState(): UserListState {
-        return UserListState.UnIntiialized
+        return UserListState.Ideal
     }
 
     override suspend fun handleEvents(event: UserListEvent) {
@@ -30,7 +30,6 @@ class UserListViewModel(private val getAllCompanyUsers: GetAllCompanyUsers) :
                     (it as NetworkResult.Success).data?.sortedByDescending { it.currentStatus == AttendanceType.CLOCK_IN.name }
                 setState { UserListState.UsersListData((users)) }
             },
-            onComplete = { setState { UserListState.UnIntiialized } }
         )
     }
 }

@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -21,13 +20,13 @@ import org.zayn.teamhub.core.models.AttendanceType
 import org.zayn.teamhub.core.models.User
 
 @Composable
-fun UserItem(user: User, modifier: Modifier = Modifier, onClick: ((User) -> () -> Unit)? = null) {
+fun UserCircularItem(user: User, modifier: Modifier = Modifier, onClick: ((User) -> () -> Unit)? = null) {
     Column {
         Box(
             contentAlignment = Alignment.BottomEnd,
             modifier = modifier.clickable { onClick?.invoke(user) }
         ) {
-            val initials = user.firstName?.firstOrNull()?.toString()?.uppercase().orEmpty() +
+            val initials = user.firstName?.firstOrNull()?.toString()?.uppercase().orEmpty() + " " +
                     user.lastName?.firstOrNull()?.toString()?.uppercase().orEmpty()
 
             Box(
@@ -54,11 +53,6 @@ fun UserItem(user: User, modifier: Modifier = Modifier, onClick: ((User) -> () -
                     .align(Alignment.BottomEnd)
             )
         }
-        Text(
-            text = user.firstName.orEmpty(),
-            style = MaterialTheme.typography.caption,
-            modifier = Modifier.align(Alignment.CenterHorizontally)
-        )
     }
 
 }

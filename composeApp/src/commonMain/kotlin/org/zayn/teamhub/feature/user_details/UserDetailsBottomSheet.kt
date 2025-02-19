@@ -21,7 +21,7 @@ import org.zayn.teamhub.core.models.User
 import org.zayn.teamhub.core.utils.dialContact
 import org.zayn.teamhub.core.utils.sendEmail
 import org.zayn.teamhub.core.utils.sendWhatsapp
-import org.zayn.teamhub.feature.home.ui.UserItem
+import org.zayn.teamhub.feature.home.ui.UserCircularItem
 
 @Composable
 fun UserDetailsSheet(user: User, onDismiss: () -> Unit) {
@@ -51,7 +51,7 @@ fun UserDetailsSheet(user: User, onDismiss: () -> Unit) {
                             .invokeOnCompletion { onDismiss() }
                     }
                 )
-                UserItem(user = user, modifier = Modifier.align(Alignment.CenterHorizontally))
+                UserCircularItem(user = user, modifier = Modifier.align(Alignment.CenterHorizontally))
                 Vspacer(8.dp)
                 Text(
                     modifier = Modifier.align(Alignment.CenterHorizontally),
