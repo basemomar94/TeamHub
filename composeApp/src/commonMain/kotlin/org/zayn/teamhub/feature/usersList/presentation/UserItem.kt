@@ -1,15 +1,9 @@
 package org.zayn.teamhub.feature.usersList.presentation
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -20,11 +14,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
 import org.zayn.teamhub.core.desgin_repo.Hspacer
-import org.zayn.teamhub.core.models.AttendanceType
-import org.zayn.teamhub.core.models.Roles
 import org.zayn.teamhub.core.models.User
-import org.zayn.teamhub.core.utils.Logger
-import org.zayn.teamhub.core.utils.Logger.Companion.createLogger
 import org.zayn.teamhub.core.utils.toLocalizedDateTime
 import org.zayn.teamhub.feature.home.ui.UserCircularItem
 import teamhub.composeapp.generated.resources.Res
