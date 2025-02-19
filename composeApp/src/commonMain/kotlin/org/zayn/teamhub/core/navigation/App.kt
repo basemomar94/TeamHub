@@ -117,7 +117,10 @@ private fun TeamHubNavigationHost(navController: NavHostController, userId: Stri
 
         composable(route = Screen.Splash.route) {
             SplashScreen {
-                navController.navigate(if (userId != null) Screen.Home.route else Screen.SignIn.route)
+                navController.navigate(if (userId != null) Screen.Home.route else Screen.SignIn.route){
+                    popUpTo(Screen.Splash.route) { inclusive = true }
+
+                }
             }
         }
 
