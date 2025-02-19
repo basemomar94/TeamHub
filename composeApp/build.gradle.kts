@@ -69,6 +69,7 @@ kotlin {
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.kotlinx.datetime)
             implementation(libs.multiplatform.settings.no.arg)
+            implementation(libs.androidx.core.splashscreen)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)

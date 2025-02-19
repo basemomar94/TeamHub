@@ -8,6 +8,6 @@ interface ISessionManager {
     fun putUserId(id: String)
     fun getUserId(): String?
 
-    fun putUserRole(roles: Roles)
+    fun putUserRole(role: String?)
     fun getUserRole(): Roles
 }

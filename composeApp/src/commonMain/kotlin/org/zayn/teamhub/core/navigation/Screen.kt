@@ -14,6 +14,7 @@ sealed class Screen(
     data object UsersList : Screen("users_list")
     data object SignUp : Screen("sign_up")
     data object Profile : Screen("Profile")
+    data object Splash:Screen("Splash")
     data object WorkSummary : Screen(
         route = "WorkSummary/{userId}",
         navArguments = listOf(navArgument("userId") {

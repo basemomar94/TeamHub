@@ -8,23 +8,33 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import org.zayn.teamhub.core.models.Roles
 import org.zayn.teamhub.core.utils.Logger
 import org.zayn.teamhub.core.utils.Logger.Companion.createLogger
+import org.zayn.teamhub.core.utils.data_store.ISessionManager
 
 @Composable
-fun BottomNavigationBar(navController: NavHostController) {
-    val items = listOf(
+fun BottomNavigationBar(navController: NavHostController, sessionManager: ISessionManager) {
+    val adminMenus = listOf(
         BottomNavItem.Home,
         BottomNavItem.Profile,
         BottomNavItem.Dashboard
     )
+    val userMenus = listOf(
+        BottomNavItem.Home,
+        BottomNavItem.Profile,
+    )
+    val bottomMenu = when (sessionManager.getUserRole()) {
+        Roles.ADMIN -> adminMenus
+        Roles.USER -> userMenus
+    }
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = currentBackStackEntry?.destination?.route
-    Logger.createLogger("currentRoute").d("current destination is $currentRoute")
-    val noBottomBarScreens = listOf(Screen.SignIn.route, Screen.SignUp.route)
+    Logger.createLogger("currentRoute").d("current destination is ${sessionManager.getUserRole()}")
+    val noBottomBarScreens = listOf(Screen.SignIn.route, Screen.SignUp.route,Screen.Splash.route)
     if (!noBottomBarScreens.contains(currentRoute) && currentRoute != null) {
         BottomNavigation {
-            items.forEach { item ->
+            bottomMenu.forEach { item ->
                 BottomNavigationItem(
                     icon = { Icon(imageVector = item.icon, contentDescription = "") },
                     label = { Text(item.label) },

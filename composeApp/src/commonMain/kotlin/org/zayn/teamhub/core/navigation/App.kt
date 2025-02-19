@@ -13,6 +13,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import dev.gitlive.firebase.auth.FirebaseAuth
 import org.koin.compose.koinInject
+import org.zayn.teamhub.core.utils.data_store.ISessionManager
+import org.zayn.teamhub.core.utils.data_store.SessionManager
 import org.zayn.teamhub.feature.dashboard.DashBoardScreen
 import org.zayn.teamhub.feature.sign_up.SignupScreen
 import org.zayn.teamhub.feature.usersList.presentation.UsersListScreen
@@ -20,11 +22,12 @@ import org.zayn.teamhub.feature.home.ui.HomeScreen
 import org.zayn.teamhub.feature.profile.ui.ProfileAction
 import org.zayn.teamhub.feature.profile.ui.ProfileScreen
 import org.zayn.teamhub.feature.signIn.ui.SignInScreen
+import org.zayn.teamhub.feature.splash.SplashScreen
 import org.zayn.teamhub.feature.work_day_details.ui.WorkDayScreen
 import org.zayn.teamhub.feature.work_summary.ui.WorkDaySummaryScreen
 
 @Composable
-fun App(auth: FirebaseAuth = koinInject()) {
+fun App(auth: FirebaseAuth = koinInject(), sessionManager: ISessionManager = koinInject()) {
     val navController = rememberNavController()
     val userId = auth.currentUser?.uid
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
@@ -38,7 +41,12 @@ fun App(auth: FirebaseAuth = koinInject()) {
                     text = appBarTitle,
                     onNavigationClick = { navController.popBackStack() })
             },
-            bottomBar = { BottomNavigationBar(navController) }
+            bottomBar = {
+                BottomNavigationBar(
+                    navController = navController,
+                    sessionManager = sessionManager
+                )
+            }
         ) { innerPadding ->
             Box(modifier = Modifier.padding(innerPadding)) {
                 TeamHubNavigationHost(navController, userId)
@@ -66,7 +74,7 @@ private fun getAppTitle(currentDestination: String?): String {
 private fun TeamHubNavigationHost(navController: NavHostController, userId: String?) {
     NavHost(
         navController = navController,
-        startDestination = if (userId != null) Screen.Home.route else Screen.SignIn.route
+        startDestination = Screen.Splash.route
     ) {
         composable(route = Screen.SignIn.route) {
             SignInScreen(
@@ -83,9 +91,10 @@ private fun TeamHubNavigationHost(navController: NavHostController, userId: Stri
         composable(route = Screen.Profile.route) {
             ProfileScreen { item ->
                 when (item.action) {
-                    ProfileAction.LOG_OUT -> navController.navigate(route = Screen.SignIn.route){
+                    ProfileAction.LOG_OUT -> navController.navigate(route = Screen.SignIn.route) {
                         popUpTo(Screen.Profile.route) { inclusive = true }
                     }
+
                     ProfileAction.ATTENDANCE -> navController.navigate(
                         route = Screen.WorkSummary.createRoute(
                             userId
@@ -104,6 +113,12 @@ private fun TeamHubNavigationHost(navController: NavHostController, userId: Stri
         }
         composable(route = Screen.SignUp.route) {
             SignupScreen(navigateHome = { navController.navigate(Screen.Home.route) })
+        }
+
+        composable(route = Screen.Splash.route) {
+            SplashScreen {
+                navController.navigate(if (userId != null) Screen.Home.route else Screen.SignIn.route)
+            }
         }
 
         composable(

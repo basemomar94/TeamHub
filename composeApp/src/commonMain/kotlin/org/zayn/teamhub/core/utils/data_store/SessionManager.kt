@@ -16,8 +16,8 @@ class SessionManager(private val pref: ISharedPrefManager) : ISessionManager {
         return pref.getString(USER_ID)
     }
 
-    override fun putUserRole(roles: Roles) {
-        pref.setString(USER_ROLE, roles.name)
+    override fun putUserRole(role: String?) {
+        pref.setString(USER_ROLE, role ?: Roles.USER.name)
     }
 
     override fun getUserRole(): Roles {

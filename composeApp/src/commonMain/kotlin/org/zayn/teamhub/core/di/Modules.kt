@@ -7,6 +7,7 @@ import dev.gitlive.firebase.firestore.firestore
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.singleOf
+import org.koin.core.module.dsl.viewModel
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 import org.zayn.teamhub.core.auth.AuthManager
@@ -36,7 +37,7 @@ import org.zayn.teamhub.feature.sign_up.SignupViewModel
 import org.zayn.teamhub.feature.work_summary.WorkSummaryViewModel
 import org.zayn.teamhub.feature.work_day_details.WorkSessionViewModel
 import org.zayn.teamhub.feature.profile.ProfileViewModel
-
+import org.zayn.teamhub.feature.splash.SplashViewModel
 
 private val repoModules = module {
     singleOf(::AuthManager) { bind<IAuthManager>() }
@@ -52,6 +53,7 @@ private val viewModelsModules = module {
     viewModelOf(::WorkSummaryViewModel)
     viewModelOf(::WorkSessionViewModel)
     viewModelOf(::ProfileViewModel)
+    viewModelOf(::SplashViewModel)
 }
 
 private val useCasesModules = module {
