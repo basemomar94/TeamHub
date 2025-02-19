@@ -23,7 +23,6 @@ import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import teamhub.composeapp.generated.resources.Res
 import teamhub.composeapp.generated.resources.edit_profile
-import teamhub.composeapp.generated.resources.enter_mail
 import teamhub.composeapp.generated.resources.log_out
 import teamhub.composeapp.generated.resources.my_attendance
 
