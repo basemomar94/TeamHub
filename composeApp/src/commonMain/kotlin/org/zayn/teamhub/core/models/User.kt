@@ -15,4 +15,5 @@ data class User(
     val currentStatus: String? = null,
     val role: String? = null,
     val phoneNumber: String? = null,
+    val profileImage: String? = null
 )

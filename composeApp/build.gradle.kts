@@ -70,6 +70,8 @@ kotlin {
             implementation(libs.kotlinx.datetime)
             implementation(libs.multiplatform.settings.no.arg)
             implementation(libs.androidx.core.splashscreen)
+            implementation(libs.kamel.image.default)
+
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)

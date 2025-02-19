@@ -15,6 +15,7 @@ import dev.gitlive.firebase.auth.FirebaseAuth
 import org.koin.compose.koinInject
 import org.zayn.teamhub.core.utils.data_store.ISessionManager
 import org.zayn.teamhub.feature.dashboard.DashBoardScreen
+import org.zayn.teamhub.feature.edit_profile.ui.EditProfileScreen
 import org.zayn.teamhub.feature.home.ui.HomeScreen
 import org.zayn.teamhub.feature.profile.ui.ProfileAction
 import org.zayn.teamhub.feature.profile.ui.ProfileScreen
@@ -99,6 +100,8 @@ private fun TeamHubNavigationHost(navController: NavHostController, userId: Stri
                             userId
                         )
                     )
+
+                    ProfileAction.EDIT_PROFILE -> navController.navigate(Screen.EditProfile.route)
                 }
             }
         }
@@ -116,11 +119,15 @@ private fun TeamHubNavigationHost(navController: NavHostController, userId: Stri
 
         composable(route = Screen.Splash.route) {
             SplashScreen {
-                navController.navigate(if (userId != null) Screen.Home.route else Screen.SignIn.route){
+                navController.navigate(if (userId != null) Screen.Home.route else Screen.SignIn.route) {
                     popUpTo(Screen.Splash.route) { inclusive = true }
 
                 }
             }
+        }
+
+        composable(route = Screen.EditProfile.route) {
+            EditProfileScreen()
         }
 
         composable(

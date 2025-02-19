@@ -34,9 +34,6 @@ class SplashViewModel(
     }
 
     private fun saveSessionData(user: User) {
-        with(sessionManager) {
-            putUserId(user.id ?: "")
-            putUserRole(user.role)
-        }
+        sessionManager.putUser(user)
     }
 }

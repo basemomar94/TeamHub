@@ -5,17 +5,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.input.KeyboardType
 
-@Composable
-fun MobileEditTextPreview() {
-    var password by remember { mutableStateOf("") }
-    MailEditText("") { password = it }
-}
 
 @Composable
 fun MailEditText(mail: String, onMailChange: (String) -> Unit) {
