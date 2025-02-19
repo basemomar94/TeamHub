@@ -2,6 +2,7 @@ package org.zayn.teamhub.feature.home.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -18,9 +19,10 @@ import org.zayn.teamhub.core.models.AttendanceType
 import org.zayn.teamhub.core.models.User
 
 @Composable
-fun UserItem(user: User) {
+fun UserItem(user: User, modifier: Modifier = Modifier, onClick: ((User) -> Unit?)? = null) {
     Box(
         contentAlignment = Alignment.BottomEnd,
+        modifier = modifier.clickable { onClick?.invoke(user) }
     ) {
         val initials = user.firstName?.firstOrNull()?.toString()?.uppercase().orEmpty() +
                 user.lastName?.firstOrNull()?.toString()?.uppercase().orEmpty()

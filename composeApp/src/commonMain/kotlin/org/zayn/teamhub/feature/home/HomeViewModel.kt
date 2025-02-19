@@ -5,8 +5,10 @@ import org.zayn.teamhub.core.base.BaseViewModel
 import org.zayn.teamhub.core.models.AttendanceType
 import org.zayn.teamhub.core.models.User
 import org.zayn.teamhub.core.usecases.AddAttendanceLogUseCase
+import org.zayn.teamhub.core.usecases.GetAllCompanyUsers
 import org.zayn.teamhub.core.usecases.GetCurrentUserUseCase
 import org.zayn.teamhub.core.usecases.GetOnlineUsers
+import org.zayn.teamhub.core.usecases.GetUserUseCase
 import org.zayn.teamhub.core.usecases.UpdateUserAttendanceUseCase
 import org.zayn.teamhub.core.utils.getCurrentLocation
 import org.zayn.teamhub.core.utils.isGpsAvailable
@@ -17,7 +19,7 @@ class HomeViewModel(
     private val userUseCase: GetCurrentUserUseCase,
     private val attendanceUseCase: AddAttendanceLogUseCase,
     private val updateUserAttendanceUseCase: UpdateUserAttendanceUseCase,
-    private val onlineUserUseCas: GetOnlineUsers
+    private val getCompanyUsers: GetAllCompanyUsers,
 ) :
     BaseViewModel<HomeState, HomeEvent, HomeSideEffect>() {
 
@@ -70,7 +72,10 @@ class HomeViewModel(
     private suspend fun getCurrentAndOnlineUsers() {
         launchAndCollectResult(
             tag = "getUser",
-            flow = combine(onlineUserUseCas(), userUseCase()) { onlineUsers, currentUser ->
+            flow = combine(
+                getCompanyUsers(companyId = "1"),
+                userUseCase()
+            ) { onlineUsers, currentUser ->
                 Pair(onlineUsers, currentUser)
             },
             onStart = { setState { HomeState.Loading } },

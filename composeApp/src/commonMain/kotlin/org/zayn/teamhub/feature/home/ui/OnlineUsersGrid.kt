@@ -12,17 +12,26 @@ import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
 import org.zayn.teamhub.core.desgin_repo.Vspacer
 import org.zayn.teamhub.core.models.User
+import org.zayn.teamhub.feature.user_details.UserDetailsSheet
 import teamhub.composeapp.generated.resources.Res
 import teamhub.composeapp.generated.resources.online_now
 
 @Composable
 fun OnlineUserGrid(users: List<User>) {
+    var selectedUser by remember { mutableStateOf<User?>(null) }
+
+
     Card(elevation = 4.dp, shape = RoundedCornerShape(12.dp), modifier = Modifier.padding(8.dp)) {
         Column(modifier = Modifier.padding(8.dp)) {
             Text(
@@ -40,9 +49,16 @@ fun OnlineUserGrid(users: List<User>) {
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 items(users) { user ->
-                    UserItem(user = user)
+                    UserItem(user = user) { clickedUser ->
+                        selectedUser = clickedUser
+                    }
                 }
             }
+        }
+    }
+    if (selectedUser != null) {
+        UserDetailsSheet(selectedUser!!) {
+            selectedUser = null
         }
     }
 

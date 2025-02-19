@@ -14,4 +14,5 @@ data class User(
     val lastUpdate: Long? = 0L,
     val currentStatus: String? = null,
     val role: String? = null,
+    val phoneNumber: String? = null,
 )
