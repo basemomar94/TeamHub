@@ -3,6 +3,8 @@ package org.zayn.teamhub.feature.work_day_details
 import kotlinx.coroutines.flow.combine
 import org.zayn.teamhub.core.base.BaseViewModel
 import org.zayn.teamhub.core.models.Attendance
+import org.zayn.teamhub.core.models.AttendanceFlag
+import org.zayn.teamhub.core.models.AttendanceMethod
 import org.zayn.teamhub.core.models.AttendanceType
 import org.zayn.teamhub.core.models.Location
 import org.zayn.teamhub.core.models.WorkSession
@@ -11,6 +13,7 @@ import org.zayn.teamhub.core.usecases.GetAttendanceByUser
 import org.zayn.teamhub.core.usecases.UpdateUserAttendanceUseCase
 import org.zayn.teamhub.core.utils.Logger.Companion.createLogger
 import org.zayn.teamhub.core.utils.getCurrentLocation
+import org.zayn.teamhub.core.utils.getCurrentTime
 import org.zayn.teamhub.core.utils.isGpsAvailable
 import org.zayn.teamhub.core.utils.isLocationAllowed
 import org.zayn.teamhub.core.utils.networkresultwrapper.NetworkResult
@@ -78,9 +81,13 @@ class WorkSessionViewModel(
             flow = combine(
                 attendanceUseCase(
                     attendanceType = AttendanceType.CLOCK_OUT,
-                    lat = location?.first,
-                    lon = location?.second,
-                    userId = userId
+                    lat = location?.lat,
+                    lon = location?.lon,
+                    userId = userId,
+                    deviceName = null,
+                    method = AttendanceMethod.ADMIN_ASSIGNED,
+                    flag = listOf(),
+                    time = getCurrentTime()
                 ),
                 updateUserAttendanceUseCase(type = AttendanceType.CLOCK_OUT, userId = userId)
             ) { attendance, updateAttendance ->

@@ -2,6 +2,8 @@ package org.zayn.teamhub.feature.home
 
 import kotlinx.coroutines.flow.combine
 import org.zayn.teamhub.core.base.BaseViewModel
+import org.zayn.teamhub.core.models.AttendanceFlag
+import org.zayn.teamhub.core.models.AttendanceMethod
 import org.zayn.teamhub.core.models.AttendanceType
 import org.zayn.teamhub.core.models.User
 import org.zayn.teamhub.core.usecases.AddAttendanceLogUseCase
@@ -9,7 +11,10 @@ import org.zayn.teamhub.core.usecases.GetAllCompanyUsers
 import org.zayn.teamhub.core.usecases.GetCurrentUserUseCase
 import org.zayn.teamhub.core.usecases.UpdateUserAttendanceUseCase
 import org.zayn.teamhub.core.utils.data_store.ISessionManager
+import org.zayn.teamhub.core.utils.getAttendanceFlag
 import org.zayn.teamhub.core.utils.getCurrentLocation
+import org.zayn.teamhub.core.utils.getCurrentTime
+import org.zayn.teamhub.core.utils.getFullDeviceName
 import org.zayn.teamhub.core.utils.isGpsAvailable
 import org.zayn.teamhub.core.utils.isLocationAllowed
 import org.zayn.teamhub.core.utils.networkresultwrapper.NetworkResult
@@ -23,6 +28,7 @@ class HomeViewModel(
 ) :
     BaseViewModel<HomeState, HomeEvent, HomeSideEffect>() {
     private val currentUser = sessionManager.getUser()
+    private val company = sessionManager.getCompany()
 
     override fun setInitialState(): HomeState {
         return HomeState.UnInitialized
@@ -45,13 +51,29 @@ class HomeViewModel(
             return
         }
         val location = getCurrentLocation()
+        val deviceName = getFullDeviceName()
+        val time = getCurrentTime()
+
+        val flags =
+            getAttendanceFlag(
+                company = company,
+                user = currentUser,
+                attendanceLocation = location,
+                attendanceDevice = deviceName,
+                attendanceTime = time,
+                type = type
+            )
         launchAndCollectResult(
             flow = combine(
                 attendanceUseCase(
                     userId = currentUser?.id ?: "",
                     attendanceType = type,
-                    lat = location?.first,
-                    lon = location?.second
+                    lat = location?.lat,
+                    lon = location?.lon,
+                    deviceName = getFullDeviceName(),
+                    method = AttendanceMethod.MANUAL,
+                    flag = flags,
+                    time = time
                 ),
                 updateUserAttendanceUseCase(type = type, userId = currentUser?.id ?: "")
             ) { attendance, updateAttendance ->

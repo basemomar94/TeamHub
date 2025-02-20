@@ -72,7 +72,7 @@ fun WorkSessionItem(session: WorkSession, onEndSessionClick: () -> Unit) {
                 onMapClick = {
                     openMap(
                         latitude = session.clockInLocation?.lat,
-                        longitude = session.clockInLocation?.long
+                        longitude = session.clockInLocation?.lon
                     )
                 },
                 onClearAttendanceClick = {}
@@ -84,7 +84,7 @@ fun WorkSessionItem(session: WorkSession, onEndSessionClick: () -> Unit) {
                 onMapClick = {
                     openMap(
                         latitude = session.clockOutLocation?.lat,
-                        longitude = session.clockOutLocation?.long
+                        longitude = session.clockOutLocation?.lon
                     )
                 },
                 onClearAttendanceClick = onEndSessionClick

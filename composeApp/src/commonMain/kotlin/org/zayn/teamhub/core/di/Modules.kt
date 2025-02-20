@@ -12,14 +12,17 @@ import org.koin.dsl.module
 import org.zayn.teamhub.core.auth.AuthManager
 import org.zayn.teamhub.core.auth.IAuthManager
 import org.zayn.teamhub.core.repo.IAttendanceRepo
+import org.zayn.teamhub.core.repo.ICompanyRepo
 import org.zayn.teamhub.core.repo.IUserRepo
 import org.zayn.teamhub.core.repo_Impl.AttendanceReoImp
+import org.zayn.teamhub.core.repo_Impl.CompanyRepo
 import org.zayn.teamhub.core.repo_Impl.UserRepoImp
 import org.zayn.teamhub.core.usecases.AddAttendanceLogUseCase
 import org.zayn.teamhub.core.usecases.AddNewUserUseCase
 import org.zayn.teamhub.core.usecases.AuthNewUserUseCase
 import org.zayn.teamhub.core.usecases.GetAllCompanyUsers
 import org.zayn.teamhub.core.usecases.GetAttendanceByUser
+import org.zayn.teamhub.core.usecases.GetCompanyByIdUseCase
 import org.zayn.teamhub.core.usecases.GetCurrentUserUseCase
 import org.zayn.teamhub.core.usecases.GetOnlineUsers
 import org.zayn.teamhub.core.usecases.GetUserUseCase
@@ -43,6 +46,7 @@ private val repoModules = module {
     singleOf(::AuthManager) { bind<IAuthManager>() }
     single<IUserRepo> { UserRepoImp(get(), get()) }
     single<IAttendanceRepo> { AttendanceReoImp(get(), get()) }
+    single<ICompanyRepo> { CompanyRepo(get()) }
 }
 
 private val viewModelsModules = module {
@@ -69,6 +73,7 @@ private val useCasesModules = module {
     factory { UpdateUserAttendanceUseCase(get()) }
     factory { GetAttendanceByUser(get()) }
     factory { GetOnlineUsers(get()) }
+    factory { GetCompanyByIdUseCase(get()) }
 }
 
 private val firebaseModules = module {

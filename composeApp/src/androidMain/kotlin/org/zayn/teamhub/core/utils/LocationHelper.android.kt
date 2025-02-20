@@ -13,7 +13,7 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 import org.zayn.teamhub.core.utils.Logger.Companion.createLogger
 import kotlin.coroutines.resume
 
-actual suspend fun getCurrentLocation(): Pair<Double, Double>? {
+actual suspend fun getCurrentLocation(): org.zayn.teamhub.core.models.Location? {
     val fusedLocationClient = LocationServices.getFusedLocationProviderClient(AppContext.get())
 
     return suspendCancellableCoroutine { continuation ->
@@ -28,8 +28,8 @@ actual suspend fun getCurrentLocation(): Pair<Double, Double>? {
         fusedLocationClient.lastLocation
             .addOnSuccessListener { location: Location? ->
                 location?.let {
-                    continuation.resume(Pair(it.latitude, it.longitude))
-                } ?: continuation.resume(null)
+                    continuation.resume(org.zayn.teamhub.core.models.Location(it.latitude, it.longitude))
+                } ?: continuation.resume(org.zayn.teamhub.core.models.Location())
             }
             .addOnFailureListener {
                 continuation.resume(null)

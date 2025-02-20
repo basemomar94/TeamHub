@@ -1,7 +1,9 @@
 package org.zayn.teamhub.core.utils
 
 import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.LocalTime
 import kotlinx.datetime.Month
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.atStartOfDayIn
@@ -9,6 +11,7 @@ import kotlinx.datetime.atTime
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 import org.zayn.teamhub.core.models.Time
+import org.zayn.teamhub.core.utils.Logger.Companion.createLogger
 
 fun getCurrentTime() = Clock.System.now().toEpochMilliseconds()
 
@@ -86,3 +89,27 @@ private fun isLeapYear(year: Int): Boolean {
 }
 
 expect fun Long?.toLocalizedTime(): String?
+
+fun calculateTimeDifference(clockInTime: String, userCheckInMillis: Long): Long {
+    try {
+        val (hour, minute) = clockInTime.split(":").map { it.toInt() }
+        val companyClockInTime = LocalTime(hour, minute)
+
+        val userCheckInInstant = Instant.fromEpochMilliseconds(userCheckInMillis)
+        val userCheckInTime =
+            userCheckInInstant.toLocalDateTime(TimeZone.currentSystemDefault()).time
+
+        return companyClockInTime.minutesUntil(userCheckInTime, TimeZone.currentSystemDefault())
+    } catch (e: Exception) {
+        Logger.createLogger("calculateTimeDifference").e("parsing error ${e.message}")
+        return 0
+    }
+
+
+}
+
+fun LocalTime.minutesUntil(other: LocalTime, timeZone: TimeZone): Long {
+    val thisMinutes = this.hour * 60 + this.minute
+    val otherMinutes = other.hour * 60 + other.minute
+    return (otherMinutes - thisMinutes).toLong()
+}

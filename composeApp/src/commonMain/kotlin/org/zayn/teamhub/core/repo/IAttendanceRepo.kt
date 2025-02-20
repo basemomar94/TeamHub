@@ -2,6 +2,8 @@ package org.zayn.teamhub.core.repo
 
 import kotlinx.coroutines.flow.Flow
 import org.zayn.teamhub.core.models.Attendance
+import org.zayn.teamhub.core.models.AttendanceFlag
+import org.zayn.teamhub.core.models.AttendanceMethod
 import org.zayn.teamhub.core.models.AttendanceType
 import org.zayn.teamhub.core.utils.networkresultwrapper.NetworkResult
 
@@ -11,7 +13,11 @@ interface IAttendanceRepo {
         type: AttendanceType,
         lat: Double?,
         log: Double?,
-        userId: String
+        userId: String,
+        deviceName: String?,
+        flag: List<String>,
+        time: Long,
+        method: AttendanceMethod
     ): Flow<NetworkResult<String>>
 
     suspend fun getAttendanceByUser(

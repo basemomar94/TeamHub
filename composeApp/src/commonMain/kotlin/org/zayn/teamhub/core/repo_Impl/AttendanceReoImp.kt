@@ -6,6 +6,8 @@ import dev.gitlive.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.flow.Flow
 import org.zayn.teamhub.core.base.BaseRepo
 import org.zayn.teamhub.core.models.Attendance
+import org.zayn.teamhub.core.models.AttendanceFlag
+import org.zayn.teamhub.core.models.AttendanceMethod
 import org.zayn.teamhub.core.models.AttendanceType
 import org.zayn.teamhub.core.repo.IAttendanceRepo
 import org.zayn.teamhub.core.utils.CollectionReference
@@ -23,15 +25,22 @@ class AttendanceReoImp(
         type: AttendanceType,
         lat: Double?,
         log: Double?,
-        userId: String
+        userId: String,
+        deviceName: String?,
+        flag: List<String>,
+        time:Long,
+        method: AttendanceMethod,
     ): Flow<NetworkResult<String>> {
         val attendance =
             Attendance(
                 lat = lat,
                 long = log,
                 userId = userId,
-                createdAt = getCurrentTime(),
-                type = type.name
+                createdAt =time,
+                type = type.name,
+                method = method.name,
+                flag = flag,
+                deviceName = deviceName
             )
         return firestore.addDocumentAsFlow(
             collection = FirebaseCollections.ATTENDANCE_COLLECTION,

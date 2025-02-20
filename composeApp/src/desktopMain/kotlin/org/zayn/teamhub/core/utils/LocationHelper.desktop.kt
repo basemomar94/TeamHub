@@ -1,6 +1,8 @@
 package org.zayn.teamhub.core.utils
 
-actual suspend fun getCurrentLocation(): Pair<Double, Double>? {
+import org.zayn.teamhub.core.models.Location
+
+actual suspend fun getCurrentLocation(): Location? {
     TODO("Not yet implemented")
 }
 
