@@ -9,13 +9,10 @@ plugins {
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.googleGmsGoogleServices)
     alias(libs.plugins.kotlinSerialization)
-   // id("dev.icerock.mobile.multiplatform-resources")
-
 }
 
 kotlin {
     androidTarget {
-        @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_17)
         }
@@ -29,8 +26,6 @@ kotlin {
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
             isStatic = true
-            export("dev.icerock.moko:resources:0.22.3")
-            export("dev.icerock.moko:graphics:0.9.0")
         }
     }
     
@@ -38,11 +33,7 @@ kotlin {
     
     sourceSets {
         val desktopMain by getting
-       /* val commonMain by getting {
-            dependencies {
-                api(libs.resources)
-            }
-        }*/
+
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
@@ -54,7 +45,6 @@ kotlin {
             implementation(compose.material)
             implementation(compose.ui)
             implementation(compose.components.resources)
-            implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
             implementation(libs.koin.core)
@@ -70,8 +60,6 @@ kotlin {
             implementation(libs.kotlinx.datetime)
             implementation(libs.multiplatform.settings.no.arg)
             implementation(libs.kamel.image.default)
-           // implementation(libs.font.awesome)
-          //  implementation(libs.cupertino.icons.extended)
 
         }
         desktopMain.dependencies {
