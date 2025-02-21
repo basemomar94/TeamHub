@@ -92,7 +92,7 @@ android {
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = (System.currentTimeMillis() / 1000).toInt()
-        versionName = "0.1.0.2"
+        versionName = "0.1.0.3"
     }
 
     flavorDimensions += "mode"
