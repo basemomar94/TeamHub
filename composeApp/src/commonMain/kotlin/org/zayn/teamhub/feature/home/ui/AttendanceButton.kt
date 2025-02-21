@@ -11,7 +11,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.zayn.teamhub.core.desgin_repo.Vspacer
 
 
@@ -53,10 +52,4 @@ fun AttendanceButton(
 
         }
     }
-}
-
-@Preview
-@Composable
-fun AttendanceButtonPreview() {
-    AttendanceButton(title = "Check In", attendanceTime = "25/3/25 03:25 am", isEnabled = true) {}
 }

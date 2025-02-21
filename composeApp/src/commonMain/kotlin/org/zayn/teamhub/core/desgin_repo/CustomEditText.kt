@@ -15,14 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.input.VisualTransformation
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
-
-@Preview
-@Composable
-fun CustomTextFieldPreview() {
-    CustomTextField("test") { }
-}
 
 @Composable
 fun CustomTextField(
