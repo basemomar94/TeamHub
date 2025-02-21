@@ -6,10 +6,14 @@ import androidx.compose.runtime.Composable
 import org.zayn.teamhub.core.models.WorkSession
 
 @Composable
-fun WorkSessionList(workdayList: List<WorkSession>, onSessionEnd: (String) -> Unit) {
+fun WorkSessionList(
+    workdayList: List<WorkSession>,
+    isAdmin: Boolean,
+    onSessionEnd: (String) -> Unit
+) {
     LazyColumn {
         items(workdayList) { work ->
-            WorkSessionItem(work, { onSessionEnd(work.userId ?: "") })
+            WorkSessionItem(work, isAdmin) { onSessionEnd(work.userId ?: "") }
         }
 
     }

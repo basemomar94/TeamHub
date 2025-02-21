@@ -17,6 +17,7 @@ fun WorkDayScreen(
     endOfDay: Long,
 ) {
     val state by viewModel.viewState.collectAsState()
+    val isAdmin = viewModel.isAdmin
     when (state) {
         WorkSessionState.Ideal -> viewModel.setEvent(
             WorkSessionEvent.GetSessionDetails(
@@ -29,7 +30,7 @@ fun WorkDayScreen(
         WorkSessionState.Loading -> LoadingIndicator()
         is WorkSessionState.SessionDetails -> {
             val sessionsList = (state as WorkSessionState.SessionDetails).attendanceList
-            WorkSessionList(sessionsList) {
+            WorkSessionList(sessionsList, isAdmin) {
                 viewModel.setEvent(WorkSessionEvent.EndSession(it))
 
             }

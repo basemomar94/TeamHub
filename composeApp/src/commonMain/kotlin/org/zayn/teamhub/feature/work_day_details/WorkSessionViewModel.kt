@@ -13,10 +13,12 @@ import org.zayn.teamhub.core.usecases.AddAttendanceLogUseCase
 import org.zayn.teamhub.core.usecases.GetAttendanceByUser
 import org.zayn.teamhub.core.usecases.UpdateUserAttendanceUseCase
 import org.zayn.teamhub.core.utils.Logger.Companion.createLogger
+import org.zayn.teamhub.core.utils.data_store.ISessionManager
 import org.zayn.teamhub.core.utils.enumValueOf
 import org.zayn.teamhub.core.utils.enumValueOrNullOf
 import org.zayn.teamhub.core.utils.getCurrentLocation
 import org.zayn.teamhub.core.utils.getCurrentTime
+import org.zayn.teamhub.core.utils.isAdmin
 import org.zayn.teamhub.core.utils.isGpsAvailable
 import org.zayn.teamhub.core.utils.isLocationAllowed
 import org.zayn.teamhub.core.utils.networkresultwrapper.NetworkResult
@@ -26,9 +28,11 @@ class WorkSessionViewModel(
     private val getAttendanceByUser: GetAttendanceByUser,
     private val attendanceUseCase: AddAttendanceLogUseCase,
     private val updateUserAttendanceUseCase: UpdateUserAttendanceUseCase,
+    sessionManager: ISessionManager
 ) :
     BaseViewModel<WorkSessionState, WorkSessionEvent, WorkSessionEffect>() {
     val logger = this.createLogger()
+    val isAdmin = sessionManager.getUser().isAdmin()
 
     override fun setInitialState(): WorkSessionState {
         return WorkSessionState.Ideal
@@ -96,7 +100,7 @@ class WorkSessionViewModel(
             ) { attendance, updateAttendance ->
                 Pair(attendance, updateAttendance)
 
-            }, tag = "addAttendance",
+            }, tag = "addAttendance with $userId",
             onStart = { setState { WorkSessionState.Loading } },
             onComplete = { setState { WorkSessionState.Ideal } },
             resultSuccess = { result ->
