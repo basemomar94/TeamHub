@@ -6,6 +6,7 @@ import org.zayn.teamhub.core.models.AttendanceType
 import org.zayn.teamhub.core.models.WorkDaySummary
 import org.zayn.teamhub.core.usecases.GetAttendanceByUser
 import org.zayn.teamhub.core.utils.Logger.Companion.createLogger
+import org.zayn.teamhub.core.utils.enumValueOrNullOf
 import org.zayn.teamhub.core.utils.getCurrentTime
 import org.zayn.teamhub.core.utils.getEndOfCurrentMonth
 import org.zayn.teamhub.core.utils.getStartOfCurrentMonth
@@ -59,12 +60,7 @@ class WorkSummaryViewModel(private val getAttendanceByUser: GetAttendanceByUser)
                 var lastClockIn: Long? = null
 
                 sortedRecords.forEach { record ->
-                    val attendanceType = try {
-                        AttendanceType.valueOf(record.type)
-                    } catch (e: IllegalArgumentException) {
-                        logger.w("Unknown attendance type: ${record.type}")
-                        null
-                    }
+                    val attendanceType = enumValueOrNullOf<AttendanceType>(record.type)
 
                     when (attendanceType) {
                         AttendanceType.CLOCK_IN -> {

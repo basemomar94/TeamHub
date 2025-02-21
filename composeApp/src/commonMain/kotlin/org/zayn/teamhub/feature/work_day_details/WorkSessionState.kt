@@ -4,7 +4,6 @@ import org.zayn.teamhub.core.base.ViewEvent
 import org.zayn.teamhub.core.base.ViewSideEffect
 import org.zayn.teamhub.core.base.ViewState
 import org.zayn.teamhub.core.models.WorkSession
-import org.zayn.teamhub.core.models.WorkSession2
 import org.zayn.teamhub.feature.home.RecordAttendanceError
 
 sealed class WorkSessionEvent : ViewEvent {
@@ -17,7 +16,7 @@ sealed class WorkSessionEvent : ViewEvent {
 sealed class WorkSessionState : ViewState {
     data object Ideal : WorkSessionState()
     data object Loading : WorkSessionState()
-    data class SessionDetails(val attendanceList: List<WorkSession2>) : WorkSessionState()
+    data class SessionDetails(val attendanceList: List<WorkSession>) : WorkSessionState()
 
 }
 

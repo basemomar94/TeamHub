@@ -15,7 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import org.zayn.teamhub.core.models.WorkSession2
+import org.zayn.teamhub.core.models.WorkSession
 import org.zayn.teamhub.core.utils.Logger
 import org.zayn.teamhub.core.utils.Logger.Companion.createLogger
 import org.zayn.teamhub.core.utils.openMap
@@ -32,7 +32,7 @@ import teamhub.composeapp.generated.resources.still_clocked_in
 import teamhub.composeapp.generated.resources.total_time
 
 @Composable
-fun WorkSessionItem(session: WorkSession2, onEndSessionClick: () -> Unit) {
+fun WorkSessionItem(session: WorkSession, onEndSessionClick: () -> Unit) {
     val logger = Logger.createLogger("WorkSessionItem")
     val isSessionOnGoing = session.clockOut?.createdAt?.toLocalizedTime() == null
     val clockInText =

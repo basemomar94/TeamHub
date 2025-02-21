@@ -12,3 +12,14 @@ inline fun <reified T : Enum<T>> enumValueOf(name: String?, default: T): T {
         default
     }
 }
+
+inline fun <reified T : Enum<T>> enumValueOrNullOf(name: String?): T? {
+    return try {
+        if (name != null) {
+            enumValueOf<T>(name)
+        } else null
+    } catch (e: IllegalArgumentException) {
+        Logger.createLogger("enumValueOfOrNull").e("parsing enum error ${e.message}")
+        null
+    }
+}

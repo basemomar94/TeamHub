@@ -9,11 +9,12 @@ import org.zayn.teamhub.core.models.AttendanceType
 import org.zayn.teamhub.core.models.Location
 import org.zayn.teamhub.core.models.Session
 import org.zayn.teamhub.core.models.WorkSession
-import org.zayn.teamhub.core.models.WorkSession2
 import org.zayn.teamhub.core.usecases.AddAttendanceLogUseCase
 import org.zayn.teamhub.core.usecases.GetAttendanceByUser
 import org.zayn.teamhub.core.usecases.UpdateUserAttendanceUseCase
 import org.zayn.teamhub.core.utils.Logger.Companion.createLogger
+import org.zayn.teamhub.core.utils.enumValueOf
+import org.zayn.teamhub.core.utils.enumValueOrNullOf
 import org.zayn.teamhub.core.utils.getCurrentLocation
 import org.zayn.teamhub.core.utils.getCurrentTime
 import org.zayn.teamhub.core.utils.isGpsAvailable
@@ -110,18 +111,13 @@ class WorkSessionViewModel(
     }
 
 
-    private fun List<Attendance>.mapAttendanceToPairs(): List<WorkSession2> {
+    private fun List<Attendance>.mapAttendanceToPairs(): List<WorkSession> {
         val sortedRecords = this.sortedBy { it.createdAt } // Sort records by time
-        val result = mutableListOf<WorkSession2>()
+        val result = mutableListOf<WorkSession>()
         var lastClockIn: Attendance? = null
 
         sortedRecords.forEach { record ->
-            val attendanceType = try {
-                AttendanceType.valueOf(record.type)
-            } catch (e: IllegalArgumentException) {
-                logger.w("Unknown attendance type: ${record.type}")
-                null
-            }
+            val attendanceType = enumValueOrNullOf<AttendanceType>(record.type)
 
             when (attendanceType) {
                 AttendanceType.CLOCK_IN -> {
@@ -132,33 +128,36 @@ class WorkSessionViewModel(
                 AttendanceType.CLOCK_OUT -> {
                     lastClockIn?.let { clockInRecord ->
                         result.add(
-                            WorkSession2(
+                            WorkSession(
                                 userId = clockInRecord.userId,
                                 clockIn = Session(
                                     createdAt = clockInRecord.createdAt,
                                     deviceName = clockInRecord.deviceName,
-                                    flags = clockInRecord.flag?.map { AttendanceFlag.valueOf(it) },
-                                    location = Location(lat = clockInRecord.lat, lon = clockInRecord.long)
+                                    flags = clockInRecord.flag?.map {
+                                        enumValueOf(
+                                            it,
+                                            AttendanceFlag.NONE
+                                        )
+                                    },
+                                    location = Location(
+                                        lat = clockInRecord.lat,
+                                        lon = clockInRecord.long
+                                    )
 
                                 ),
                                 clockOut = Session(
                                     createdAt = record.createdAt,
                                     deviceName = record.deviceName,
-                                    flags = record.flag?.map { AttendanceFlag.valueOf(it) },
+                                    flags = record.flag?.map {
+                                        enumValueOf(
+                                            it,
+                                            AttendanceFlag.NONE
+                                        )
+                                    },
                                     location = Location(lat = record.lat, lon = record.long),
 
-                                )
+                                    )
                             )
-                            /* WorkSession(
-                                 userId = clockInRecord.userId,
-                                 clockInTime = clockInRecord.createdAt,
-                                 clockOutTime = record.createdAt,
-                                 clockInLocation = Location(
-                                     clockInRecord.lat,
-                                     clockInRecord.long
-                                 ),
-                                 clockOutLocation = Location(record.lat, record.long)
-                             )*/
                         )
                         logger.d("User clocked out at ${record.createdAt}, worked: ${(record.createdAt - clockInRecord.createdAt) / 1000} seconds")
                         lastClockIn = null
@@ -171,12 +170,12 @@ class WorkSessionViewModel(
 
         lastClockIn?.let {
             result.add(
-                WorkSession2(
+                WorkSession(
                     userId = it.userId,
                     clockIn = Session(
                         createdAt = it.createdAt,
                         deviceName = it.deviceName,
-                        flags = it.flag?.map { AttendanceFlag.valueOf(it) },
+                        flags = it.flag?.map { enumValueOf(it, AttendanceFlag.NONE) },
                         location = Location(lat = it.lat, lon = it.long)
 
                     ),
