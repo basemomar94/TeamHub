@@ -12,6 +12,7 @@ import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.runtime.Composable
@@ -19,9 +20,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
-import compose.icons.FontAwesomeIcons
-import compose.icons.fontawesomeicons.Regular
-import compose.icons.fontawesomeicons.regular.StopCircle
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import teamhub.composeapp.generated.resources.Res
@@ -74,7 +72,7 @@ val attendanceItem = ProfileItem(
 
 val logoutItem = ProfileItem(
     title = Res.string.log_out,
-    icon = FontAwesomeIcons.Regular.StopCircle,
+    icon = Icons.Default.AccountCircle,
     action = ProfileAction.LOG_OUT
 )
 

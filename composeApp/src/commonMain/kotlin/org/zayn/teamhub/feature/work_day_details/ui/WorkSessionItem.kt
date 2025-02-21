@@ -14,6 +14,7 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -21,12 +22,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import compose.icons.FontAwesomeIcons
-import compose.icons.fontawesomeicons.Solid
-import compose.icons.fontawesomeicons.solid.HourglassEnd
-import compose.icons.fontawesomeicons.solid.HourglassHalf
 import org.jetbrains.compose.resources.stringResource
 import org.zayn.teamhub.core.desgin_repo.ConfirmationDialog
 import org.zayn.teamhub.core.models.WorkSession
@@ -109,7 +105,7 @@ fun WorkSessionItem(session: WorkSession, isAdmin: Boolean, onEndSessionClick: (
                 if (isSessionOnGoing) {
                     if (isAdmin) {
                         Icon(
-                            FontAwesomeIcons.Solid.HourglassHalf,
+                            Icons.Default.PlayArrow,
                             modifier = Modifier.size(24.dp),
                             contentDescription = ""
                         )
