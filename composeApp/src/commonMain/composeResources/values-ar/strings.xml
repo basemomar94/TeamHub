@@ -38,5 +38,5 @@
     <string name="online_now">مسجل الدخول الآن</string>
     <string name="edit_profile">تعديل الملف الشخصي</string>
     <string name="user_info">بيانات المستخدم</string>
-
+    <string name="user_attendance">حضور المستخدم</string>
 </resources>

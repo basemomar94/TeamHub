@@ -41,6 +41,8 @@ import org.zayn.teamhub.feature.usersList.presentation.UserListViewModel
 import org.zayn.teamhub.feature.work_day_details.WorkSessionViewModel
 import org.zayn.teamhub.feature.work_summary.WorkSummaryViewModel
 import org.zayn.teamhub.feature.edit_profile.EditProfileViewModel
+import org.zayn.teamhub.feature.user_details.UserDetailsViewModel
+
 
 private val repoModules = module {
     singleOf(::AuthManager) { bind<IAuthManager>() }
@@ -59,7 +61,7 @@ private val viewModelsModules = module {
     viewModelOf(::ProfileViewModel)
     viewModelOf(::SplashViewModel)
     viewModelOf(::EditProfileViewModel)
-
+    viewModelOf(::UserDetailsViewModel)
 }
 
 private val useCasesModules = module {

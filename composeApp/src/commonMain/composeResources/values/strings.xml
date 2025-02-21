@@ -40,5 +40,6 @@
     <string name="online_now">Clocked in now</string>
     <string name="edit_profile">Edit your profile</string>
     <string name="user_info">User info</string>
+    <string name="user_attendance">User Attendance</string>
 
 </resources>

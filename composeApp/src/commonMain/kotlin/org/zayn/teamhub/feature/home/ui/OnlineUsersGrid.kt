@@ -22,7 +22,7 @@ import org.zayn.teamhub.feature.user_details.UserDetailsDialog
 import org.zayn.teamhub.feature.user_details.UserDetailsSheet
 
 @Composable
-fun OnlineUserGrid(users: List<User>) {
+fun OnlineUserGrid(users: List<User>, onAttendanceClick: (String?) -> Unit) {
     var selectedUser by remember<MutableState<User?>> { mutableStateOf(null) }
 
 
@@ -46,7 +46,9 @@ fun OnlineUserGrid(users: List<User>) {
         }
     }
     if (selectedUser != null) {
-        UserDetailsDialog(selectedUser!!) {
+        UserDetailsDialog(user = selectedUser!!, onAttendanceClick = {
+            onAttendanceClick(it)
+        }) {
             selectedUser = null
         }
     }

@@ -1,9 +1,7 @@
 package org.zayn.teamhub.feature.user_details
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import compose.icons.fontawesomeicons.Solid
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -13,31 +11,26 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.AlertDialog
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.material.TextButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import compose.icons.AllIcons
 import compose.icons.FontAwesomeIcons
-import compose.icons.fontawesomeicons.Brands
 import compose.icons.fontawesomeicons.Solid
-import compose.icons.fontawesomeicons.brands.FontAwesome
 import compose.icons.fontawesomeicons.solid.Archive
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.viewmodel.koinViewModel
+import org.zayn.teamhub.core.desgin_repo.DefaultButton
 import org.zayn.teamhub.core.desgin_repo.Vspacer
 import org.zayn.teamhub.core.models.User
 import org.zayn.teamhub.core.utils.dialContact
@@ -46,11 +39,18 @@ import org.zayn.teamhub.core.utils.sendWhatsapp
 import org.zayn.teamhub.core.utils.toLocalizedDateTime
 import org.zayn.teamhub.feature.home.ui.UserCircularItem
 import teamhub.composeapp.generated.resources.Res
+import teamhub.composeapp.generated.resources.attendance_recorded
 import teamhub.composeapp.generated.resources.last_update
+import teamhub.composeapp.generated.resources.user_attendance
 import teamhub.composeapp.generated.resources.user_info
 
 @Composable
-fun UserDetailsDialog(user: User, onDismiss: () -> Unit) {
+fun UserDetailsDialog(
+    viewModel: UserDetailsViewModel = koinViewModel(),
+    user: User,
+    onAttendanceClick: (String?) -> Unit,
+    onDismiss: () -> Unit
+) {
     Dialog(onDismissRequest = onDismiss) {
         Card(
             shape = RoundedCornerShape(16.dp), modifier = Modifier.fillMaxWidth().padding(8.dp)
@@ -128,6 +128,15 @@ fun UserDetailsDialog(user: User, onDismiss: () -> Unit) {
                     }
                 }
 
+                if (viewModel.isAdmin) {
+                    DefaultButton(
+                        text = stringResource(Res.string.user_attendance),
+                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                    ) {
+                        onAttendanceClick(user.id)
+
+                    }
+                }
                 Spacer(modifier = Modifier.height(16.dp))
             }
         }

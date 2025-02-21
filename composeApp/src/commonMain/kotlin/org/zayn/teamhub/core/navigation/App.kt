@@ -88,7 +88,9 @@ private fun TeamHubNavigationHost(navController: NavHostController, userId: Stri
                 onSignUp = { navController.navigate(Screen.SignUp.route) })
         }
         composable(route = Screen.Home.route) {
-            HomeScreen()
+            HomeScreen {
+                navController.navigate(Screen.WorkSummary.createRoute(it))
+            }
         }
         composable(route = Screen.Profile.route) {
             ProfileScreen { item ->

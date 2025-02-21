@@ -44,7 +44,7 @@ import teamhub.composeapp.generated.resources.gps_not_allowed
 import teamhub.composeapp.generated.resources.location_permission_required
 
 @Composable
-fun HomeScreen(viewModel: HomeViewModel = koinInject()) {
+fun HomeScreen(viewModel: HomeViewModel = koinInject(), onAttendanceClick: (String?) -> Unit) {
     val state by viewModel.viewState.collectAsState()
     val snackBarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
@@ -59,7 +59,10 @@ fun HomeScreen(viewModel: HomeViewModel = koinInject()) {
                 is HomeSideEffect.ShowSnackBar -> {
                     coroutineScope.launch {
                         when (effect.message) {
-                            is RecordAttendanceError.ApiError -> snackBarHostState.showSnackbar(effect.message.message)
+                            is RecordAttendanceError.ApiError -> snackBarHostState.showSnackbar(
+                                effect.message.message
+                            )
+
                             RecordAttendanceError.AttendanceRecorded -> snackBarHostState.showSnackbar(
                                 attendanceRecordedText
                             )
@@ -91,7 +94,8 @@ fun HomeScreen(viewModel: HomeViewModel = koinInject()) {
                 if (onlineUsers != null && currentUser != null) {
                     HomeCompose(
                         onlineUsers = onlineUsers,
-                        user = currentUser
+                        user = currentUser,
+                        onAttendanceClick = {onAttendanceClick(it)}
                     ) { type ->
 
                         if (true) {
@@ -118,7 +122,12 @@ fun HomeScreen(viewModel: HomeViewModel = koinInject()) {
 }
 
 @Composable
-fun HomeCompose(user: User, onlineUsers: List<User>, addAttendance: (AttendanceType) -> Unit) {
+fun HomeCompose(
+    user: User,
+    onlineUsers: List<User>,
+    onAttendanceClick: (String?) -> Unit,
+    addAttendance: (AttendanceType) -> Unit
+) {
     Column {
         WelcomeHeader(user.firstName ?: "")
         Vspacer(8.dp)
@@ -146,7 +155,9 @@ fun HomeCompose(user: User, onlineUsers: List<User>, addAttendance: (AttendanceT
 
         }
         Vspacer(8.dp)
-        OnlineUserGrid(onlineUsers)
+        OnlineUserGrid(onlineUsers) {
+         onAttendanceClick(it)
+        }
 
     }
 

@@ -13,12 +13,3 @@ fun DefaultButton(text: String, modifier: Modifier = Modifier, onClick: () -> Un
         Text(text)
     })
 }
-
-
-@Preview
-@Composable
-fun DefaultButtonPreview() {
-    DefaultButton("Log In") {
-
-    }
-}
