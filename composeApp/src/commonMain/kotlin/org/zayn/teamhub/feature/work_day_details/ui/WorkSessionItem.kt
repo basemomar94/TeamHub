@@ -65,9 +65,9 @@ fun WorkSessionItem(session: WorkSession, isAdmin: Boolean, onEndSessionClick: (
         }
 
     val totalTime = totalMinutesWorked?.toWorkDuration()
-    val totalTimeText =
+    val totalTimeText = stringResource(Res.string.total_time) +
         if (totalTime != null) "${totalTime.hours} ${stringResource(Res.string.hr)} ${totalTime.minutes} ${
-            stringResource(Res.string.mins)
+            stringResource(Res.string.mins) 
         }" else stringResource(Res.string.session_is_on_going)
 
     var showConfirmDialog by remember { mutableStateOf(false) }
@@ -106,18 +106,21 @@ fun WorkSessionItem(session: WorkSession, isAdmin: Boolean, onEndSessionClick: (
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                if (isSessionOnGoing && isAdmin) {
-                    Icon(
-                        FontAwesomeIcons.Solid.HourglassHalf,
-                        modifier = Modifier.size(24.dp),
-                        contentDescription = ""
-                    )
-                    IconButton(
-                        onClick = { showConfirmDialog = true },
-                        modifier = Modifier.size(24.dp),
-                    ) {
-                        Icon(imageVector = Icons.Default.Delete, contentDescription = "")
+                if (isSessionOnGoing) {
+                    if (isAdmin) {
+                        Icon(
+                            FontAwesomeIcons.Solid.HourglassHalf,
+                            modifier = Modifier.size(24.dp),
+                            contentDescription = ""
+                        )
+                        IconButton(
+                            onClick = { showConfirmDialog = true },
+                            modifier = Modifier.size(24.dp),
+                        ) {
+                            Icon(imageVector = Icons.Default.Delete, contentDescription = "")
+                        }
                     }
+
                 } else {
                     Text(text = totalTimeText, color = Color(0xFF388E3C))
                 }

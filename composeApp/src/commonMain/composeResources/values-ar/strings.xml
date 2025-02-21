@@ -41,4 +41,6 @@
     <string name="user_attendance">حضور المستخدم</string>
     <string name="confirm_clock_out_title">تأكيد تسجيل الخروج</string>
     <string name="confirm_clock_out_message">هل أنت متأكد أنك تريد تسجيل خروج هذا المستخدم؟</string>
+    <string name="save">حفظ</string>
+
 </resources>

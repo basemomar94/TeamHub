@@ -11,6 +11,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import org.jetbrains.compose.resources.stringResource
 import org.zayn.teamhub.core.desgin_repo.CustomTextField
 import org.zayn.teamhub.core.desgin_repo.DefaultButton
 import org.zayn.teamhub.core.desgin_repo.MailEditText
@@ -18,6 +19,8 @@ import org.zayn.teamhub.core.desgin_repo.PhoneEditText
 import org.zayn.teamhub.core.desgin_repo.Vspacer
 import org.zayn.teamhub.core.models.UpdatedUser
 import org.zayn.teamhub.core.models.User
+import teamhub.composeapp.generated.resources.Res
+import teamhub.composeapp.generated.resources.save
 
 @Composable
 fun EditProfileCompose(
@@ -45,7 +48,10 @@ fun EditProfileCompose(
         Vspacer(8.dp)
         PhoneEditText(phone = phoneNumber, onPhoneChange = { phoneNumber = it })
         Vspacer(16.dp)
-        DefaultButton(text = "SAVE", modifier = Modifier.align(Alignment.CenterHorizontally)) {
+        DefaultButton(
+            text = stringResource(Res.string.save),
+            modifier = Modifier.align(Alignment.CenterHorizontally)
+        ) {
             val updatedUser = UpdatedUser(
                 phoneNumber = phoneNumber,
                 email = email,
