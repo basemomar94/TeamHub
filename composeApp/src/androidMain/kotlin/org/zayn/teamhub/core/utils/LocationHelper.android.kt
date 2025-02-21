@@ -38,13 +38,13 @@ actual suspend fun getCurrentLocation(): org.zayn.teamhub.core.models.Location? 
 }
 
 
-actual fun openMap(latitude: Double?, longitude: Double?) {
-    if (latitude == null || longitude == null) return
+actual fun openMap(location: org.zayn.teamhub.core.models.Location?) {
+    if (location == null) return
     val logger = Logger.createLogger("openMap")
     try {
-        logger.d("open map with $latitude $longitude")
+        logger.d("open map with $location")
 
-        val gmmIntentUri = Uri.parse("geo:$latitude,$longitude")
+        val gmmIntentUri = Uri.parse("geo:${location.lat},${location.lon}")
         val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri).apply {
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }
@@ -54,7 +54,7 @@ actual fun openMap(latitude: Double?, longitude: Double?) {
             context.startActivity(mapIntent)
         } else {
             val webUri =
-                Uri.parse("https://www.google.com/maps/search/?api=1&query=$latitude,$longitude")
+                Uri.parse("https://www.google.com/maps/search/?api=1&query=${location.lat},${location.lon}")
             val webIntent = Intent(Intent.ACTION_VIEW, webUri).apply {
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             }

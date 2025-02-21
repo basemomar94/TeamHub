@@ -15,7 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import org.zayn.teamhub.core.models.WorkSession
+import org.zayn.teamhub.core.models.WorkSession2
 import org.zayn.teamhub.core.utils.Logger
 import org.zayn.teamhub.core.utils.Logger.Companion.createLogger
 import org.zayn.teamhub.core.utils.openMap
@@ -32,16 +32,17 @@ import teamhub.composeapp.generated.resources.still_clocked_in
 import teamhub.composeapp.generated.resources.total_time
 
 @Composable
-fun WorkSessionItem(session: WorkSession, onEndSessionClick: () -> Unit) {
+fun WorkSessionItem(session: WorkSession2, onEndSessionClick: () -> Unit) {
     val logger = Logger.createLogger("WorkSessionItem")
-    val isSessionOnGoing = session.clockOutTime?.toLocalizedTime() == null
+    val isSessionOnGoing = session.clockOut?.createdAt?.toLocalizedTime() == null
     val clockInText =
-        session.clockInTime?.toLocalizedTime() ?: stringResource(Res.string.no_clock_in)
+        session.clockIn?.createdAt?.toLocalizedTime() ?: stringResource(Res.string.no_clock_in)
     val clockOutText =
-        session.clockOutTime?.toLocalizedTime() ?: stringResource(Res.string.still_clocked_in)
+        session.clockOut?.createdAt?.toLocalizedTime()
+            ?: stringResource(Res.string.still_clocked_in)
 
-    val totalMinutesWorked = if (session.clockOutTime != null && session.clockInTime != null) {
-        (session.clockOutTime - session.clockInTime) / 60000
+    val totalMinutesWorked = if (session.clockOut?.createdAt != null && session.clockIn?.createdAt != null) {
+        (session.clockOut.createdAt - session.clockIn.createdAt) / 60000
     } else {
         null
     }
@@ -70,10 +71,7 @@ fun WorkSessionItem(session: WorkSession, onEndSessionClick: () -> Unit) {
                 label = stringResource(Res.string.clock_in),
                 text = clockInText,
                 onMapClick = {
-                    openMap(
-                        latitude = session.clockInLocation?.lat,
-                        longitude = session.clockInLocation?.lon
-                    )
+                    openMap(session.clockIn?.location)
                 },
                 onClearAttendanceClick = {}
             )
@@ -82,10 +80,7 @@ fun WorkSessionItem(session: WorkSession, onEndSessionClick: () -> Unit) {
                 text = clockOutText,
                 isOnGoing = isSessionOnGoing,
                 onMapClick = {
-                    openMap(
-                        latitude = session.clockOutLocation?.lat,
-                        longitude = session.clockOutLocation?.lon
-                    )
+                    openMap(session.clockOut?.location)
                 },
                 onClearAttendanceClick = onEndSessionClick
             )

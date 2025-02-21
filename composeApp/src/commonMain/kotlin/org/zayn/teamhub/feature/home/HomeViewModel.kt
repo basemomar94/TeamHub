@@ -108,7 +108,6 @@ class HomeViewModel(
                     val online =
                         (result.first as NetworkResult.Success<List<User>>).data?.sortedByDescending { it.currentStatus == AttendanceType.CLOCK_IN.name }
                     val user = (result.second as NetworkResult.Success<User>).data
-                    sessionManager.putUserId(user?.id ?: "")
                     setState {
                         HomeState.HomeData(
                             onlineUsers = online,

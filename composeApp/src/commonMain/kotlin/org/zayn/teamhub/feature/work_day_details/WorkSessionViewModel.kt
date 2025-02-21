@@ -7,7 +7,9 @@ import org.zayn.teamhub.core.models.AttendanceFlag
 import org.zayn.teamhub.core.models.AttendanceMethod
 import org.zayn.teamhub.core.models.AttendanceType
 import org.zayn.teamhub.core.models.Location
+import org.zayn.teamhub.core.models.Session
 import org.zayn.teamhub.core.models.WorkSession
+import org.zayn.teamhub.core.models.WorkSession2
 import org.zayn.teamhub.core.usecases.AddAttendanceLogUseCase
 import org.zayn.teamhub.core.usecases.GetAttendanceByUser
 import org.zayn.teamhub.core.usecases.UpdateUserAttendanceUseCase
@@ -108,9 +110,9 @@ class WorkSessionViewModel(
     }
 
 
-    private fun List<Attendance>.mapAttendanceToPairs(): List<WorkSession> {
+    private fun List<Attendance>.mapAttendanceToPairs(): List<WorkSession2> {
         val sortedRecords = this.sortedBy { it.createdAt } // Sort records by time
-        val result = mutableListOf<WorkSession>()
+        val result = mutableListOf<WorkSession2>()
         var lastClockIn: Attendance? = null
 
         sortedRecords.forEach { record ->
@@ -130,16 +132,33 @@ class WorkSessionViewModel(
                 AttendanceType.CLOCK_OUT -> {
                     lastClockIn?.let { clockInRecord ->
                         result.add(
-                            WorkSession(
+                            WorkSession2(
                                 userId = clockInRecord.userId,
-                                clockInTime = clockInRecord.createdAt,
-                                clockOutTime = record.createdAt,
-                                clockInLocation = Location(
-                                    clockInRecord.lat,
-                                    clockInRecord.long
+                                clockIn = Session(
+                                    createdAt = clockInRecord.createdAt,
+                                    deviceName = clockInRecord.deviceName,
+                                    flags = clockInRecord.flag?.map { AttendanceFlag.valueOf(it) },
+                                    location = Location(lat = clockInRecord.lat, lon = clockInRecord.long)
+
                                 ),
-                                clockOutLocation = Location(record.lat, record.long)
+                                clockOut = Session(
+                                    createdAt = record.createdAt,
+                                    deviceName = record.deviceName,
+                                    flags = record.flag?.map { AttendanceFlag.valueOf(it) },
+                                    location = Location(lat = record.lat, lon = record.long),
+
+                                )
                             )
+                            /* WorkSession(
+                                 userId = clockInRecord.userId,
+                                 clockInTime = clockInRecord.createdAt,
+                                 clockOutTime = record.createdAt,
+                                 clockInLocation = Location(
+                                     clockInRecord.lat,
+                                     clockInRecord.long
+                                 ),
+                                 clockOutLocation = Location(record.lat, record.long)
+                             )*/
                         )
                         logger.d("User clocked out at ${record.createdAt}, worked: ${(record.createdAt - clockInRecord.createdAt) / 1000} seconds")
                         lastClockIn = null
@@ -152,12 +171,16 @@ class WorkSessionViewModel(
 
         lastClockIn?.let {
             result.add(
-                WorkSession(
+                WorkSession2(
                     userId = it.userId,
-                    clockInTime = it.createdAt,
-                    clockOutTime = null,
-                    clockInLocation = Location(it.lat, it.long),
-                    clockOutLocation = Location(null, null)
+                    clockIn = Session(
+                        createdAt = it.createdAt,
+                        deviceName = it.deviceName,
+                        flags = it.flag?.map { AttendanceFlag.valueOf(it) },
+                        location = Location(lat = it.lat, lon = it.long)
+
+                    ),
+                    clockOut = null
                 )
             )
             logger.d("User still clocked in at ${it.createdAt}, no clock out found")

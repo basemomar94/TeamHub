@@ -10,7 +10,7 @@ import kotlin.math.sqrt
 
 expect suspend fun getCurrentLocation(): Location?
 
-expect fun openMap(latitude: Double?, longitude: Double?)
+expect fun openMap(location: Location?)
 
 expect fun isGpsAvailable(): Boolean
 

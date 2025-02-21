@@ -9,9 +9,8 @@ import androidx.compose.runtime.getValue
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import org.zayn.teamhub.core.models.Roles
-import org.zayn.teamhub.core.utils.Logger
-import org.zayn.teamhub.core.utils.Logger.Companion.createLogger
 import org.zayn.teamhub.core.utils.data_store.ISessionManager
+import org.zayn.teamhub.core.utils.enumValueOf
 
 @Composable
 fun BottomNavigationBar(navController: NavHostController, sessionManager: ISessionManager) {
@@ -24,14 +23,13 @@ fun BottomNavigationBar(navController: NavHostController, sessionManager: ISessi
         BottomNavItem.Home,
         BottomNavItem.Profile,
     )
-    val bottomMenu = when (sessionManager.getUserRole()) {
+    val bottomMenu = when (enumValueOf<Roles>(sessionManager.getUser()?.role, default = Roles.USER)) {
         Roles.ADMIN -> adminMenus
         Roles.USER -> userMenus
     }
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = currentBackStackEntry?.destination?.route
-    Logger.createLogger("currentRoute").d("current destination is ${sessionManager.getUserRole()}")
-    val noBottomBarScreens = listOf(Screen.SignIn.route, Screen.SignUp.route,Screen.Splash.route)
+    val noBottomBarScreens = listOf(Screen.SignIn.route, Screen.SignUp.route, Screen.Splash.route)
     if (!noBottomBarScreens.contains(currentRoute) && currentRoute != null) {
         BottomNavigation {
             bottomMenu.forEach { item ->
