@@ -13,4 +13,8 @@ object CollectionReference {
     const val USER_ID = "userId"
     const val CREATED_AT = "createdAt"
     const val ID = "id"
+    const val FIRST_NAME = "firstName"
+    const val LAST_NAME = "lastName"
+    const val EMAIL = "email"
+    const val PHONE_NUMBER = "phoneNumber"
 }

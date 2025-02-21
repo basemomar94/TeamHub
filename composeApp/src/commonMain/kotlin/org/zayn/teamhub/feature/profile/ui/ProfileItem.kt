@@ -7,18 +7,21 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import compose.icons.FontAwesomeIcons
+import compose.icons.fontawesomeicons.Regular
+import compose.icons.fontawesomeicons.regular.StopCircle
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import teamhub.composeapp.generated.resources.Res
@@ -34,7 +37,11 @@ fun ProfileItemCompose(profileItem: ProfileItem, onClick: (ProfileItem) -> Unit)
             horizontalArrangement = Arrangement.spacedBy(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Image(imageVector = profileItem.icon, contentDescription = "")
+            Image(
+                imageVector = profileItem.icon,
+                contentDescription = "",
+                modifier = Modifier.size(18.dp)
+            )
             Text(text = stringResource(profileItem.title), modifier = Modifier.weight(1f))
             Image(
                 imageVector = Icons.AutoMirrored.Default.ArrowForward,
@@ -67,7 +74,7 @@ val attendanceItem = ProfileItem(
 
 val logoutItem = ProfileItem(
     title = Res.string.log_out,
-    icon = Icons.Default.Lock,
+    icon = FontAwesomeIcons.Regular.StopCircle,
     action = ProfileAction.LOG_OUT
 )
 

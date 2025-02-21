@@ -26,7 +26,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import compose.icons.FontAwesomeIcons
+import compose.icons.fontawesomeicons.Brands
 import compose.icons.fontawesomeicons.Solid
+import compose.icons.fontawesomeicons.brands.Whatsapp
 import compose.icons.fontawesomeicons.solid.Archive
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -120,7 +122,7 @@ fun UserDetailsDialog(
 
                         IconButton(onClick = { sendWhatsapp(phone) }) {
                             Icon(
-                                imageVector = FontAwesomeIcons.Solid.Archive,
+                                imageVector = FontAwesomeIcons.Brands.Whatsapp,
                                 modifier = Modifier.size(18.dp),
                                 contentDescription = "WhatsApp"
                             )

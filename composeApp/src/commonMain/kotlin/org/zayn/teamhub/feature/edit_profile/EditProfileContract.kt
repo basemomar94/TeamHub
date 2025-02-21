@@ -3,7 +3,7 @@ package org.zayn.teamhub.feature.edit_profile
 import org.zayn.teamhub.core.base.ViewEvent
 import org.zayn.teamhub.core.base.ViewSideEffect
 import org.zayn.teamhub.core.base.ViewState
-import org.zayn.teamhub.core.models.User
+import org.zayn.teamhub.core.models.UpdatedUser
 
 sealed class EditProfileState : ViewState {
     data object Ideal : EditProfileState()
@@ -11,7 +11,7 @@ sealed class EditProfileState : ViewState {
 }
 
 sealed class EditProfileEvent : ViewEvent {
-    data class updateProfile(val user: User) : EditProfileEvent()
+    data class UpdateProfile(val user: UpdatedUser) : EditProfileEvent()
 
 }
 

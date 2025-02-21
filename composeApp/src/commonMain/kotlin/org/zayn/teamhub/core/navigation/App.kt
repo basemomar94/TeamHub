@@ -131,7 +131,9 @@ private fun TeamHubNavigationHost(navController: NavHostController, userId: Stri
         }
 
         composable(route = Screen.EditProfile.route) {
-            EditProfileScreen()
+            EditProfileScreen(){
+                navController.navigate(Screen.Splash.route)
+            }
         }
 
         composable(

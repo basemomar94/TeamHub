@@ -28,6 +28,7 @@ import org.zayn.teamhub.core.usecases.GetOnlineUsers
 import org.zayn.teamhub.core.usecases.GetUserUseCase
 import org.zayn.teamhub.core.usecases.LogInUseCase
 import org.zayn.teamhub.core.usecases.UpdateUserAttendanceUseCase
+import org.zayn.teamhub.core.usecases.UpdateUserInfoUseCase
 import org.zayn.teamhub.core.utils.data_store.ISessionManager
 import org.zayn.teamhub.core.utils.data_store.ISharedPrefManager
 import org.zayn.teamhub.core.utils.data_store.SessionManager
@@ -76,6 +77,7 @@ private val useCasesModules = module {
     factory { GetAttendanceByUser(get()) }
     factory { GetOnlineUsers(get()) }
     factory { GetCompanyByIdUseCase(get()) }
+    factory { UpdateUserInfoUseCase(get()) }
 }
 
 private val firebaseModules = module {

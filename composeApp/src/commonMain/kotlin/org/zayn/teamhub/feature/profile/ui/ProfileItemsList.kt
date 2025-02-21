@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 
 @Composable
 fun ProfileItemsList(onClick: (ProfileItem) -> Unit) {
-    val profileItems = listOf(attendanceItem, logoutItem, editProfileItem)
+    val profileItems = listOf(attendanceItem, editProfileItem, logoutItem)
 
     LazyColumn {
         items(items = profileItems) { item ->
