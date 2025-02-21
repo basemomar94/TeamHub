@@ -16,6 +16,17 @@ sealed class Screen(
     data object Profile : Screen("Profile")
     data object Splash : Screen("Splash")
     data object EditProfile : Screen("EditProfile")
+    data object SessionDetails : Screen(
+        route = "SessionDetails/{attendanceId}",
+        navArguments = listOf(navArgument("attendanceId") {
+            type = NavType.StringType
+            nullable = true
+        })
+    ) {
+        fun createRoute(attendanceId: String?) = "SessionDetails/${attendanceId}"
+
+    }
+
     data object WorkSummary : Screen(
         route = "WorkSummary/{userId}",
         navArguments = listOf(navArgument("userId") {

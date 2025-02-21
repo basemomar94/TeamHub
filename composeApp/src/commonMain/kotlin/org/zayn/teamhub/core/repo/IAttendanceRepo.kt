@@ -26,5 +26,6 @@ interface IAttendanceRepo {
         end: Long,
     ): Flow<NetworkResult<List<Attendance>>>
 
-    suspend fun getTodayWorkingHours(): Flow<NetworkResult<List<Attendance>>>
+    suspend fun getAttendanceById(id: String): Flow<NetworkResult<Attendance>>
+
 }

@@ -24,12 +24,13 @@ fun SessionItem(
     label: String,
     text: String,
     modifier: Modifier = Modifier,
+    onSessionClick: () -> Unit,
     onMapClick: () -> Unit,
 ) {
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(8.dp),
+            .padding(8.dp).clickable { onSessionClick() },
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {

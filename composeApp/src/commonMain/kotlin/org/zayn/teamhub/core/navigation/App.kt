@@ -19,6 +19,7 @@ import org.zayn.teamhub.feature.edit_profile.ui.EditProfileScreen
 import org.zayn.teamhub.feature.home.ui.HomeScreen
 import org.zayn.teamhub.feature.profile.ui.ProfileAction
 import org.zayn.teamhub.feature.profile.ui.ProfileScreen
+import org.zayn.teamhub.feature.session_details.ui.SessionDetailsScreen
 import org.zayn.teamhub.feature.signIn.ui.SignInScreen
 import org.zayn.teamhub.feature.sign_up.SignupScreen
 import org.zayn.teamhub.feature.splash.SplashScreen
@@ -131,9 +132,14 @@ private fun TeamHubNavigationHost(navController: NavHostController, userId: Stri
         }
 
         composable(route = Screen.EditProfile.route) {
-            EditProfileScreen(){
+            EditProfileScreen {
                 navController.navigate(Screen.Splash.route)
             }
+        }
+
+        composable(route = Screen.SessionDetails.route) { backStackEntry ->
+            val id = backStackEntry.arguments?.getString("attendanceId")
+            SessionDetailsScreen(id)
         }
 
         composable(
@@ -166,7 +172,8 @@ private fun TeamHubNavigationHost(navController: NavHostController, userId: Stri
                 WorkDayScreen(
                     userId = userId,
                     startOfDay = startOfDay ?: -1L,
-                    endOfDay = endOfDay ?: -1L
+                    endOfDay = endOfDay ?: -1L,
+                    onSessionClick = { navController.navigate(Screen.SessionDetails.createRoute(it)) }
                 )
             }
 

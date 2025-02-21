@@ -135,6 +135,7 @@ class WorkSessionViewModel(
                             WorkSession(
                                 userId = clockInRecord.userId,
                                 clockIn = Session(
+                                    id = clockInRecord.userId,
                                     createdAt = clockInRecord.createdAt,
                                     deviceName = clockInRecord.deviceName,
                                     flags = clockInRecord.flag?.map {
@@ -150,6 +151,7 @@ class WorkSessionViewModel(
 
                                 ),
                                 clockOut = Session(
+                                    id = record.id,
                                     createdAt = record.createdAt,
                                     deviceName = record.deviceName,
                                     flags = record.flag?.map {
@@ -180,8 +182,8 @@ class WorkSessionViewModel(
                         createdAt = it.createdAt,
                         deviceName = it.deviceName,
                         flags = it.flag?.map { enumValueOf(it, AttendanceFlag.NONE) },
-                        location = Location(lat = it.lat, lon = it.long)
-
+                        location = Location(lat = it.lat, lon = it.long),
+                        id = it.id
                     ),
                     clockOut = null
                 )

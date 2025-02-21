@@ -5,6 +5,7 @@ import org.zayn.teamhub.core.base.EnumString
 
 @Serializable
 data class Attendance(
+    val id: String,
     val userId: String,
     val createdAt: Long,
     @EnumString

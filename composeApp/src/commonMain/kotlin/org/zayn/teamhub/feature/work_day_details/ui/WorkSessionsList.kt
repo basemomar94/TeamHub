@@ -9,11 +9,17 @@ import org.zayn.teamhub.core.models.WorkSession
 fun WorkSessionList(
     workdayList: List<WorkSession>,
     isAdmin: Boolean,
-    onSessionEnd: (String) -> Unit
+    onSessionEnd: (String) -> Unit,
+    onSessionClick: (String?) -> Unit
 ) {
     LazyColumn {
         items(workdayList) { work ->
-            WorkSessionItem(work, isAdmin) { onSessionEnd(work.userId ?: "") }
+            WorkSessionItem(
+                session = work,
+                isAdmin = isAdmin,
+                onEndSessionClick = { onSessionEnd(work.userId ?: "") },
+                onSessionClick = { onSessionClick(it) }
+            )
         }
 
     }

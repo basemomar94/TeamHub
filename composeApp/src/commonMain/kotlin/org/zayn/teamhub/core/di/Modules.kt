@@ -21,6 +21,7 @@ import org.zayn.teamhub.core.usecases.AddAttendanceLogUseCase
 import org.zayn.teamhub.core.usecases.AddNewUserUseCase
 import org.zayn.teamhub.core.usecases.AuthNewUserUseCase
 import org.zayn.teamhub.core.usecases.GetAllCompanyUsers
+import org.zayn.teamhub.core.usecases.GetAttendanceByIdUseCase
 import org.zayn.teamhub.core.usecases.GetAttendanceByUser
 import org.zayn.teamhub.core.usecases.GetCompanyByIdUseCase
 import org.zayn.teamhub.core.usecases.GetCurrentUserUseCase
@@ -43,12 +44,13 @@ import org.zayn.teamhub.feature.work_day_details.WorkSessionViewModel
 import org.zayn.teamhub.feature.work_summary.WorkSummaryViewModel
 import org.zayn.teamhub.feature.edit_profile.EditProfileViewModel
 import org.zayn.teamhub.feature.user_details.UserDetailsViewModel
+import org.zayn.teamhub.feature.session_details.SessionDetailsViewModel
 
 
 private val repoModules = module {
     singleOf(::AuthManager) { bind<IAuthManager>() }
     single<IUserRepo> { UserRepoImp(get(), get()) }
-    single<IAttendanceRepo> { AttendanceReoImp(get(), get()) }
+    single<IAttendanceRepo> { AttendanceReoImp(get()) }
     single<ICompanyRepo> { CompanyRepo(get()) }
 }
 
@@ -63,6 +65,7 @@ private val viewModelsModules = module {
     viewModelOf(::SplashViewModel)
     viewModelOf(::EditProfileViewModel)
     viewModelOf(::UserDetailsViewModel)
+    viewModelOf(::SessionDetailsViewModel)
 }
 
 private val useCasesModules = module {
@@ -78,6 +81,7 @@ private val useCasesModules = module {
     factory { GetOnlineUsers(get()) }
     factory { GetCompanyByIdUseCase(get()) }
     factory { UpdateUserInfoUseCase(get()) }
+    factory { GetAttendanceByIdUseCase(get()) }
 }
 
 private val firebaseModules = module {

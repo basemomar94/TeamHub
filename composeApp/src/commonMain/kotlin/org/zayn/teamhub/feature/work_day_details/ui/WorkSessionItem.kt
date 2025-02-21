@@ -44,7 +44,12 @@ import teamhub.composeapp.generated.resources.still_clocked_in
 import teamhub.composeapp.generated.resources.total_time
 
 @Composable
-fun WorkSessionItem(session: WorkSession, isAdmin: Boolean, onEndSessionClick: () -> Unit) {
+fun WorkSessionItem(
+    session: WorkSession,
+    isAdmin: Boolean,
+    onEndSessionClick: () -> Unit,
+    onSessionClick: (String?) -> Unit
+) {
     val logger = Logger.createLogger("WorkSessionItem")
     val isSessionOnGoing = session.clockOut?.createdAt?.toLocalizedTime() == null
     val clockInText =
@@ -62,9 +67,9 @@ fun WorkSessionItem(session: WorkSession, isAdmin: Boolean, onEndSessionClick: (
 
     val totalTime = totalMinutesWorked?.toWorkDuration()
     val totalTimeText = stringResource(Res.string.total_time) +
-        if (totalTime != null) "${totalTime.hours} ${stringResource(Res.string.hr)} ${totalTime.minutes} ${
-            stringResource(Res.string.mins) 
-        }" else stringResource(Res.string.session_is_on_going)
+            if (totalTime != null) "${totalTime.hours} ${stringResource(Res.string.hr)} ${totalTime.minutes} ${
+                stringResource(Res.string.mins)
+            }" else stringResource(Res.string.session_is_on_going)
 
     var showConfirmDialog by remember { mutableStateOf(false) }
 
@@ -82,6 +87,7 @@ fun WorkSessionItem(session: WorkSession, isAdmin: Boolean, onEndSessionClick: (
                 .fillMaxWidth()
         ) {
             SessionItem(
+                onSessionClick = { onSessionClick(session.clockIn?.id) },
                 label = stringResource(Res.string.clock_in),
                 text = clockInText,
                 onMapClick = {
@@ -89,6 +95,7 @@ fun WorkSessionItem(session: WorkSession, isAdmin: Boolean, onEndSessionClick: (
                 },
             )
             SessionItem(
+                onSessionClick = { onSessionClick(session.clockOut?.id) },
                 label = stringResource(Res.string.clock_out),
                 text = clockOutText,
                 onMapClick = {
