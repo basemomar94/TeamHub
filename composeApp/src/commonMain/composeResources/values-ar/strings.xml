@@ -23,8 +23,8 @@
     <string name="total_working_days">إجمالي أيام العمل هذا الشهر %1$d</string>
     <string name="total_working_hours">إجمالي ساعات العمل هذا الشهر %1$d</string>
     <string name="total_worked">إجمالي العمل: %1$d ساعة %2$d دقيقة</string>
-    <string name="last_update">اخر تحديث</string>
-    <string name="total_time">إجمالي الوقت:</string>
+    <string name="last_update">اخر تحديث </string>
+    <string name="total_time">إجمالي الوقت: </string>
     <string name="hr">ساعة</string>
     <string name="mins">دقيقة</string>
     <string name="my_attendance">حضوري</string>
@@ -37,5 +37,6 @@
     <string name="session_is_on_going">الجلسة لا تزال مستمرة</string>
     <string name="online_now">مسجل الدخول الآن</string>
     <string name="edit_profile">تعديل الملف الشخصي</string>
+    <string name="user_info">بيانات المستخدم</string>
 
 </resources>

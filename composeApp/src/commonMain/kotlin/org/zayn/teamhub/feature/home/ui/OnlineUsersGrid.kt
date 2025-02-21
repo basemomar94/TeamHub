@@ -18,6 +18,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.zayn.teamhub.core.models.User
+import org.zayn.teamhub.feature.user_details.UserDetailsDialog
 import org.zayn.teamhub.feature.user_details.UserDetailsSheet
 
 @Composable
@@ -27,12 +28,6 @@ fun OnlineUserGrid(users: List<User>) {
 
     Card(elevation = 4.dp, shape = RoundedCornerShape(12.dp), modifier = Modifier.padding(8.dp)) {
         Column(modifier = Modifier.padding(8.dp)) {
-            /*Text(
-                style = MaterialTheme.typography.body1,
-                text = stringResource(Res.string.online_now),
-                modifier = Modifier.align(Alignment.CenterHorizontally)
-            )
-            Vspacer(8.dp)*/
             LazyVerticalGrid(
                 columns = GridCells.Adaptive(minSize = 60.dp),
                 modifier = Modifier
@@ -42,13 +37,16 @@ fun OnlineUserGrid(users: List<User>) {
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 items(users) { user ->
-                    UserCircularItem(user = user)
+                    UserCircularItem(user = user) { clickedUSer ->
+                        selectedUser = clickedUSer
+
+                    }
                 }
             }
         }
     }
     if (selectedUser != null) {
-        UserDetailsSheet(selectedUser!!) {
+        UserDetailsDialog(selectedUser!!) {
             selectedUser = null
         }
     }

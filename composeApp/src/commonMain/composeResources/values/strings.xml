@@ -22,7 +22,7 @@
     <string name="not_available">-- --</string>
     <string name="work_summary">Work Summary</string>
     <string name="total_worked">Total Worked: %1$d hr %2$d mins</string>
-    <string name="last_update">Last update</string>
+    <string name="last_update">Last update </string>
     <string name="total_working_days">This Month total working days %1$d</string>
     <string name="total_working_hours">This Month total working hours %1$d</string>
     <string name="total_time">Total Time:</string>
@@ -39,5 +39,6 @@
     <string name="location_permission_required">Location permission is not granted. Please enable it in settings and try again.</string>
     <string name="online_now">Clocked in now</string>
     <string name="edit_profile">Edit your profile</string>
+    <string name="user_info">User info</string>
 
 </resources>

@@ -71,6 +71,8 @@ kotlin {
             implementation(libs.multiplatform.settings.no.arg)
             implementation(libs.androidx.core.splashscreen)
             implementation(libs.kamel.image.default)
+            implementation(libs.font.awesome)
+            implementation(libs.cupertino.icons.extended)
 
         }
         desktopMain.dependencies {

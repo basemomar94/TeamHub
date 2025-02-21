@@ -37,9 +37,11 @@ fun App(auth: FirebaseAuth = koinInject(), sessionManager: ISessionManager = koi
     MyAppTheme {
         Scaffold(
             topBar = {
-                BaseTopAppBar(
-                    text = appBarTitle,
-                    onNavigationClick = { navController.popBackStack() })
+                if (currentRoute != Screen.Splash.route) {
+                    BaseTopAppBar(
+                        text = appBarTitle,
+                        onNavigationClick = { navController.popBackStack() })
+                }
             },
             bottomBar = {
                 BottomNavigationBar(

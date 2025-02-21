@@ -20,11 +20,11 @@ import org.zayn.teamhub.core.models.AttendanceType
 import org.zayn.teamhub.core.models.User
 
 @Composable
-fun UserCircularItem(user: User, modifier: Modifier = Modifier, onClick: ((User) -> () -> Unit)? = null) {
-    Column {
+fun UserCircularItem(user: User, modifier: Modifier = Modifier, onClick: ((User) -> Unit)? = null) {
+    Column(modifier = modifier) {
         Box(
             contentAlignment = Alignment.BottomEnd,
-            modifier = modifier.clickable { onClick?.invoke(user) }
+            modifier = Modifier.clickable { onClick?.invoke(user) }
         ) {
             val initials = user.firstName?.firstOrNull()?.toString()?.uppercase().orEmpty() + " " +
                     user.lastName?.firstOrNull()?.toString()?.uppercase().orEmpty()
