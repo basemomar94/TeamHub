@@ -33,6 +33,8 @@ import org.zayn.teamhub.core.desgin_repo.BaseSnackBar
 import org.zayn.teamhub.core.desgin_repo.CustomTextField
 import org.zayn.teamhub.core.desgin_repo.DefaultButton
 import org.zayn.teamhub.core.desgin_repo.LoadingIndicator
+import org.zayn.teamhub.core.desgin_repo.MailEditText
+import org.zayn.teamhub.core.desgin_repo.PasswordEditText
 import org.zayn.teamhub.core.utils.Logger
 import org.zayn.teamhub.core.utils.Logger.Companion.createLogger
 import org.zayn.teamhub.feature.signIn.SignInEvent
@@ -95,11 +97,11 @@ fun SignIn(onSigInClick: (String, String) -> Unit, onSignUpClick: () -> Unit) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     Column(modifier = Modifier.padding(22.dp)) {
-        CustomTextField(placeHolder = stringResource(Res.string.enter_mail), query = email) {
+        MailEditText(mail = email) {
             email = it
         }
         Spacer(modifier = Modifier.height(8.dp))
-        CustomTextField(placeHolder = stringResource(Res.string.enter_password), query = password) {
+        PasswordEditText(password = password) {
             password = it
         }
         Spacer(modifier = Modifier.height(8.dp))

@@ -16,7 +16,6 @@ class SignInViewModel(
         launchAndCollectResult(
             flow = logInUseCase(email = email, password = password),
             onStart = { setState { SignInState.Loading } },
-            onComplete = { setState { SignInState.Idle } },
             tag = "sigIn",
             resultSuccess = {
                 setEffect { SignInSideEffect.Navigate }

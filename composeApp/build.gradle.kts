@@ -59,6 +59,8 @@ kotlin {
             implementation(libs.kotlinx.datetime)
             implementation(libs.multiplatform.settings.no.arg)
             implementation(libs.kamel.image.default)
+            implementation(libs.font.awesome)
+            implementation(libs.cupertino.icons.extended)
 
         }
         desktopMain.dependencies {

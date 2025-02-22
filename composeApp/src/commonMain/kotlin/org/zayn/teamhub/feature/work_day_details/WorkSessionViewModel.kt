@@ -14,7 +14,6 @@ import org.zayn.teamhub.core.usecases.GetAttendanceByUser
 import org.zayn.teamhub.core.usecases.UpdateUserAttendanceUseCase
 import org.zayn.teamhub.core.utils.Logger.Companion.createLogger
 import org.zayn.teamhub.core.utils.data_store.ISessionManager
-import org.zayn.teamhub.core.utils.enumValueOf
 import org.zayn.teamhub.core.utils.enumValueOrNullOf
 import org.zayn.teamhub.core.utils.getCurrentLocation
 import org.zayn.teamhub.core.utils.getCurrentTime
@@ -28,7 +27,7 @@ class WorkSessionViewModel(
     private val getAttendanceByUser: GetAttendanceByUser,
     private val attendanceUseCase: AddAttendanceLogUseCase,
     private val updateUserAttendanceUseCase: UpdateUserAttendanceUseCase,
-    sessionManager: ISessionManager
+    sessionManager: ISessionManager,
 ) :
     BaseViewModel<WorkSessionState, WorkSessionEvent, WorkSessionEffect>() {
     val logger = this.createLogger()
@@ -126,7 +125,6 @@ class WorkSessionViewModel(
             when (attendanceType) {
                 AttendanceType.CLOCK_IN -> {
                     lastClockIn = record
-                    logger.d("User clocked in at ${record.createdAt}")
                 }
 
                 AttendanceType.CLOCK_OUT -> {
@@ -138,10 +136,9 @@ class WorkSessionViewModel(
                                     id = clockInRecord.userId,
                                     createdAt = clockInRecord.createdAt,
                                     deviceName = clockInRecord.deviceName,
-                                    flags = clockInRecord.flag?.map {
-                                        enumValueOf(
+                                    flags = clockInRecord.flag?.mapNotNull {
+                                        enumValueOrNullOf<AttendanceFlag>(
                                             it,
-                                            AttendanceFlag.NONE
                                         )
                                     },
                                     location = Location(
@@ -154,18 +151,12 @@ class WorkSessionViewModel(
                                     id = record.id,
                                     createdAt = record.createdAt,
                                     deviceName = record.deviceName,
-                                    flags = record.flag?.map {
-                                        enumValueOf(
-                                            it,
-                                            AttendanceFlag.NONE
-                                        )
-                                    },
+                                    flags = null,
                                     location = Location(lat = record.lat, lon = record.long),
 
                                     )
                             )
                         )
-                        logger.d("User clocked out at ${record.createdAt}, worked: ${(record.createdAt - clockInRecord.createdAt) / 1000} seconds")
                         lastClockIn = null
                     } ?: logger.w("Clock out without a preceding clock in at ${record.createdAt}")
                 }
@@ -181,7 +172,7 @@ class WorkSessionViewModel(
                     clockIn = Session(
                         createdAt = it.createdAt,
                         deviceName = it.deviceName,
-                        flags = it.flag?.map { enumValueOf(it, AttendanceFlag.NONE) },
+                        flags = it.flag?.mapNotNull { enumValueOrNullOf<AttendanceFlag>(it) },
                         location = Location(lat = it.lat, lon = it.long),
                         id = it.id
                     ),

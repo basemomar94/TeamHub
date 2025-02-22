@@ -17,6 +17,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import compose.icons.FontAwesomeIcons
+import compose.icons.fontawesomeicons.Solid
+import compose.icons.fontawesomeicons.solid.Flag
 import org.zayn.teamhub.core.desgin_repo.Vspacer
 
 @Composable
@@ -25,7 +28,7 @@ fun SessionItem(
     text: String,
     modifier: Modifier = Modifier,
     onSessionClick: () -> Unit,
-    onMapClick: () -> Unit,
+    isFlagged: Boolean,
 ) {
     Row(
         modifier = modifier
@@ -47,11 +50,14 @@ fun SessionItem(
                 color = MaterialTheme.colors.onSurface
             )
         }
-        Icon(
-            imageVector = Icons.Default.LocationOn,
-            modifier = Modifier.size(24.dp).clickable { onMapClick() },
-            contentDescription = "Navigate",
-            tint = MaterialTheme.colors.primary
-        )
+        if (isFlagged) {
+            Icon(
+                imageVector = FontAwesomeIcons.Solid.Flag,
+                modifier = Modifier.size(24.dp),
+                contentDescription = "Navigate",
+                tint = MaterialTheme.colors.primary
+            )
+        }
+
     }
 }

@@ -90,17 +90,13 @@ fun WorkSessionItem(
                 onSessionClick = { onSessionClick(session.clockIn?.id) },
                 label = stringResource(Res.string.clock_in),
                 text = clockInText,
-                onMapClick = {
-                    openMap(session.clockIn?.location)
-                },
+                isFlagged = session.clockIn?.flags?.isNotEmpty() == true
             )
             SessionItem(
                 onSessionClick = { onSessionClick(session.clockOut?.id) },
                 label = stringResource(Res.string.clock_out),
                 text = clockOutText,
-                onMapClick = {
-                    openMap(session.clockOut?.location)
-                },
+                isFlagged = session.clockOut?.flags?.isNotEmpty() == true
             )
 
             Divider(modifier = Modifier.padding(vertical = 8.dp))
