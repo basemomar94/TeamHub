@@ -26,6 +26,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import compose.icons.FontAwesomeIcons
+import compose.icons.fontawesomeicons.Brands
+import compose.icons.fontawesomeicons.brands.Whatsapp
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.zayn.teamhub.core.desgin_repo.DefaultButton
@@ -110,15 +113,15 @@ fun UserDetailsDialog(
 
                         IconButton(onClick = { dialContact(phone) }) {
                             Icon(
-                                imageVector = Icons.Default.Call, modifier = Modifier.size(18.dp),
+                                imageVector = Icons.Default.Call, modifier = Modifier.size(24.dp),
                                 contentDescription = "Call"
                             )
                         }
 
                         IconButton(onClick = { sendWhatsapp(phone) }) {
                             Icon(
-                                imageVector = Icons.Default.Check,
-                                modifier = Modifier.size(18.dp),
+                                imageVector = FontAwesomeIcons.Brands.Whatsapp,
+                                modifier = Modifier.size(24.dp),
                                 contentDescription = "WhatsApp"
                             )
                         }

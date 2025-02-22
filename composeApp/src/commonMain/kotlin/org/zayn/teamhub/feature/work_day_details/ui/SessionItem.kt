@@ -15,6 +15,7 @@ import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import compose.icons.FontAwesomeIcons
@@ -33,11 +34,11 @@ fun SessionItem(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(8.dp).clickable { onSessionClick() },
+            .clickable { onSessionClick() },
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Column(modifier = Modifier.weight(1f)) {
+        Column(modifier = Modifier.padding(8.dp)) {
             Text(
                 text = label,
                 fontWeight = FontWeight.Bold,
@@ -53,9 +54,9 @@ fun SessionItem(
         if (isFlagged) {
             Icon(
                 imageVector = FontAwesomeIcons.Solid.Flag,
-                modifier = Modifier.size(24.dp),
+                modifier = Modifier.padding(8.dp).size(24.dp),
                 contentDescription = "Navigate",
-                tint = MaterialTheme.colors.primary
+                tint = Color.Red
             )
         }
 

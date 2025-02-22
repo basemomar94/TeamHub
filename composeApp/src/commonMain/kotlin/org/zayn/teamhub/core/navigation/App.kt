@@ -77,7 +77,7 @@ private fun getAppTitle(currentDestination: String?): String {
 private fun TeamHubNavigationHost(navController: NavHostController, userId: String?) {
     NavHost(
         navController = navController,
-        startDestination = Screen.Splash.route
+        startDestination = if (userId != null) Screen.Splash.route else Screen.SignIn.route
     ) {
         composable(route = Screen.SignIn.route) {
             SignInScreen(

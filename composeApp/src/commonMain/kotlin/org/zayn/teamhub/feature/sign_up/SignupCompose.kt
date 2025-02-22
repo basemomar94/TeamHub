@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
 import org.zayn.teamhub.core.desgin_repo.CustomTextField
+import org.zayn.teamhub.core.desgin_repo.DefaultButton
 import org.zayn.teamhub.core.desgin_repo.MailEditText
 import org.zayn.teamhub.core.desgin_repo.PasswordEditText
 import org.zayn.teamhub.core.models.Roles
@@ -36,6 +37,7 @@ import teamhub.composeapp.generated.resources.enter_password
 import teamhub.composeapp.generated.resources.first_name
 import teamhub.composeapp.generated.resources.is_admin
 import teamhub.composeapp.generated.resources.last_name
+import teamhub.composeapp.generated.resources.sign_up
 
 @Composable
 fun SignupCompose(
@@ -48,7 +50,6 @@ fun SignupCompose(
     var email by remember { mutableStateOf("") }
     var companyId by remember { mutableStateOf("") }
     var isAdmin by remember { mutableStateOf(false) }
-    var userRole by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
     Column(
@@ -100,22 +101,21 @@ fun SignupCompose(
             onPasswordChange = { password = it }
         )
 
-        Button(
-            onClick = {
-                val newUser = User(
-                    firstName = firstName,
-                    lastName = lastName,
-                    email = email,
-                    companyId = companyId,
-                    role = if (isAdmin) Roles.ADMIN.name else Roles.USER.name,
-                    password = password,
-                    createdAt = getCurrentTime()
-                )
-                onCreateUser(newUser)
-            },
-            modifier = Modifier.fillMaxWidth()
+        DefaultButton(
+            modifier = Modifier.fillMaxWidth(),
+            text = stringResource(Res.string.sign_up)
         ) {
-            Text(text = stringResource(Res.string.create_user))
+            val newUser = User(
+                firstName = firstName,
+                lastName = lastName,
+                email = email,
+                companyId = companyId,
+                role = if (isAdmin) Roles.ADMIN.name else Roles.USER.name,
+                password = password,
+                createdAt = getCurrentTime()
+            )
+            onCreateUser(newUser)
+
         }
     }
 }

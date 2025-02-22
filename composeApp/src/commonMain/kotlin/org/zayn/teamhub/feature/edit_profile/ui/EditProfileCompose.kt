@@ -2,6 +2,7 @@ package org.zayn.teamhub.feature.edit_profile.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -50,7 +51,7 @@ fun EditProfileCompose(
         Vspacer(16.dp)
         DefaultButton(
             text = stringResource(Res.string.save),
-            modifier = Modifier.align(Alignment.CenterHorizontally)
+            modifier = Modifier.align(Alignment.CenterHorizontally).fillMaxWidth()
         ) {
             val updatedUser = UpdatedUser(
                 phoneNumber = phoneNumber,

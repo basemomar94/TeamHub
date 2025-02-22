@@ -23,6 +23,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import compose.icons.FontAwesomeIcons
+import compose.icons.fontawesomeicons.Solid
+import compose.icons.fontawesomeicons.solid.HourglassHalf
 import org.jetbrains.compose.resources.stringResource
 import org.zayn.teamhub.core.desgin_repo.ConfirmationDialog
 import org.zayn.teamhub.core.models.WorkSession
@@ -48,7 +51,7 @@ fun WorkSessionItem(
     session: WorkSession,
     isAdmin: Boolean,
     onEndSessionClick: () -> Unit,
-    onSessionClick: (String?) -> Unit
+    onSessionClick: (String?) -> Unit,
 ) {
     val logger = Logger.createLogger("WorkSessionItem")
     val isSessionOnGoing = session.clockOut?.createdAt?.toLocalizedTime() == null
@@ -83,7 +86,6 @@ fun WorkSessionItem(
     ) {
         Column(
             modifier = Modifier
-                .padding(16.dp)
                 .fillMaxWidth()
         ) {
             SessionItem(
@@ -102,19 +104,19 @@ fun WorkSessionItem(
             Divider(modifier = Modifier.padding(vertical = 8.dp))
 
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth().padding(8.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 if (isSessionOnGoing) {
                     if (isAdmin) {
                         Icon(
-                            Icons.Default.PlayArrow,
-                            modifier = Modifier.size(24.dp),
+                            FontAwesomeIcons.Solid.HourglassHalf,
+                            modifier = Modifier.size(32.dp),
                             contentDescription = ""
                         )
                         IconButton(
                             onClick = { showConfirmDialog = true },
-                            modifier = Modifier.size(24.dp),
+                            modifier = Modifier.size(32.dp),
                         ) {
                             Icon(imageVector = Icons.Default.Delete, contentDescription = "")
                         }

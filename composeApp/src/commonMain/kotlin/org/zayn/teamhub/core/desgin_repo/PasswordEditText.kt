@@ -12,6 +12,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import compose.icons.FontAwesomeIcons
+import compose.icons.fontawesomeicons.Solid
+import compose.icons.fontawesomeicons.solid.Eye
+import compose.icons.fontawesomeicons.solid.EyeDropper
+import compose.icons.fontawesomeicons.solid.EyeSlash
+import compose.icons.fontawesomeicons.solid.Key
+import compose.icons.fontawesomeicons.solid.UserSecret
 import org.jetbrains.compose.resources.stringResource
 import teamhub.composeapp.generated.resources.Res
 import teamhub.composeapp.generated.resources.enter_password
@@ -22,8 +29,8 @@ fun PasswordEditText(password: String, onPasswordChange: (String) -> Unit) {
 
     CustomTextField(
         placeHolder = stringResource(Res.string.enter_password),
-        startIcon = Icons.Default.Person,
-        endIcon = if (isPasswordVisible) Icons.Filled.KeyboardArrowDown else Icons.Filled.KeyboardArrowUp,
+        startIcon = FontAwesomeIcons.Solid.Key,
+        endIcon = if (isPasswordVisible) FontAwesomeIcons.Solid.Eye else FontAwesomeIcons.Solid.EyeSlash,
         endIconAction = { isPasswordVisible = !isPasswordVisible },
         visualTransformation = if (isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
         query = password

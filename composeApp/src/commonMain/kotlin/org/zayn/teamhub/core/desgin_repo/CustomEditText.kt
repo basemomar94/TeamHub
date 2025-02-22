@@ -2,6 +2,7 @@ package org.zayn.teamhub.core.desgin_repo
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Icon
@@ -15,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.unit.dp
 
 
 @Composable
@@ -45,13 +47,16 @@ fun CustomTextField(
             ),
         leadingIcon = {
             if (startIcon != null) {
-                Icon(imageVector = startIcon,
-                    contentDescription = "")
+                Icon(
+                    modifier = Modifier.size(18.dp),
+                    imageVector = startIcon,
+                    contentDescription = ""
+                )
             }
         },
         trailingIcon = {
             if (endIcon != null) {
-                IconButton(onClick = { endIconAction?.invoke() }) {
+                IconButton(onClick = { endIconAction?.invoke() }, modifier = Modifier.size(18.dp)) {
                     Icon(
                         imageVector = endIcon,
                         contentDescription = ""

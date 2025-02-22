@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.Divider
+import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
@@ -20,6 +21,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import compose.icons.FontAwesomeIcons
+import compose.icons.fontawesomeicons.Solid
+import compose.icons.fontawesomeicons.solid.Calendar
+import compose.icons.fontawesomeicons.solid.SignOutAlt
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import teamhub.composeapp.generated.resources.Res
@@ -35,16 +40,16 @@ fun ProfileItemCompose(profileItem: ProfileItem, onClick: (ProfileItem) -> Unit)
             horizontalArrangement = Arrangement.spacedBy(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Image(
+            Icon(
                 imageVector = profileItem.icon,
                 contentDescription = "",
-                modifier = Modifier.size(18.dp)
+                modifier = Modifier.size(24.dp)
             )
             Text(text = stringResource(profileItem.title), modifier = Modifier.weight(1f))
-            Image(
+            Icon(
                 imageVector = Icons.AutoMirrored.Default.ArrowForward,
                 contentDescription = "",
-                modifier = Modifier
+                modifier = Modifier.size(24.dp)
             )
 
         }
@@ -66,13 +71,13 @@ enum class ProfileAction {
 
 val attendanceItem = ProfileItem(
     title = Res.string.my_attendance,
-    icon = Icons.Default.Person,
+    icon = FontAwesomeIcons.Solid.Calendar,
     action = ProfileAction.ATTENDANCE
 )
 
 val logoutItem = ProfileItem(
     title = Res.string.log_out,
-    icon = Icons.Default.AccountCircle,
+    icon = FontAwesomeIcons.Solid.SignOutAlt,
     action = ProfileAction.LOG_OUT
 )
 

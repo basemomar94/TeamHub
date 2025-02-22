@@ -21,6 +21,7 @@ class SignInViewModel(
                 setEffect { SignInSideEffect.Navigate }
             },
             resultFailure = {
+                setState { SignInState.Idle }
                 setEffect {
                     SignInSideEffect.ShowSnackBar(it.error)
                 }
