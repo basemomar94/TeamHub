@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import org.jetbrains.compose.resources.stringResource
 import org.zayn.teamhub.core.models.Roles
 import org.zayn.teamhub.core.utils.data_store.ISessionManager
 import org.zayn.teamhub.core.utils.enumValueOf
@@ -35,7 +36,7 @@ fun BottomNavigationBar(navController: NavHostController, sessionManager: ISessi
             bottomMenu.forEach { item ->
                 BottomNavigationItem(
                     icon = { Icon(imageVector = item.icon, contentDescription = "") },
-                    label = { Text(item.label) },
+                    label = { Text(stringResource(item.label)) },
                     selected = currentRoute == item.route,
                     onClick = {
                         if (currentRoute != item.route) {

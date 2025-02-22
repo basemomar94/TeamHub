@@ -28,7 +28,17 @@ class SessionDetailsViewModel(private val getAttendanceByIdUseCase: GetAttendanc
                         setState { SessionDetailsState.LoadData(it) }
                     }
                 }
-            })
+            },
+            onError = {
+                setEffect {
+                    SessionDetailsEffect.ShowSnackBar(
+                        it.body?.message ?: "Fail"
+                    )
+                }
+            },
+            resultFailure = { setEffect { SessionDetailsEffect.ShowSnackBar(it.error) } }
+
+        )
 
     }
 }
