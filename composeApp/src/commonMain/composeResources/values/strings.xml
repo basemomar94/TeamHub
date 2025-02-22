@@ -46,5 +46,16 @@
     <string name="confirm_clock_out_title">Confirm Clock Out</string>
     <string name="confirm_clock_out_message">Are you sure you want to clock out this user?</string>
     <string name="save">Save</string>
+    <string name="attendance_details">Attendance Details</string>
+    <string name="id">ID</string>
+    <string name="user_id">User ID</string>
+    <string name="created_at">Created At</string>
+    <string name="type">Type</string>
+    <string name="method">Method</string>
+    <string name="location">Location</string>
+    <string name="mobile_id">Mobile ID</string>
+    <string name="device_name">Device Name</string>
+    <string name="flags">Flags</string>
+
 
 </resources>

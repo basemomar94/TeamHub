@@ -44,5 +44,14 @@
     <string name="save">حفظ</string>
     <string name="confirm">تأكيد</string>
     <string name="cancel">إلغاء</string>
-
+    <string name="attendance_details">تفاصيل الحضور</string>
+    <string name="id">المعرف</string>
+    <string name="user_id">معرف المستخدم</string>
+    <string name="created_at">تاريخ الإنشاء</string>
+    <string name="type">النوع</string>
+    <string name="method">الطريقة</string>
+    <string name="location">الموقع</string>
+    <string name="mobile_id">معرف الهاتف المحمول</string>
+    <string name="device_name">اسم الجهاز</string>
+    <string name="flags">العلامات</string>
 </resources>

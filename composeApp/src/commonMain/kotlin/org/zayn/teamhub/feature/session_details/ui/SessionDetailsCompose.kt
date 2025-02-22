@@ -9,8 +9,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import org.jetbrains.compose.resources.stringResource
 import org.zayn.teamhub.core.models.Attendance
 import org.zayn.teamhub.core.utils.toLocalizedDateTime
+import teamhub.composeapp.generated.resources.Res
+import teamhub.composeapp.generated.resources.created_at
+import teamhub.composeapp.generated.resources.device_name
+import teamhub.composeapp.generated.resources.flags
+import teamhub.composeapp.generated.resources.id
+import teamhub.composeapp.generated.resources.location
+import teamhub.composeapp.generated.resources.method
+import teamhub.composeapp.generated.resources.type
+import teamhub.composeapp.generated.resources.user_id
 
 @Composable
 fun SessionDetailsCompose(attendance: Attendance) {
@@ -26,26 +36,22 @@ fun SessionDetailsCompose(attendance: Attendance) {
             modifier = Modifier.padding(bottom = 8.dp)
         )
 
-        DetailRow("ID", attendance.id)
-        DetailRow("User ID", attendance.userId)
-        DetailRow("Created At", attendance.createdAt.toLocalizedDateTime())
-        DetailRow("Type", attendance.type)
-        DetailRow("Method", attendance.method)
+        DetailRow(stringResource(Res.string.id), attendance.id)
+        DetailRow(stringResource(Res.string.user_id), attendance.userId)
+        DetailRow(stringResource(Res.string.created_at), attendance.createdAt.toLocalizedDateTime())
+        DetailRow(stringResource(Res.string.type), attendance.type)
+        DetailRow(stringResource(Res.string.method), attendance.method)
 
         if (attendance.lat != null && attendance.long != null) {
-            DetailRow("Location", "${attendance.lat}, ${attendance.long}")
-        }
-
-        if (!attendance.mobileId.isNullOrEmpty()) {
-            DetailRow("Mobile ID", attendance.mobileId)
+            DetailRow(stringResource(Res.string.location), "${attendance.lat}, ${attendance.long}")
         }
 
         if (!attendance.deviceName.isNullOrEmpty()) {
-            DetailRow("Device Name", attendance.deviceName)
+            DetailRow(stringResource(Res.string.device_name), attendance.deviceName)
         }
 
         if (!attendance.flag.isNullOrEmpty()) {
-            DetailRow("Flags", attendance.flag.joinToString(", "))
+            DetailRow(stringResource(Res.string.flags), attendance.flag.joinToString(", "))
         }
     }
 }
