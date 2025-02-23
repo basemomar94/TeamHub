@@ -11,6 +11,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.jetbrains.compose.resources.stringResource
 import org.zayn.teamhub.core.models.Attendance
+import org.zayn.teamhub.core.models.AttendanceFlag
+import org.zayn.teamhub.core.models.Location
+import org.zayn.teamhub.core.utils.openMap
 import org.zayn.teamhub.core.utils.toLocalizedDateTime
 import teamhub.composeapp.generated.resources.Res
 import teamhub.composeapp.generated.resources.created_at
@@ -38,20 +41,30 @@ fun SessionDetailsCompose(attendance: Attendance) {
 
         DetailRow(stringResource(Res.string.id), attendance.id)
         DetailRow(stringResource(Res.string.user_id), attendance.userId)
-        DetailRow(stringResource(Res.string.created_at), attendance.createdAt.toLocalizedDateTime())
+        DetailRow(
+            label = stringResource(Res.string.created_at),
+            value = attendance.createdAt.toLocalizedDateTime(),
+            isFlagged = attendance.flag?.contains(AttendanceFlag.LATE.name) == true
+        )
         DetailRow(stringResource(Res.string.type), attendance.type)
         DetailRow(stringResource(Res.string.method), attendance.method)
 
         if (attendance.lat != null && attendance.long != null) {
-            DetailRow(stringResource(Res.string.location), "${attendance.lat}, ${attendance.long}")
+            DetailRow(
+                label = stringResource(Res.string.location),
+                value = "${attendance.lat}, ${attendance.long}",
+                isFlagged = attendance.flag?.contains(AttendanceFlag.OUT_OF_LOCATION.name) == true
+            ) {
+                openMap(Location(lat = attendance.lat, lon = attendance.long))
+            }
         }
 
         if (!attendance.deviceName.isNullOrEmpty()) {
-            DetailRow(stringResource(Res.string.device_name), attendance.deviceName)
-        }
-
-        if (!attendance.flag.isNullOrEmpty()) {
-            DetailRow(stringResource(Res.string.flags), attendance.flag.joinToString(", "))
+            DetailRow(
+                label = stringResource(Res.string.device_name),
+                value = attendance.deviceName,
+                isFlagged = attendance.flag?.contains(AttendanceFlag.UNAUTHORIZED_DEVICE.name) == true
+            )
         }
     }
 }

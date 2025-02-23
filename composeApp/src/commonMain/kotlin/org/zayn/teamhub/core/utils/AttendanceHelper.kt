@@ -17,28 +17,58 @@ fun getAttendanceFlag(
 ): List<String> {
     val flagsList = mutableListOf<String>()
 
-    val distanceTolerance = company?.distanceTolerance ?: 0.0
-    val lateTolerance = company?.lateTolerance ?: 0L
+    company?.distanceTolerance ?: 0.0
+    haversineInMeters(
+        workLocation = Location(lat = company?.lat, lon = company?.lon),
+        attendanceLocation = Location(
+            lat = attendanceLocation?.lat,
+            lon = attendanceLocation?.lon
+        )
+    )
+    if (isOutOfLocation(
+            companyLocation = Location(
+                lat = company?.lat,
+                lon = company?.lon
+            ),
+            attendanceLocation = attendanceLocation,
+            distanceTolerance = company?.distanceTolerance
+        )
+    ) flagsList.add(AttendanceFlag.OUT_OF_LOCATION.name)
+    if (attendanceDevice != user?.deviceName) flagsList.add(AttendanceFlag.UNAUTHORIZED_DEVICE.name)
+
+    if (type == AttendanceType.CLOCK_IN) {
+        if (isLate(
+                lateTolerance = company?.lateTolerance,
+                companyStart = company?.clockInTime,
+                attendanceClockIn = attendanceTime
+            )
+        ) flagsList.add(AttendanceFlag.LATE.name)
+    }
+    return flagsList
+}
+
+fun isOutOfLocation(
+    companyLocation: Location?,
+    attendanceLocation: Location?,
+    distanceTolerance: Double?
+): Boolean {
     val distanceBetweenWork =
         haversineInMeters(
-            workLocation = Location(lat = company?.lat, lon = company?.lon),
+            workLocation = Location(lat = companyLocation?.lat, lon = companyLocation?.lon),
             attendanceLocation = Location(
                 lat = attendanceLocation?.lat,
                 lon = attendanceLocation?.lon
             )
         )
-    if (distanceBetweenWork > distanceTolerance) flagsList.add(AttendanceFlag.OUT_OF_LOCATION.name)
-    if (attendanceDevice != user?.deviceName) flagsList.add(AttendanceFlag.UNAUTHORIZED_DEVICE.name)
-    Logger.createLogger("distance").d("distance is $distanceBetweenWork")
+    return distanceBetweenWork > (distanceTolerance ?: 0.0)
+}
 
-    if (type == AttendanceType.CLOCK_IN) {
-        if (lateTolerance < calculateTimeDifference(
-                clockInTime = company?.clockInTime ?: "",
-                userCheckInMillis = attendanceTime
-            )
-        ) flagsList.add(AttendanceFlag.LATE.name)
-    }
-    return flagsList
-
-
+fun isLate(lateTolerance: Long?, companyStart: String?, attendanceClockIn: Long): Boolean {
+    val timeDiff = calculateTimeDifference(
+        clockInTime = companyStart ?: "",
+        userCheckInMillis = attendanceClockIn
+    )
+    return if (lateTolerance != null) {
+        lateTolerance < timeDiff
+    } else false
 }
