@@ -30,6 +30,7 @@ import org.zayn.teamhub.core.desgin_repo.PasswordEditText
 import org.zayn.teamhub.core.models.Roles
 import org.zayn.teamhub.core.models.User
 import org.zayn.teamhub.core.utils.getCurrentTime
+import org.zayn.teamhub.core.utils.getFullDeviceName
 import teamhub.composeapp.generated.resources.Res
 import teamhub.composeapp.generated.resources.company_id
 import teamhub.composeapp.generated.resources.create_user
@@ -112,7 +113,8 @@ fun SignupCompose(
                 companyId = companyId,
                 role = if (isAdmin) Roles.ADMIN.name else Roles.USER.name,
                 password = password,
-                createdAt = getCurrentTime()
+                createdAt = getCurrentTime(),
+                deviceName = getFullDeviceName()
             )
             onCreateUser(newUser)
 
