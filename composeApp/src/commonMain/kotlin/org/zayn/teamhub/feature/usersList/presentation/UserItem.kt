@@ -4,10 +4,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,21 +23,24 @@ import teamhub.composeapp.generated.resources.last_update
 @Composable
 fun UserItem(
     user: User,
-    onUserClick: (String) -> Unit,
+    onAttendanceClick: (String) -> Unit,
+    onUserClick: (User) -> Unit
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .clickable {
                 user.id?.let {
-                    onUserClick(it)
+                    onAttendanceClick(it)
                 }
 
 
             },
         verticalAlignment = Alignment.CenterVertically
     ) {
-        UserCircularItem(user)
+        UserCircularItem(user) {
+          onUserClick(user)
+        }
         Hspacer(8.dp)
         Column(
             modifier = Modifier.weight(1f)

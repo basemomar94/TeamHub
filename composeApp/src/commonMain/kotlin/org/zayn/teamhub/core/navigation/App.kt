@@ -123,9 +123,15 @@ private fun TeamHubNavigationHost(navController: NavHostController, userId: Stri
             DashBoardScreen(onUsersClick = { navController.navigate(Screen.UsersList.route) })
         }
         composable(route = Screen.UsersList.route) {
-            UsersListScreen { id ->
-                navController.navigate(Screen.WorkSummary.createRoute(id))
-            }
+            UsersListScreen(onAttendanceClick = {
+                navController.navigate(
+                    Screen.WorkSummary.createRoute(
+                        it
+                    )
+                )
+            }, onEditInfoClick = { Screen.EditProfile.createRoute(it) }
+
+            )
         }
         composable(route = Screen.SignUp.route) {
             SignupScreen(navigateHome = { navController.navigate(Screen.Home.route) })
