@@ -17,4 +17,6 @@ object CollectionReference {
     const val LAST_NAME = "lastName"
     const val EMAIL = "email"
     const val PHONE_NUMBER = "phoneNumber"
+    const val DEVICE_NAME = "deviceName"
+
 }

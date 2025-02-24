@@ -20,6 +20,8 @@ import org.zayn.teamhub.core.desgin_repo.PhoneEditText
 import org.zayn.teamhub.core.desgin_repo.Vspacer
 import org.zayn.teamhub.core.models.UpdatedUser
 import org.zayn.teamhub.core.models.User
+import org.zayn.teamhub.core.utils.Logger
+import org.zayn.teamhub.core.utils.Logger.Companion.createLogger
 import teamhub.composeapp.generated.resources.Res
 import teamhub.composeapp.generated.resources.prompt_device_name
 import teamhub.composeapp.generated.resources.save
@@ -63,12 +65,14 @@ fun EditProfileCompose(
             text = stringResource(Res.string.save),
             modifier = Modifier.align(Alignment.CenterHorizontally).fillMaxWidth()
         ) {
+            Logger.createLogger("device name").d("device name $deviceName")
             val updatedUser = UpdatedUser(
                 phoneNumber = phoneNumber,
                 email = email,
                 firstName = firstName,
                 lastName = lastName,
-                userId = user.id
+                userId = user.id,
+                deviceName = deviceName
             )
             onSaveClick(updatedUser)
         }

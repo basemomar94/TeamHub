@@ -70,7 +70,8 @@ class UserRepoImp(private val firestore: FirebaseFirestore, private val auth: Fi
             CollectionReference.FIRST_NAME to updatedUser.firstName.toString(),
             CollectionReference.LAST_NAME to updatedUser.lastName.toString(),
             CollectionReference.PHONE_NUMBER to updatedUser.phoneNumber.toString(),
-            CollectionReference.EMAIL to updatedUser.email.toString()
+            CollectionReference.EMAIL to updatedUser.email.toString(),
+            CollectionReference.DEVICE_NAME to updatedUser.deviceName.toString()
         )
         return firestore.updateDocumentAsFlow<User>(
             collection = FirebaseCollections.USER_COLLECTION,
