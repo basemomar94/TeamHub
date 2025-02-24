@@ -92,13 +92,15 @@ fun WorkSessionItem(
                 onSessionClick = { onSessionClick(session.clockIn?.id) },
                 label = stringResource(Res.string.clock_in),
                 text = clockInText,
-                isFlagged = session.clockIn?.flags?.isNotEmpty() == true
+                isFlagged = session.clockIn?.flags?.isNotEmpty() == true,
+                isAdmin = isAdmin
             )
             SessionItem(
                 onSessionClick = { onSessionClick(session.clockOut?.id) },
                 label = stringResource(Res.string.clock_out),
                 text = clockOutText,
-                isFlagged = session.clockOut?.flags?.isNotEmpty() == true
+                isFlagged = session.clockOut?.flags?.isNotEmpty() == true,
+                isAdmin = isAdmin
             )
 
             Divider(modifier = Modifier.padding(vertical = 8.dp))

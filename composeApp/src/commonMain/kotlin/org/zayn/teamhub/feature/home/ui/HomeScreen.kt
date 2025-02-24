@@ -44,7 +44,11 @@ import teamhub.composeapp.generated.resources.gps_not_allowed
 import teamhub.composeapp.generated.resources.location_permission_required
 
 @Composable
-fun HomeScreen(viewModel: HomeViewModel = koinInject(), onAttendanceClick: (String?) -> Unit) {
+fun HomeScreen(
+    viewModel: HomeViewModel = koinInject(),
+    onAttendanceClick: (String?) -> Unit,
+    onEditClick: (User) -> Unit
+) {
     val state by viewModel.viewState.collectAsState()
     val snackBarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
@@ -95,7 +99,8 @@ fun HomeScreen(viewModel: HomeViewModel = koinInject(), onAttendanceClick: (Stri
                     HomeCompose(
                         onlineUsers = onlineUsers,
                         user = currentUser,
-                        onAttendanceClick = {onAttendanceClick(it)}
+                        onAttendanceClick = { onAttendanceClick(it) },
+                        onEditClick = { onEditClick(it) }
                     ) { type ->
 
                         if (true) {
@@ -126,7 +131,8 @@ fun HomeCompose(
     user: User,
     onlineUsers: List<User>,
     onAttendanceClick: (String?) -> Unit,
-    addAttendance: (AttendanceType) -> Unit
+    onEditClick: (User) -> Unit,
+    addAttendance: (AttendanceType) -> Unit,
 ) {
     Column {
         WelcomeHeader(user.firstName ?: "")
@@ -155,9 +161,10 @@ fun HomeCompose(
 
         }
         Vspacer(8.dp)
-        OnlineUserGrid(onlineUsers) {
-         onAttendanceClick(it)
-        }
+        OnlineUserGrid(
+            onlineUsers,
+            onEditProfileClick = { onEditClick(it) },
+            onAttendanceClick = { onAttendanceClick(it) })
 
     }
 

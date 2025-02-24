@@ -26,13 +26,14 @@ fun SessionItem(
     label: String,
     text: String,
     modifier: Modifier = Modifier,
+    isAdmin: Boolean,
     onSessionClick: () -> Unit,
     isFlagged: Boolean,
 ) {
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .clickable { onSessionClick() },
+            .clickable { if (isAdmin) onSessionClick() },
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
@@ -49,7 +50,7 @@ fun SessionItem(
                 color = MaterialTheme.colors.onSurface
             )
         }
-        if (isFlagged) {
+        if (isFlagged && isAdmin) {
             Icon(
                 imageVector = FontAwesomeIcons.Solid.Flag,
                 modifier = Modifier.padding(8.dp).size(24.dp),

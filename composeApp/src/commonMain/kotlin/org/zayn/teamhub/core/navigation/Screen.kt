@@ -1,8 +1,13 @@
 package org.zayn.teamhub.core.navigation
 
+import androidx.compose.ui.text.input.KeyboardType.Companion.Uri
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
+import io.ktor.http.encodeURLParameter
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+import org.zayn.teamhub.core.models.User
 
 sealed class Screen(
     val route: String,
@@ -15,7 +20,22 @@ sealed class Screen(
     data object SignUp : Screen("sign_up")
     data object Profile : Screen("Profile")
     data object Splash : Screen("Splash")
-    data object EditProfile : Screen("EditProfile")
+    data object EditProfile :
+        Screen(route = "EditProfile/{user}", navArguments = listOf(navArgument("user") {
+            type = NavType.StringType
+            nullable = true
+        })) {
+        fun createRoute(user: User?): String {
+            return if (user != null) {
+                val userJson =Json.encodeToString(user)
+                val encodedUserJson = userJson.encodeURLParameter()
+                "EditProfile/$encodedUserJson"
+            } else {
+                // Handle null appropriately. Either pass an empty string or adjust your route to use optional parameters.
+                "EditProfile/"
+            }
+        }    }
+
     data object SessionDetails : Screen(
         route = "SessionDetails/{attendanceId}",
         navArguments = listOf(navArgument("attendanceId") {

@@ -61,7 +61,7 @@ kotlin {
             implementation(libs.kamel.image.default)
             implementation(libs.font.awesome)
             implementation(libs.cupertino.icons.extended)
-
+            implementation(libs.ktor.http)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)

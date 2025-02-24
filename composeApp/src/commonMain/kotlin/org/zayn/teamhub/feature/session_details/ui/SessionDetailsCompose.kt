@@ -18,7 +18,6 @@ import org.zayn.teamhub.core.utils.toLocalizedDateTime
 import teamhub.composeapp.generated.resources.Res
 import teamhub.composeapp.generated.resources.created_at
 import teamhub.composeapp.generated.resources.device_name
-import teamhub.composeapp.generated.resources.flags
 import teamhub.composeapp.generated.resources.id
 import teamhub.composeapp.generated.resources.location
 import teamhub.composeapp.generated.resources.method

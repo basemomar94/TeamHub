@@ -37,17 +37,18 @@ fun getAttendanceFlag(
     if (attendanceDevice != user?.deviceName) flagsList.add(AttendanceFlag.UNAUTHORIZED_DEVICE.name)
 
     if (type == AttendanceType.CLOCK_IN) {
-        if (isLate(
+        //TODO need to fix the late logic
+ /*       if (isLate(
                 lateTolerance = company?.lateTolerance,
                 companyStart = company?.clockInTime,
                 attendanceClockIn = attendanceTime
             )
-        ) flagsList.add(AttendanceFlag.LATE.name)
+        ) flagsList.add(AttendanceFlag.LATE.name)*/
     }
     return flagsList
 }
 
-fun isOutOfLocation(
+private fun isOutOfLocation(
     companyLocation: Location?,
     attendanceLocation: Location?,
     distanceTolerance: Double?
@@ -63,7 +64,7 @@ fun isOutOfLocation(
     return distanceBetweenWork > (distanceTolerance ?: 0.0)
 }
 
-fun isLate(lateTolerance: Long?, companyStart: String?, attendanceClockIn: Long): Boolean {
+private fun isLate(lateTolerance: Long?, companyStart: String?, attendanceClockIn: Long): Boolean {
     val timeDiff = calculateTimeDifference(
         clockInTime = companyStart ?: "",
         userCheckInMillis = attendanceClockIn

@@ -6,19 +6,21 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import org.koin.compose.viewmodel.koinViewModel
 import org.zayn.teamhub.core.base.SideEffectsKey
 import org.zayn.teamhub.core.desgin_repo.LoadingIndicator
+import org.zayn.teamhub.core.models.User
 import org.zayn.teamhub.feature.edit_profile.EditProfileEffect
 import org.zayn.teamhub.feature.edit_profile.EditProfileEvent
 import org.zayn.teamhub.feature.edit_profile.EditProfileState
 import org.zayn.teamhub.feature.edit_profile.EditProfileViewModel
-import org.zayn.teamhub.feature.home.HomeSideEffect
-import org.zayn.teamhub.feature.home.RecordAttendanceError
 
 @Composable
-fun EditProfileScreen(viewModel: EditProfileViewModel = koinViewModel(), onUpdate: () -> Unit) {
+fun EditProfileScreen(
+    viewModel: EditProfileViewModel = koinViewModel(),
+    user: User?,
+    onUpdate: () -> Unit
+) {
     val state by viewModel.viewState.collectAsState()
     LaunchedEffect(SideEffectsKey) {
         viewModel.effect.onEach { effect ->
@@ -30,9 +32,12 @@ fun EditProfileScreen(viewModel: EditProfileViewModel = koinViewModel(), onUpdat
     }
 
     when (state) {
-        EditProfileState.Ideal -> viewModel.user?.let {
-            EditProfileCompose(user = it, onUpdate = onUpdate) { updatedUser ->
-                viewModel.setEvent(EditProfileEvent.UpdateProfile(updatedUser))
+        EditProfileState.Ideal -> {
+            val editedUser = user ?: viewModel.user
+            if (editedUser != null) {
+                EditProfileCompose(user = editedUser, isAdmin = viewModel.isAdmin) { updatedUser ->
+                    viewModel.setEvent(EditProfileEvent.UpdateProfile(updatedUser))
+                }
             }
         }
 

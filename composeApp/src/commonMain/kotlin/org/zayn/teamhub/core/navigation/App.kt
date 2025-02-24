@@ -12,8 +12,12 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import dev.gitlive.firebase.auth.FirebaseAuth
+import io.ktor.http.decodeURLPart
+import kotlinx.serialization.json.Json
 import org.koin.compose.koinInject
+import org.zayn.teamhub.core.models.User
 import org.zayn.teamhub.core.utils.data_store.ISessionManager
+import org.zayn.teamhub.core.utils.safeDecodeFromString
 import org.zayn.teamhub.feature.dashboard.DashBoardScreen
 import org.zayn.teamhub.feature.edit_profile.ui.EditProfileScreen
 import org.zayn.teamhub.feature.home.ui.HomeScreen
@@ -89,9 +93,10 @@ private fun TeamHubNavigationHost(navController: NavHostController, userId: Stri
                 onSignUp = { navController.navigate(Screen.SignUp.route) })
         }
         composable(route = Screen.Home.route) {
-            HomeScreen {
-                navController.navigate(Screen.WorkSummary.createRoute(it))
-            }
+            HomeScreen(
+                onAttendanceClick = { navController.navigate(Screen.WorkSummary.createRoute(it)) },
+                onEditClick = { navController.navigate(Screen.EditProfile.createRoute(it)) }
+            )
         }
         composable(route = Screen.Profile.route) {
             ProfileScreen { item ->
@@ -106,7 +111,11 @@ private fun TeamHubNavigationHost(navController: NavHostController, userId: Stri
                         )
                     )
 
-                    ProfileAction.EDIT_PROFILE -> navController.navigate(Screen.EditProfile.route)
+                    ProfileAction.EDIT_PROFILE -> navController.navigate(
+                        Screen.EditProfile.createRoute(
+                            null
+                        )
+                    )
                 }
             }
         }
@@ -131,8 +140,14 @@ private fun TeamHubNavigationHost(navController: NavHostController, userId: Stri
             }
         }
 
-        composable(route = Screen.EditProfile.route) {
-            EditProfileScreen {
+        composable(
+            route = Screen.EditProfile.route,
+            arguments = Screen.EditProfile.navArguments
+        ) { backStackEntry ->
+            val userTxt = backStackEntry.arguments?.getString("user") ?: ""
+            val decodedUserTxt = userTxt.decodeURLPart()
+            val user = decodedUserTxt.safeDecodeFromString<User>()
+            EditProfileScreen(user = user) {
                 navController.navigate(Screen.Splash.route)
             }
         }

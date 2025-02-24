@@ -5,6 +5,7 @@ import org.zayn.teamhub.core.models.UpdatedUser
 import org.zayn.teamhub.core.models.User
 import org.zayn.teamhub.core.usecases.UpdateUserInfoUseCase
 import org.zayn.teamhub.core.utils.data_store.ISessionManager
+import org.zayn.teamhub.core.utils.isAdmin
 
 class EditProfileViewModel(
     session: ISessionManager,
@@ -12,6 +13,7 @@ class EditProfileViewModel(
 ) :
     BaseViewModel<EditProfileState, EditProfileEvent, EditProfileEffect>() {
     val user = session.getUser()
+    val isAdmin = user.isAdmin()
 
     override fun setInitialState(): EditProfileState {
         return EditProfileState.Ideal

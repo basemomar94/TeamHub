@@ -40,6 +40,7 @@ import org.zayn.teamhub.core.utils.sendWhatsapp
 import org.zayn.teamhub.core.utils.toLocalizedDateTime
 import org.zayn.teamhub.feature.home.ui.UserCircularItem
 import teamhub.composeapp.generated.resources.Res
+import teamhub.composeapp.generated.resources.edit_profile
 import teamhub.composeapp.generated.resources.last_update
 import teamhub.composeapp.generated.resources.user_attendance
 import teamhub.composeapp.generated.resources.user_info
@@ -49,6 +50,7 @@ fun UserDetailsDialog(
     viewModel: UserDetailsViewModel = koinViewModel(),
     user: User,
     onAttendanceClick: (String?) -> Unit,
+    onEditInfoClick: (User) -> Unit,
     onDismiss: () -> Unit
 ) {
     Dialog(onDismissRequest = onDismiss) {
@@ -134,6 +136,14 @@ fun UserDetailsDialog(
                         modifier = Modifier.align(Alignment.CenterHorizontally)
                     ) {
                         onAttendanceClick(user.id)
+
+                    }
+                    Vspacer(8.dp)
+                    DefaultButton(
+                        text = stringResource(Res.string.edit_profile),
+                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                    ) {
+                        onEditInfoClick(user)
 
                     }
                 }

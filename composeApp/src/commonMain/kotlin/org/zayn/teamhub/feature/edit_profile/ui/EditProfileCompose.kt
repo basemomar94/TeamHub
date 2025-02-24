@@ -26,14 +26,16 @@ import teamhub.composeapp.generated.resources.save
 @Composable
 fun EditProfileCompose(
     user: User,
+    isAdmin: Boolean,
     modifier: Modifier = Modifier,
-    onUpdate: () -> Unit,
     onSaveClick: (UpdatedUser) -> Unit,
 ) {
     var phoneNumber by remember { mutableStateOf(user.phoneNumber) }
     var email by remember { mutableStateOf(user.email) }
     var firstName by remember { mutableStateOf(user.firstName) }
     var lastName by remember { mutableStateOf(user.lastName) }
+    var deviceName by remember { mutableStateOf(user.deviceName) }
+
     Column(modifier = modifier.padding(16.dp), verticalArrangement = Arrangement.SpaceBetween) {
         firstName?.let {
             CustomTextField(query = it, onQueryChanged = { firstName = it })
@@ -48,6 +50,9 @@ fun EditProfileCompose(
         }
         Vspacer(8.dp)
         PhoneEditText(phone = phoneNumber, onPhoneChange = { phoneNumber = it })
+        if (isAdmin) {
+            CustomTextField(query = deviceName ?: "", onQueryChanged = { deviceName = it })
+        }
         Vspacer(16.dp)
         DefaultButton(
             text = stringResource(Res.string.save),
