@@ -56,6 +56,6 @@
     <string name="mobile_id">Mobile ID</string>
     <string name="device_name">Device Name</string>
     <string name="flags">Flags</string>
-
+    <string name="prompt_device_name">Please enter your device name:</string>
 
 </resources>

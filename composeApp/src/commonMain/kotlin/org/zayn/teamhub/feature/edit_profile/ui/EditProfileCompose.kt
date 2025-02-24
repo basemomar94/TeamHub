@@ -21,6 +21,7 @@ import org.zayn.teamhub.core.desgin_repo.Vspacer
 import org.zayn.teamhub.core.models.UpdatedUser
 import org.zayn.teamhub.core.models.User
 import teamhub.composeapp.generated.resources.Res
+import teamhub.composeapp.generated.resources.prompt_device_name
 import teamhub.composeapp.generated.resources.save
 
 @Composable
@@ -50,8 +51,12 @@ fun EditProfileCompose(
         }
         Vspacer(8.dp)
         PhoneEditText(phone = phoneNumber, onPhoneChange = { phoneNumber = it })
+        Vspacer(8.dp)
         if (isAdmin) {
-            CustomTextField(query = deviceName ?: "", onQueryChanged = { deviceName = it })
+            CustomTextField(
+                placeHolder = stringResource(Res.string.prompt_device_name),
+                query = deviceName ?: "",
+                onQueryChanged = { deviceName = it })
         }
         Vspacer(16.dp)
         DefaultButton(
