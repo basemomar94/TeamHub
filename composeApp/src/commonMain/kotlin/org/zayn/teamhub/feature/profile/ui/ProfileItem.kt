@@ -15,6 +15,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -28,9 +29,11 @@ import compose.icons.fontawesomeicons.solid.SignOutAlt
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import teamhub.composeapp.generated.resources.Res
+import teamhub.composeapp.generated.resources.about
 import teamhub.composeapp.generated.resources.edit_profile
 import teamhub.composeapp.generated.resources.log_out
 import teamhub.composeapp.generated.resources.my_attendance
+import teamhub.composeapp.generated.resources.privacy_policy
 
 @Composable
 fun ProfileItemCompose(profileItem: ProfileItem, onClick: (ProfileItem) -> Unit) {
@@ -66,7 +69,7 @@ data class ProfileItem(
 )
 
 enum class ProfileAction {
-    LOG_OUT, ATTENDANCE, EDIT_PROFILE
+    LOG_OUT, ATTENDANCE, EDIT_PROFILE, PRIVACY, ABOUT
 }
 
 val attendanceItem = ProfileItem(
@@ -81,9 +84,18 @@ val logoutItem = ProfileItem(
     action = ProfileAction.LOG_OUT
 )
 
-val editProfileItem =
-    ProfileItem(
-        title = Res.string.edit_profile,
-        icon = Icons.Default.Edit,
-        action = ProfileAction.EDIT_PROFILE
-    )
+val editProfileItem = ProfileItem(
+    title = Res.string.edit_profile, icon = Icons.Default.Edit, action = ProfileAction.EDIT_PROFILE
+)
+
+val privacyItem = ProfileItem(
+    title = Res.string.privacy_policy,
+    icon = Icons.Default.Info,
+    action = ProfileAction.PRIVACY
+)
+
+val aboutItem = ProfileItem(
+    title = Res.string.about,
+    icon = Icons.Default.Info,
+    action = ProfileAction.ABOUT
+)
