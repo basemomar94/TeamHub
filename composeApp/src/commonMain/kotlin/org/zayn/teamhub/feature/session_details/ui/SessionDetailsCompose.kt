@@ -5,14 +5,21 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.jetbrains.compose.resources.stringResource
+import org.zayn.teamhub.core.desgin_repo.date_time_picker.DateTimePickerDialog
 import org.zayn.teamhub.core.models.Attendance
 import org.zayn.teamhub.core.models.AttendanceFlag
 import org.zayn.teamhub.core.models.Location
+import org.zayn.teamhub.core.utils.Logger
+import org.zayn.teamhub.core.utils.Logger.Companion.createLogger
 import org.zayn.teamhub.core.utils.openMap
 import org.zayn.teamhub.core.utils.toLocalizedDateTime
 import teamhub.composeapp.generated.resources.Res
@@ -25,7 +32,9 @@ import teamhub.composeapp.generated.resources.type
 import teamhub.composeapp.generated.resources.user_id
 
 @Composable
-fun SessionDetailsCompose(attendance: Attendance) {
+fun SessionDetailsCompose(attendance: Attendance, onNewTimeSelected: (Long) -> Unit) {
+    var showEditTime by remember { mutableStateOf(false) }
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -43,8 +52,11 @@ fun SessionDetailsCompose(attendance: Attendance) {
         DetailRow(
             label = stringResource(Res.string.created_at),
             value = attendance.createdAt.toLocalizedDateTime(),
-            isFlagged = attendance.flag?.contains(AttendanceFlag.LATE.name) == true
-        )
+            isFlagged = attendance.flag?.contains(AttendanceFlag.LATE.name) == true,
+        ) {
+            showEditTime = true
+        }
+
         DetailRow(stringResource(Res.string.type), attendance.type)
         DetailRow(stringResource(Res.string.method), attendance.method)
 
@@ -65,5 +77,11 @@ fun SessionDetailsCompose(attendance: Attendance) {
                 isFlagged = attendance.flag?.contains(AttendanceFlag.UNAUTHORIZED_DEVICE.name) == true
             )
         }
+    }
+    if (showEditTime) {
+        DateTimePickerDialog(onDismiss = { showEditTime = false }, onDateTimeSelected = {
+            Logger.createLogger("DateTimePickerDialog").d("selected time is $it")
+            onNewTimeSelected(it)
+        })
     }
 }

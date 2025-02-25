@@ -2,7 +2,6 @@ package org.zayn.teamhub.core.repo
 
 import kotlinx.coroutines.flow.Flow
 import org.zayn.teamhub.core.models.Attendance
-import org.zayn.teamhub.core.models.AttendanceFlag
 import org.zayn.teamhub.core.models.AttendanceMethod
 import org.zayn.teamhub.core.models.AttendanceType
 import org.zayn.teamhub.core.utils.networkresultwrapper.NetworkResult
@@ -27,5 +26,7 @@ interface IAttendanceRepo {
     ): Flow<NetworkResult<List<Attendance>>>
 
     suspend fun getAttendanceById(id: String): Flow<NetworkResult<Attendance>>
+
+    suspend fun updateAttendanceTime(id:String,createdAt: Long): Flow<NetworkResult<Boolean>>
 
 }

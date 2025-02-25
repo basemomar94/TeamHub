@@ -43,6 +43,7 @@ kotlin {
             implementation(compose.foundation)
             implementation(compose.material)
             implementation(compose.ui)
+            implementation(compose.material3)
             implementation(compose.components.resources)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
@@ -62,6 +63,7 @@ kotlin {
             implementation(libs.font.awesome)
             implementation(libs.cupertino.icons.extended)
             implementation(libs.ktor.http)
+
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)

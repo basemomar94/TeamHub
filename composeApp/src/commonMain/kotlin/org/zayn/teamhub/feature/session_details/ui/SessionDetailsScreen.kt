@@ -21,6 +21,7 @@ import org.zayn.teamhub.feature.session_details.SessionDetailsViewModel
 @Composable
 fun SessionDetailsScreen(
     attendanceId: String?,
+    onUpdateSuccess: () -> Unit,
     viewModel: SessionDetailsViewModel = koinViewModel(),
 ) {
 
@@ -29,7 +30,10 @@ fun SessionDetailsScreen(
 
     HandleSideEffects(effectFlow = viewModel.effect) {
         when (it) {
-            SessionDetailsEffect.Navigate -> {}
+            SessionDetailsEffect.Navigate -> {
+                onUpdateSuccess()
+            }
+
             is SessionDetailsEffect.ShowSnackBar -> snackBarHostState.showSnackbar(it.message)
         }
     }
@@ -42,7 +46,17 @@ fun SessionDetailsScreen(
                 )
             )
 
-            is SessionDetailsState.LoadData -> SessionDetailsCompose((state as SessionDetailsState.LoadData).attendance)
+            is SessionDetailsState.LoadData -> SessionDetailsCompose(
+                attendance = (state as SessionDetailsState.LoadData).attendance,
+                onNewTimeSelected = {
+                    viewModel.setEvent(
+                        SessionDetailsEvent.UpdateAttendance(
+                            time = it,
+                            id = attendanceId ?: ""
+                        )
+                    )
+                })
+
             SessionDetailsState.Loading -> LoadingIndicator()
         }
         BaseSnackBar(

@@ -33,7 +33,7 @@ class AttendanceReoImp(
                 lat = lat,
                 long = log,
                 userId = userId,
-                createdAt =time,
+                createdAt = time,
                 type = type.name,
                 method = method.name,
                 flag = flag,
@@ -71,6 +71,17 @@ class AttendanceReoImp(
         return firestore.fetchDocumentAsFlow(
             collection = FirebaseCollections.ATTENDANCE_COLLECTION,
             documentId = id
+        )
+    }
+
+    override suspend fun updateAttendanceTime(
+        id: String,
+        createdAt: Long
+    ): Flow<NetworkResult<Boolean>> {
+        return firestore.updateDocumentAsFlow<Attendance>(
+            collection = FirebaseCollections.ATTENDANCE_COLLECTION,
+            documentId = id,
+            updates = mapOf(CollectionReference.CREATED_AT to createdAt)
         )
     }
 }

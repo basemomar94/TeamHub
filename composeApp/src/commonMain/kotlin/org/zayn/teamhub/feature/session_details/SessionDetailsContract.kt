@@ -13,7 +13,7 @@ sealed class SessionDetailsState : ViewState {
 
 sealed class SessionDetailsEvent : ViewEvent {
     data class GetAttendance(val id: String) : SessionDetailsEvent()
-
+    data class UpdateAttendance(val time: Long, val id: String) : SessionDetailsEvent()
 }
 
 sealed class SessionDetailsEffect : ViewSideEffect {

@@ -160,7 +160,9 @@ private fun TeamHubNavigationHost(navController: NavHostController, userId: Stri
 
         composable(route = Screen.SessionDetails.route) { backStackEntry ->
             val id = backStackEntry.arguments?.getString("attendanceId")
-            SessionDetailsScreen(id)
+            SessionDetailsScreen(
+                attendanceId = id,
+                onUpdateSuccess = { navController.popBackStack() })
         }
 
         composable(

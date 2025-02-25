@@ -18,13 +18,14 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import org.zayn.teamhub.core.models.User
 
 @Composable
 fun DetailRow(
     label: String,
     value: String,
     isFlagged: Boolean = false,
-    onClick: (() -> Unit?)? = null
+    onClick: (() -> Unit)? = null
 ) {
     val clipboardManager = LocalClipboardManager.current
 
