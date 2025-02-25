@@ -16,5 +16,6 @@ data class Attendance(
     val method: String = AttendanceMethod.MANUAL.name,
     val mobileId: String? = null,
     val deviceName: String? = null,
-    val flag: List<String>? = listOf()
+    val flag: List<String>? = listOf(),
+    val isEdited: Boolean = false
 )

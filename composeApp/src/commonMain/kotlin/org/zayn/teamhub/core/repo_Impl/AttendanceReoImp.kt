@@ -78,10 +78,14 @@ class AttendanceReoImp(
         id: String,
         createdAt: Long
     ): Flow<NetworkResult<Boolean>> {
+        val updates = mapOf(
+            CollectionReference.CREATED_AT to createdAt,
+            CollectionReference.IS_EDITED to true
+        )
         return firestore.updateDocumentAsFlow<Attendance>(
             collection = FirebaseCollections.ATTENDANCE_COLLECTION,
             documentId = id,
-            updates = mapOf(CollectionReference.CREATED_AT to createdAt)
+            updates = updates
         )
     }
 }
