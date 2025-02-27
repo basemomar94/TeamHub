@@ -4,6 +4,7 @@ object FirebaseCollections {
     const val USER_COLLECTION = "user"
     const val COMPANY_COLLECTION = "company"
     const val ATTENDANCE_COLLECTION = "attendance"
+    const val SETTINGS_COLLECTION = "settings"
 }
 
 object CollectionReference {
@@ -19,5 +20,6 @@ object CollectionReference {
     const val EMAIL = "email"
     const val PHONE_NUMBER = "phoneNumber"
     const val DEVICE_NAME = "deviceName"
+    const val APP = "app"
 
 }

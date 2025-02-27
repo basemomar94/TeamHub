@@ -116,6 +116,9 @@ private fun TeamHubNavigationHost(navController: NavHostController, userId: Stri
                             null
                         )
                     )
+
+                    ProfileAction.PRIVACY -> TODO()
+                    ProfileAction.ABOUT -> TODO()
                 }
             }
         }

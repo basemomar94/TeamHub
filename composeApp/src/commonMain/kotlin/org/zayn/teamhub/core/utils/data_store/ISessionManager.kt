@@ -1,5 +1,6 @@
 package org.zayn.teamhub.core.utils.data_store
 
+import org.zayn.teamhub.core.models.AppSettings
 import org.zayn.teamhub.core.models.Company
 import org.zayn.teamhub.core.models.Roles
 import org.zayn.teamhub.core.models.User
@@ -11,4 +12,7 @@ interface ISessionManager {
 
     fun putCompany(company: Company)
     fun getCompany(): Company?
+
+    fun putAppSettings(appSettings: AppSettings)
+    fun getAppSettings(): AppSettings?
 }

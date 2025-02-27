@@ -13,14 +13,17 @@ import org.zayn.teamhub.core.auth.AuthManager
 import org.zayn.teamhub.core.auth.IAuthManager
 import org.zayn.teamhub.core.repo.IAttendanceRepo
 import org.zayn.teamhub.core.repo.ICompanyRepo
+import org.zayn.teamhub.core.repo.ISettingsRepo
 import org.zayn.teamhub.core.repo.IUserRepo
 import org.zayn.teamhub.core.repo_Impl.AttendanceReoImp
 import org.zayn.teamhub.core.repo_Impl.CompanyRepo
+import org.zayn.teamhub.core.repo_Impl.SettingsRepoImp
 import org.zayn.teamhub.core.repo_Impl.UserRepoImp
 import org.zayn.teamhub.core.usecases.AddAttendanceLogUseCase
 import org.zayn.teamhub.core.usecases.AddNewUserUseCase
 import org.zayn.teamhub.core.usecases.AuthNewUserUseCase
 import org.zayn.teamhub.core.usecases.GetAllCompanyUsers
+import org.zayn.teamhub.core.usecases.GetAppSettingsUseCase
 import org.zayn.teamhub.core.usecases.GetAttendanceByIdUseCase
 import org.zayn.teamhub.core.usecases.GetAttendanceByUser
 import org.zayn.teamhub.core.usecases.GetCompanyByIdUseCase
@@ -53,6 +56,7 @@ private val repoModules = module {
     single<IUserRepo> { UserRepoImp(get(), get()) }
     single<IAttendanceRepo> { AttendanceReoImp(get()) }
     single<ICompanyRepo> { CompanyRepo(get()) }
+    single<ISettingsRepo> { SettingsRepoImp(get()) }
 }
 
 private val viewModelsModules = module {
@@ -84,6 +88,7 @@ private val useCasesModules = module {
     factory { UpdateUserInfoUseCase(get()) }
     factory { GetAttendanceByIdUseCase(get()) }
     factory { UpdateAttendanceTimeUseCase(get()) }
+    factory { GetAppSettingsUseCase(get()) }
 }
 
 private val firebaseModules = module {
