@@ -19,5 +19,6 @@ data class User(
     val phoneNumber: String? = null,
     val profileImage: String? = null,
     val workingHours: Long? = 0L,
-    val deviceName: String? = ""
+    val deviceName: String? = "",
+    val installedVersion: String? = null
 )

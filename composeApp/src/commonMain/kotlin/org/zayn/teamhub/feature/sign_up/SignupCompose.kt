@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.Button
 import androidx.compose.material.Switch
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
@@ -29,12 +28,11 @@ import org.zayn.teamhub.core.desgin_repo.MailEditText
 import org.zayn.teamhub.core.desgin_repo.PasswordEditText
 import org.zayn.teamhub.core.models.Roles
 import org.zayn.teamhub.core.models.User
+import org.zayn.teamhub.core.utils.getAppVersion
 import org.zayn.teamhub.core.utils.getCurrentTime
 import org.zayn.teamhub.core.utils.getFullDeviceName
 import teamhub.composeapp.generated.resources.Res
 import teamhub.composeapp.generated.resources.company_id
-import teamhub.composeapp.generated.resources.create_user
-import teamhub.composeapp.generated.resources.enter_password
 import teamhub.composeapp.generated.resources.first_name
 import teamhub.composeapp.generated.resources.is_admin
 import teamhub.composeapp.generated.resources.last_name
@@ -114,7 +112,8 @@ fun SignupCompose(
                 role = if (isAdmin) Roles.ADMIN.name else Roles.USER.name,
                 password = password,
                 createdAt = getCurrentTime(),
-                deviceName = getFullDeviceName()
+                deviceName = getFullDeviceName(),
+                installedVersion = getAppVersion()
             )
             onCreateUser(newUser)
 

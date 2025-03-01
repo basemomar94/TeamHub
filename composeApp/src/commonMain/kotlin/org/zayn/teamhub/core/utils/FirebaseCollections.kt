@@ -21,5 +21,6 @@ object CollectionReference {
     const val PHONE_NUMBER = "phoneNumber"
     const val DEVICE_NAME = "deviceName"
     const val APP = "app"
+    const val INSTALLED_VERSION = "installedVersion"
 
 }

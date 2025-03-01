@@ -53,7 +53,7 @@ import org.zayn.teamhub.feature.session_details.SessionDetailsViewModel
 
 private val repoModules = module {
     singleOf(::AuthManager) { bind<IAuthManager>() }
-    single<IUserRepo> { UserRepoImp(get(), get()) }
+    single<IUserRepo> { UserRepoImp(get()) }
     single<IAttendanceRepo> { AttendanceReoImp(get()) }
     single<ICompanyRepo> { CompanyRepo(get()) }
     single<ISettingsRepo> { SettingsRepoImp(get()) }

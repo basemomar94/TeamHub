@@ -131,6 +131,11 @@ fun UserDetailsDialog(
                 }
 
                 if (viewModel.isAdmin) {
+                    Text(
+                        "installed version: ${user.installedVersion}",
+                        style = MaterialTheme.typography.body1
+                    )
+                    Vspacer(8.dp)
                     DefaultButton(
                         text = stringResource(Res.string.user_attendance),
                         modifier = Modifier.align(Alignment.CenterHorizontally)

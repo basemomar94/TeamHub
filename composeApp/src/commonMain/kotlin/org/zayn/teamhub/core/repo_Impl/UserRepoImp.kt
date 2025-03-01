@@ -1,6 +1,5 @@
 package org.zayn.teamhub.core.repo_Impl
 
-import dev.gitlive.firebase.auth.FirebaseAuth
 import dev.gitlive.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.flow.Flow
 import org.zayn.teamhub.core.base.BaseRepo
@@ -10,11 +9,12 @@ import org.zayn.teamhub.core.models.User
 import org.zayn.teamhub.core.repo.IUserRepo
 import org.zayn.teamhub.core.utils.CollectionReference
 import org.zayn.teamhub.core.utils.FirebaseCollections
+import org.zayn.teamhub.core.utils.getAppVersion
 import org.zayn.teamhub.core.utils.getCurrentTime
 import org.zayn.teamhub.core.utils.networkresultwrapper.NetworkResult
 
 
-class UserRepoImp(private val firestore: FirebaseFirestore, private val auth: FirebaseAuth) :
+class UserRepoImp(private val firestore: FirebaseFirestore) :
     BaseRepo(), IUserRepo {
 
     override suspend fun getUser(id: String): Flow<NetworkResult<User>> {
@@ -48,7 +48,8 @@ class UserRepoImp(private val firestore: FirebaseFirestore, private val auth: Fi
     ): Flow<NetworkResult<Boolean>> {
         val updates = mapOf(
             CollectionReference.CURRENT_STATUS to type.name,
-            CollectionReference.LAST_UPDATE to getCurrentTime()
+            CollectionReference.LAST_UPDATE to getCurrentTime(),
+            CollectionReference.INSTALLED_VERSION to getAppVersion()
         )
         return firestore.updateDocumentAsFlow<User>(
             collection = FirebaseCollections.USER_COLLECTION,
