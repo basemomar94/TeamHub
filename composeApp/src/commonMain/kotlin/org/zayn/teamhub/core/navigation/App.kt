@@ -13,7 +13,6 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import dev.gitlive.firebase.auth.FirebaseAuth
 import io.ktor.http.decodeURLPart
-import kotlinx.serialization.json.Json
 import org.koin.compose.koinInject
 import org.zayn.teamhub.core.models.User
 import org.zayn.teamhub.core.utils.data_store.ISessionManager
@@ -26,7 +25,7 @@ import org.zayn.teamhub.feature.profile.ui.ProfileScreen
 import org.zayn.teamhub.feature.session_details.ui.SessionDetailsScreen
 import org.zayn.teamhub.feature.signIn.ui.SignInScreen
 import org.zayn.teamhub.feature.sign_up.SignupScreen
-import org.zayn.teamhub.feature.splash.SplashScreen
+import org.zayn.teamhub.feature.splash.ui.SplashScreen
 import org.zayn.teamhub.feature.usersList.presentation.UsersListScreen
 import org.zayn.teamhub.feature.work_day_details.ui.WorkDayScreen
 import org.zayn.teamhub.feature.work_summary.ui.WorkDaySummaryScreen

@@ -55,4 +55,7 @@
     <string name="device_name">اسم الجهاز</string>
     <string name="flags">العلامات</string>
     <string name="prompt_device_name">الرجاء إدخال اسم جهازك:</string>
+    <string name="update_required_title">التحديث مطلوب</string>
+    <string name="update_message">إصدارك الحالي هو %1$s.\nيجب عليك التحديث إلى أحدث إصدار.</string>
+    <string name="update_now">تحديث الآن</string>
 </resources>

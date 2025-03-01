@@ -59,5 +59,8 @@
     <string name="prompt_device_name">Please enter your device name:</string>
     <string name="privacy_policy">Privacy policy</string>
     <string name="about">About</string>
+    <string name="update_required_title">Update Required</string>
+    <string name="update_message">Your current version is %1$s.\nPlease update to the latest version.</string>
+    <string name="update_now">Update Now</string>
 
 </resources>

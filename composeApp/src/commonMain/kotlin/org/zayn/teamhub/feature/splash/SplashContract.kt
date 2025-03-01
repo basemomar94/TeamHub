@@ -17,4 +17,5 @@ sealed class SplashEvent : ViewEvent {
 sealed class SplashEffect : ViewSideEffect {
     data object Navigate : SplashEffect()
     data class ShowSnackBar(val message: String) : SplashEffect()
+    data object ForceUpdate : SplashEffect()
 }
